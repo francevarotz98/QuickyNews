@@ -7,7 +7,7 @@
   <h3 align="center">LocalJobs</h3>
 
   <p align="center">
-    Browse jobs and proposals close to you
+    Browse the latest news close to you 
     <br />
 
 
