@@ -6,5 +6,5 @@ Project made by three students of the University of Padua for the course of "Pro
 
   - [Getting Started](#getting-started)
   
-##Getting Started
+## Getting Started
 Prova
