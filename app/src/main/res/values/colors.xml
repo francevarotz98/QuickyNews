@@ -3,4 +3,7 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="blue">#1a1aff</color>
+    <color name="yellow">#ffeb00</color>
+    <color name="col_frag_bg">#F5F5F5</color>
 </resources>
