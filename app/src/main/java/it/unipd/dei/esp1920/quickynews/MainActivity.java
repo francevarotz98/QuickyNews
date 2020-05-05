@@ -17,7 +17,7 @@ import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
 public class MainActivity extends AppCompatActivity {
 
     private int  firstaccess=0;                 //variabile che è sempre =1 tranne al primo accesso che è =0
-    //easy
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
