@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://github.com/francevarotz98/QuickyNews/">
-    <img src="news_logo.jpg" alt="Logo" width="250" height="250">
+    <img src="news_logo.jpeg" alt="Logo" width="250" height="250">
   </a>
   
 
