@@ -17,6 +17,7 @@ import it.unipd.dei.esp1920.quickynews.R;
 
 public class Settings extends Fragment {
 
+    private CheckBox[] mCheckBoxes;
     //butto dentro la scelta delle categorie con i toggle button o quello che è
 
 
