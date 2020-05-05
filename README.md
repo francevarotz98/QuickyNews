@@ -4,7 +4,7 @@
   <a href="https://https://github.com/francevarotz98/QuickyNews/">
     <img src="news_logo.jpg" alt="Logo" width="250" height="250">
   </a>
-  <h3 align="center">LocalJobs</h3>
+  
 
   <p align="center">
     Browse the latest news close to you 
