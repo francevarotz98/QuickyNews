@@ -1,7 +1,7 @@
 # QuickyNews
 
 <p align="center">
-  <a href="https://https://github.com/francevarotz98/QuickyNews/">
+  <a href="https://github.com/francevarotz98/QuickyNews/">
     <img src="news_logo.jpg" alt="Logo" width="250" height="250">
   </a>
   
