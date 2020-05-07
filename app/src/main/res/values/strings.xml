@@ -12,5 +12,6 @@
     <string name="chBox_econ">Economy</string>
     <string name="set_categories">Categories</string>
     <string name="isConnected">false</string>
+    <string name="welcome">Welcome</string> <!--pay attention during merging !!! -->
 
 </resources>

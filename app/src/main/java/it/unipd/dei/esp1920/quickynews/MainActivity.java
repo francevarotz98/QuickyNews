@@ -5,7 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.BroadcastReceiver;
+//import android.content.Context;
+import android.content.Intent;
+//import android.content.IntentFilter;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -16,14 +21,13 @@ import it.unipd.dei.esp1920.quickynews.fragments.Favorites;
 import it.unipd.dei.esp1920.quickynews.fragments.Location;
 import it.unipd.dei.esp1920.quickynews.fragments.Settings;
 import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
-
 import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
 
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG="MainActivity";
     private int  firstaccess=0; //variabile che è sempre =1 tranne al primo accesso che è =0
-    private BroadcastReceiver mNetConnectionReceiver;
+    private BroadcastReceiver  mNetConnectionReceiver=new NetConnectionReceiver();
     //easy
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +40,24 @@ public class MainActivity extends AppCompatActivity {
         // OGNI VOLTA CHE SI APRE L'APP VIENE FUORI IL FRAGMENT DELLE TOP NEWS...
         //NEL CASO DEL PRIMO ACCESSO METTEREI UN IF CHE MI PORTA ALLE SETTINGS
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, new TopNews()).commit();      //OGNI VOLTA CHE APRO L'APP ESCE TOP NEWS
-        mNetConnectionReceiver=new NetConnectionReceiver();
 
+
+        this.registerReceiver(mNetConnectionReceiver,new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        //this.registerReceiver(mNetConnectionReceiver,new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+       // this.unregisterReceiver(mNetConnectionReceiver);
     }
 
 
