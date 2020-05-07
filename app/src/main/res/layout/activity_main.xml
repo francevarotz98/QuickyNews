@@ -10,7 +10,7 @@
         android:id="@+id/fragment_con"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_navigation"/> // per far sì ce ciò che ci viene mostrato sullo schermo come limite inferiore abbia il limite superiore della nostra bottom navigation
+        android:layout_above="@+id/bottom_navigation"/> <!-- per far sì ce ciò che ci viene mostrato sullo schermo come limite inferiore abbia il limite superiore della nostra bottom navigation-->
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_navigation"
-        android:background="?android:attr/windowBackground"/>       //per avere lo stesso colore del background
+        android:background="?android:attr/windowBackground"/>       <!--per avere lo stesso colore del background-->
 
 
 </RelativeLayout>

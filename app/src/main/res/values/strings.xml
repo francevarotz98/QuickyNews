@@ -11,4 +11,6 @@
     <string name="chBox_mot">Motors</string>
     <string name="chBox_econ">Economy</string>
     <string name="set_categories">Categories</string>
+    <string name="isConnected">false</string>
+
 </resources>
