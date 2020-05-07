@@ -13,6 +13,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:text="@string/set_categories"
+        android:typeface="monospace"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.116"
@@ -28,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
+        android:typeface="monospace"
         android:text="@string/chBox_sport"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_set_categories" />
@@ -39,6 +41,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:text="@string/chBox_food"
+        android:typeface="monospace"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_set_categories" />
 
@@ -47,6 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/chBox_tech"
+        android:typeface="monospace"
         app:layout_constraintEnd_toStartOf="@+id/checkBox_food"
         app:layout_constraintStart_toEndOf="@+id/checkBox_sport"
         app:layout_constraintTop_toTopOf="@+id/checkBox_sport" />
@@ -57,6 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:text="@string/chBox_mot"
+        android:typeface="monospace"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBox_sport" />
 
@@ -65,6 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/chBox_econ"
+        android:typeface="monospace"
         app:layout_constraintEnd_toStartOf="@+id/checkBox_pol"
         app:layout_constraintStart_toEndOf="@+id/checkBox_mot"
         app:layout_constraintTop_toBottomOf="@+id/checkBox_tech" />
@@ -75,6 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:text="@string/chBox_pol"
+        android:typeface="monospace"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBox_food" />
 
