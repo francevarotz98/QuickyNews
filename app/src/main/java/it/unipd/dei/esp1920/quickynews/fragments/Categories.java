@@ -1,8 +1,10 @@
 package it.unipd.dei.esp1920.quickynews.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +14,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import it.unipd.dei.esp1920.quickynews.MainActivity;
 import it.unipd.dei.esp1920.quickynews.R;
 
-public class Settings extends Fragment {
+public class Categories extends Fragment {
 
+    private final String TAG="Categories";
     private boolean bln_cb_sport,bln_cb_tech,bln_cb_food,bln_cb_mot,bln_cb_econ,bln_cb_pol;         //variabili per salvare lo stato delle categorie
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_settings,container,false);
+
+        Log.d(TAG,"onCreateView() Categories");
+        View v = inflater.inflate(R.layout.fragment_categories,container,false);
 
         //------------SALVATAGGIO STATO---------
         SharedPreferences preferences = this.getActivity().getPreferences(Context.MODE_PRIVATE);
@@ -49,6 +56,7 @@ public class Settings extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        Log.d(TAG,"onPause() Categories");
 
         SharedPreferences preferences = this.getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -74,5 +82,18 @@ public class Settings extends Fragment {
         editor.putBoolean("chBoxEcon", bln_cb_econ);
         editor.putBoolean("chBoxPol", bln_cb_pol);
         editor.commit();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG,"onStop() Categories");
+
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }
