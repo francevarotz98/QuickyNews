@@ -36,13 +36,6 @@
                 <action
                     android:name="android.net.conn.CONNECTIVITY_CHANGE">
                 </action>
-                <action
-                    android:name="android.intent.action.AIRPLANE_MODE">
-                </action>
-                <action
-                    android:name="android.intent.action.BOOT_COMPLETED">
-
-                </action>
             </intent-filter>
         </receiver>
     </application>
