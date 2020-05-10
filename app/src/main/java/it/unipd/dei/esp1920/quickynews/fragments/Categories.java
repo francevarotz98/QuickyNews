@@ -19,7 +19,7 @@ import it.unipd.dei.esp1920.quickynews.R;
 
 public class Categories extends Fragment {
 
-    private final String TAG="Categories";
+    private final static String TAG="CATEGORIES";
     private boolean bln_cb_sport,bln_cb_tech,bln_cb_food,bln_cb_mot,bln_cb_econ,bln_cb_pol;         //variabili per salvare lo stato delle categorie
 
 
@@ -27,10 +27,10 @@ public class Categories extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        Log.d(TAG,"onCreateView() Categories");
+        Log.d(TAG,"onCreateView()");
         View v = inflater.inflate(R.layout.fragment_categories,container,false);
 
-        //------------SALVATAGGIO STATO---------
+        //------------PER SALVATAGGIO STATO---------
         SharedPreferences preferences = this.getActivity().getPreferences(Context.MODE_PRIVATE);
         bln_cb_sport = preferences.getBoolean("chBoxSport",false);
         bln_cb_tech = preferences.getBoolean("chBoxTech",false);
@@ -56,7 +56,7 @@ public class Categories extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        Log.d(TAG,"onPause() Categories");
+        Log.d(TAG,"onPause() ");
 
         SharedPreferences preferences = this.getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -88,7 +88,7 @@ public class Categories extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        Log.d(TAG,"onStop() Categories");
+        Log.d(TAG,"onStop()");
 
     }
 
