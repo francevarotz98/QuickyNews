@@ -3,7 +3,7 @@
     <string name="nav_top_news">Top News</string>
     <string name="nav_pref_news">Favorites</string>
     <string name="nav_map">Location</string>
-    <string name="nav_settings">Settings</string>
+    <string name="nav_categories">Categories</string>
     <string name="chBox_tech">Technology</string>
     <string name="chBox_food">Food</string>
     <string name="chBox_sport">Sport</string>
@@ -11,4 +11,7 @@
     <string name="chBox_mot">Motors</string>
     <string name="chBox_econ">Economy</string>
     <string name="set_categories">Categories</string>
+    <string name="isConnected">false</string>
+    <string name="welcome">Welcome</string> <!--pay attention during merging !!! -->
+
 </resources>
