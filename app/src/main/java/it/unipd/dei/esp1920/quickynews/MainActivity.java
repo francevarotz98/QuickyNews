@@ -2,6 +2,7 @@ package it.unipd.dei.esp1920.quickynews;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.content.BroadcastReceiver;
@@ -13,6 +14,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -25,6 +27,7 @@ import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG="MainActivity";
+    private Toolbar mToolbar;
    // private String  flag; //variabile che mi fa capire in quale fragment sono TOPNEWS=0, FAVORITES=1, SETTINGS=2. è una stringa da fare il parsing
     private int flagFragment; //variabile per il parsing di int
     private BroadcastReceiver  mNetConnectionReceiver;
@@ -45,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
 
         mNetConnectionReceiver =new NetConnectionReceiver();
         this.registerReceiver(mNetConnectionReceiver,new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
+        //TOOLBAR
+        mToolbar=findViewById(R.id.toolBar);
+        setSupportActionBar(mToolbar);              //rende predefinata la toolbar creata
         //BOTTOM NAVIGATION BAR
         BottomNavigationView botNav=findViewById(R.id.bottom_navigation);
         botNav.setOnNavigationItemSelectedListener(navList);
@@ -139,6 +146,26 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG,"onSaveInstanceState()");
         savedInstanceState.putInt(KEY_BUNDLE,flagFragment);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.toolbar_navigation, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.tool_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
