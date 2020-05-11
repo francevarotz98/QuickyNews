@@ -23,6 +23,7 @@ import it.unipd.dei.esp1920.quickynews.fragments.Categories;
 import it.unipd.dei.esp1920.quickynews.fragments.Favorites;
 import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
 import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
+import it.unipd.dei.esp1920.quickynews.storage.AvailableSpace;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,15 +38,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d(TAG,"onCreate() ");
-
-        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-        flagFragment=preferences.getInt(KEY_BUNDLE,flagFragment);
+        Log.d(TAG,"onCreate()");
 
         if (savedInstanceState != null) {
             flagFragment = savedInstanceState.getInt(KEY_BUNDLE, 0);
         }
 
+        //long space= AvailableSpace.getTotalDiskSpace();
         mNetConnectionReceiver =new NetConnectionReceiver();
         this.registerReceiver(mNetConnectionReceiver,new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
@@ -58,15 +57,15 @@ public class MainActivity extends AppCompatActivity {
 
         //TODO: NEL CASO DEL PRIMO ACCESSO METTEREI UN IF/SWITCH CHE MI PORTA ALLE SETTINGS
         if(flagFragment==0) {
-            Log.d(TAG, "ENTRO NEL PRIMO IF");
+            //Log.d(TAG, "ENTRO NEL PRIMO IF");
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, new TopNews()).commit();
         }
         else if(flagFragment==1) {
-            Log.d(TAG, "ENTRO NEL SECONDO IF");
+            //Log.d(TAG, "ENTRO NEL SECONDO IF");
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, new Favorites()).commit();
         }
         else {
-            Log.d(TAG, "ENTRO NEL TERZO IF");
+            //Log.d(TAG, "ENTRO NEL TERZO IF");
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, new Categories()).commit();
         }
 
@@ -87,14 +86,7 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onPause();
         Log.d(TAG,"onPause()");
-        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt(KEY_BUNDLE,flagFragment);
-        editor.commit(); /*TODO: problema: anche quando distruggo l'app, giustamente, l'app si riapre nell'utlimo fragment in cui mi trovavo.
-                                Ho provato a risolvere mettendo il flag=0 su onDestroy ma non funziona.
-                                Su onStop() ancora peggio perchè ritorna nella pagina topNews, ovviamente.
-                                Trovare modo...
-                                */
+
     }
 
 
@@ -108,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy()
     {
         super.onDestroy();
-        Log.d(TAG,"onPause()");
+        Log.d(TAG,"onDestroy()");
         this.unregisterReceiver(mNetConnectionReceiver);
     }
 

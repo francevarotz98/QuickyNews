@@ -10,13 +10,18 @@
 
     <!--
     <uses-permission
-        android:name="android.permission.RECEIVE_BOOT_COMPLETED">
+        android:name="android.permission.RECEIVE_BOOT_COMPL
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />ETED">
     </uses-permission>
     -->
 
+
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_news"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"

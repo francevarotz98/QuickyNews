@@ -19,7 +19,7 @@ public class NetConnectionReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context,"Sono in onReceive",Toast.LENGTH_LONG).show();
+        //Toast.makeText(context,"Sono in onReceive",Toast.LENGTH_LONG).show();
         String action=intent.getAction();
         Log.i(TAG,"onReceive() method");
 
