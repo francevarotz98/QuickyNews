@@ -11,9 +11,8 @@
     <string name="chBox_mot">Motors</string>
     <string name="chBox_econ">Economy</string>
     <string name="set_categories">Categories</string>
-    <string name="isConnected">false</string>
     <string name="toolBar_settings">Settings</string>
-    <string name="welcome">Welcome!</string>
+    <string name="welcome">Your main top news!</string>
     <string name="textView_download_size">Choose how many Mbytes you want to download:</string> <!--pay attention during merging !!! -->
 
 </resources>

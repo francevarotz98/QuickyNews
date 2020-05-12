@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
             flagFragment = savedInstanceState.getInt(KEY_BUNDLE, 0);
         }
 
-        //long space= AvailableSpace.getTotalDiskSpace();
         mNetConnectionReceiver =new NetConnectionReceiver();
         this.registerReceiver(mNetConnectionReceiver,new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
@@ -158,8 +157,8 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
                 Log.d(TAG, "onOptionsItemSelected nell'if");
                 //Toast.makeText(this,"settings premuto",Toast.LENGTH_SHORT).show();
-                /*Intent myIntent = new Intent(this, Settings.class);              //DA SISTEMARE!!!!!!!!!
-                startActivity(myIntent);*/                                                 //SE FACCIO INTENT CRASHA(?!?)
+                Intent myIntent = new Intent(this, Settings.class);
+                startActivity(myIntent);
                 break;
             default:
                 return super.onOptionsItemSelected(item);

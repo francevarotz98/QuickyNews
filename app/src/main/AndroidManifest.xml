@@ -8,15 +8,6 @@
         android:name="android.permission.ACCESS_NETWORK_STATE">
     </uses-permission>
 
-    <!--
-    <uses-permission
-        android:name="android.permission.RECEIVE_BOOT_COMPL
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />ETED">
-    </uses-permission>
-    -->
 
 
     <application
@@ -36,6 +27,9 @@
                 <category
                     android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity 
+            android:name=".Settings">
         </activity>
         <receiver
             android:name=".connections.NetConnectionReceiver"

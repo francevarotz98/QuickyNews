@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.net.NetworkInfo;
 import android.util.Log;
 import android.net.ConnectivityManager;
-import android.widget.Toast;
+
 
 import static android.net.NetworkInfo.State.CONNECTED;
 
