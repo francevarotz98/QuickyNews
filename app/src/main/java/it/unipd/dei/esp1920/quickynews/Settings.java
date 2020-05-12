@@ -55,8 +55,8 @@ public class Settings extends AppCompatActivity {
 
         mTextViewMin=(TextView)findViewById(R.id.tV_minSpace);
         mTextViewMax=(TextView)findViewById(R.id.tV_maxSpace);
-        mTextViewMax.setText("Max: " + maxSpace +" Mb");                    //serve solo all'aspetto grafico
-        mTextViewMin.setText("Min: " + minSpace+ " Mb");                    //serve solo all'aspetto grafico
+        mTextViewMax.setText("Max: " + maxSpace +"Mb");                    //serve solo all'aspetto grafico
+        mTextViewMin.setText("Min: " + minSpace+ "Mb");                    //serve solo all'aspetto grafico
 
 
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -64,7 +64,7 @@ public class Settings extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int tmp1 = (int)maxSpace;
                 int tmp2 = (int)minSpace;
-                mBChosen=(tmp1-tmp2)*progress/100+tmp2;
+                mBChosen=(tmp1-tmp2)*progress/100+tmp2;                                             //IMPORTANTE
                 mTextView.setText("" + mBChosen + "Mb");                            //mostra la percentuale in Mb di progresso
                                                                                     // della seekbar
             }
