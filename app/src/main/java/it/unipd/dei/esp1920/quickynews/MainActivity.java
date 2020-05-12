@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final String TAG="MainActivity";
     private Toolbar mToolbar;
+    private TextView mTextViewTitle;
    // private String  flag; //variabile che mi fa capire in quale fragment sono TOPNEWS=0, FAVORITES=1, SETTINGS=2. è una stringa da fare il parsing
     private int flagFragment; //variabile per il parsing di int
     private BroadcastReceiver  mNetConnectionReceiver;
@@ -52,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
         //TOOLBAR
         mToolbar=findViewById(R.id.toolBar);
         setSupportActionBar(mToolbar);              //rende predefinata la toolbar creata
+        mTextViewTitle= findViewById(R.id.tV_title_name);
+        mTextViewTitle.setText("Quicky News");
+
         //BOTTOM NAVIGATION BAR
         BottomNavigationView botNav=findViewById(R.id.bottom_navigation);
         botNav.setOnNavigationItemSelectedListener(navList);

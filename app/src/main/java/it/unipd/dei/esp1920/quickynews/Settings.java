@@ -17,7 +17,7 @@ public class Settings extends AppCompatActivity {
 
 
     private SeekBar  mSeekBar;
-    private TextView mTextView;
+    private TextView mTextView, mTextViewTitle;
     private Toolbar mToolbar;
     private int int_sb;
     private String str_et;
@@ -36,6 +36,8 @@ public class Settings extends AppCompatActivity {
         //TOOLBAR
         mToolbar=findViewById(R.id.toolBar);
         setSupportActionBar(mToolbar);              //rende predefinata la toolbar creata
+        mTextViewTitle= findViewById(R.id.tV_title_name);
+        mTextViewTitle.setText("Settings");
 
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         int_sb = preferences.getInt("seekBarValue", 0);
