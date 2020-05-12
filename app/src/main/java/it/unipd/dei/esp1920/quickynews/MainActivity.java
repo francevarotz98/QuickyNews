@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 //import android.content.Context;
 //import android.content.IntentFilter;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -68,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
             //Log.d(TAG, "ENTRO NEL TERZO IF");
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, new Categories()).commit();
         }
-
 
     }
 
@@ -152,12 +153,18 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch(item.getItemId()) {
+            case R.id.tool_settings:
         //noinspection SimplifiableIfStatement
-        if (id == R.id.tool_settings) {
-            return true;
+                Log.d(TAG, "onOptionsItemSelected nell'if");
+                //Toast.makeText(this,"settings premuto",Toast.LENGTH_SHORT).show();
+                /*Intent myIntent = new Intent(this, Settings.class);              //DA SISTEMARE!!!!!!!!!
+                startActivity(myIntent);*/                                                 //SE FACCIO INTENT CRASHA(?!?)
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
 
