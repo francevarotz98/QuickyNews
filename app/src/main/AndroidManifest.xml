@@ -4,10 +4,10 @@
     package="it.unipd.dei.esp1920.quickynews">
 
     <!--permissions-->
-<<<<<<< HEAD
-=======
+
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
->>>>>>> 18e648048cc3b70ad2e65037147a8edd38c314c1
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
