@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onResume();
         Log.d(TAG,"onResume() ");
-        //this.registerReceiver(mNetConnectionReceiver,new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     @Override
@@ -147,21 +146,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.toolbar_navigation, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        Log.d(TAG, "onOptionsItemSelected()");
         switch(item.getItemId()) {
-            case R.id.tool_settings:
-        //noinspection SimplifiableIfStatement
-                Log.d(TAG, "onOptionsItemSelected nell'if");
-                //Toast.makeText(this,"settings premuto",Toast.LENGTH_SHORT).show();
+            case R.id.tool_settings: //pressione tasto impostazioni
                 Intent myIntent = new Intent(this, Settings.class);
                 startActivity(myIntent);
                 break;

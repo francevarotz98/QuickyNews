@@ -18,7 +18,7 @@ import it.unipd.dei.esp1920.quickynews.fetch.Item;
 
 public class TopNews extends Fragment implements GetFeedTask.AsyncResponse {
 
-    private final static String TAG="TOP NEWS";
+    private final static String TAG="Top News";
 
     private LinkedList<Item> feedList = new LinkedList<>();
     private RecyclerView recyclerView;

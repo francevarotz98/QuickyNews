@@ -19,7 +19,7 @@ import it.unipd.dei.esp1920.quickynews.R;
 
 public class Categories extends Fragment {
 
-    private final static String TAG="CATEGORIES";
+    private final static String TAG="Categories";
     private boolean bln_cb_sport,bln_cb_tech,bln_cb_food,bln_cb_mot,bln_cb_econ,bln_cb_pol;         //variabili per salvare lo stato delle categorie
 
 

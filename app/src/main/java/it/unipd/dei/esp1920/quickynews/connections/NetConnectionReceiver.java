@@ -16,10 +16,10 @@ public class NetConnectionReceiver extends BroadcastReceiver {
     private static final String TAG="NetConnectionReceiver";
     private NetworkInfo wifi;
     private NetworkInfo mobile;
+    private static boolean isConnected=false; //default
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        //Toast.makeText(context,"Sono in onReceive",Toast.LENGTH_LONG).show();
         String action=intent.getAction();
         Log.i(TAG,"onReceive() method");
 
@@ -29,13 +29,20 @@ public class NetConnectionReceiver extends BroadcastReceiver {
 
         if(wifi.getState()==CONNECTED){ //before I check wifi because faster than mobile network connection
             Log.d(TAG,"Connected to wifi ");
+            isConnected=true;
         }
         else if (mobile.getState()==CONNECTED){
             Log.d(TAG,"Connected to internet with mobile");
+            isConnected=true;
         }
         else{
             Log.d(TAG,"NOT connected to internet");
+            isConnected=false;
         }
 
+    }
+
+    public static boolean isConnected() {
+        return isConnected;
     }
 }

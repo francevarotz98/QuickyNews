@@ -3,16 +3,21 @@ package it.unipd.dei.esp1920.quickynews.fetch;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.util.Log;
 import android.util.Xml;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
+
+import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
+
 
 public class NewYorkTimesXmlParser extends BaseFeedParser {
 
+    private static String TAG="NewYorkTimesXmlParser";
     public NewYorkTimesXmlParser(String feedUrl) {
         super(feedUrl);
     }
@@ -28,6 +33,9 @@ public class NewYorkTimesXmlParser extends BaseFeedParser {
 
     public LinkedList<Item> parse() throws IOException {
         LinkedList<Item> items = null;
+        if(!NetConnectionReceiver.isConnected())
+            return items; //problema: bisogna cliccare una volta su top news per vedere le info, se si è connessi
+        Log.d(TAG,"parse()");
         XmlPullParser parser = Xml.newPullParser();
         InputStream stream = this.getInputStream();
         try {

@@ -1,7 +1,7 @@
 package it.unipd.dei.esp1920.quickynews.fragments;
 
 import android.content.Context;
-import android.text.Layout;
+//import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +14,12 @@ import java.util.LinkedList;
 import it.unipd.dei.esp1920.quickynews.R;
 import it.unipd.dei.esp1920.quickynews.fetch.Item;
 
-class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ItemViewHolder> {
+public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ItemViewHolder> {
 
     private final LinkedList<Item> mFeedList;
     private LayoutInflater mInflater;
 
-    class ItemViewHolder extends RecyclerView.ViewHolder {
+   public class ItemViewHolder extends RecyclerView.ViewHolder {
         final TextView mTitle;
         final TextView mDescription;
         final TextView mDate;
@@ -55,6 +55,8 @@ class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ItemViewHolde
 
     @Override
     public int getItemCount() {
-        return mFeedList.size();
+       if(mFeedList==null)
+           return 0;
+       return mFeedList.size();
     }
 }

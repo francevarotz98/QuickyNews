@@ -25,7 +25,7 @@ public class Settings extends AppCompatActivity {
                                                         // alla percentuale della seekbar
     private long totSpace,minSpace,maxSpace;            //serve per settare il testo agli estremi della seekbar
     private int mBChosen;                               //mBytes scelti dall'utente
-    private static String TAG="SETTINGS";
+    private static final String TAG="Settings";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

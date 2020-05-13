@@ -14,7 +14,7 @@ import it.unipd.dei.esp1920.quickynews.R;
 
 public class Favorites extends Fragment {
 
-    private TextView messFav;             //per ora dice che non ci sono categorie scelte (sanza far controlli)
+    private TextView messFav;             //per ora dice che non ci sono categorie scelte (senza far controlli)
 
     @Nullable
     @Override

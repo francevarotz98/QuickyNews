@@ -10,11 +10,13 @@ import it.unipd.dei.esp1920.quickynews.fetch.NewYorkTimesXmlParser;
 
 class GetFeedTask extends AsyncTask<String, Void, LinkedList<Item>> {
 
+    private AsyncResponse delegate;
+
     public interface AsyncResponse {
         void processFinish(LinkedList<Item> output);
     }
 
-    public AsyncResponse delegate = null;
+
 
     public GetFeedTask(AsyncResponse delegate){
         this.delegate = delegate;
