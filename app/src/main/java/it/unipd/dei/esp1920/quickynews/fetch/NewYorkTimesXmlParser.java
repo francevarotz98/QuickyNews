@@ -11,15 +11,18 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import static org.xmlpull.v1.XmlPullParser.FEATURE_PROCESS_NAMESPACES;
+
 public class NewYorkTimesXmlParser extends BaseFeedParser {
 
     public NewYorkTimesXmlParser(String feedUrl) {
         super(feedUrl);
     }
 
-    private String safeNextText(XmlPullParser parser)
-            throws XmlPullParserException, IOException {
+    // safe alternative to nextText() method
+    private String safeNextText(XmlPullParser parser) throws XmlPullParserException, IOException {
         String result = parser.nextText();
+
         if (parser.getEventType() != XmlPullParser.END_TAG) {
             parser.nextTag();
         }
@@ -47,11 +50,9 @@ public class NewYorkTimesXmlParser extends BaseFeedParser {
                         if (name.equalsIgnoreCase(ITEM)) {
                             currentItem = new Item();
                         }
-                        else if (currentItem != null) {
+                        else if (currentItem != null && parser.getPrefix() == null) {
                             if (name.equalsIgnoreCase(LINK)) {
-                                String text = safeNextText(parser);
-                                if(text.length() != 0)
-                                    currentItem.setLink(text);
+                                currentItem.setLink(safeNextText(parser));
                             }
                             else if (name.equalsIgnoreCase(DESCRIPTION)) {
                                 currentItem.setDescription(safeNextText(parser));
