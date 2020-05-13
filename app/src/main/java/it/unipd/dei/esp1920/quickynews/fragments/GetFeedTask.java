@@ -2,6 +2,7 @@ package it.unipd.dei.esp1920.quickynews.fragments;
 
 import android.os.AsyncTask;
 
+
 import java.io.IOException;
 import java.util.LinkedList;
 
