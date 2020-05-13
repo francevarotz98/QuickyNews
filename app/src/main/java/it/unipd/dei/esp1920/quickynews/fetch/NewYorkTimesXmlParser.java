@@ -8,6 +8,7 @@ import android.util.Xml;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class NewYorkTimesXmlParser extends BaseFeedParser {
@@ -25,8 +26,8 @@ public class NewYorkTimesXmlParser extends BaseFeedParser {
         return result;
     }
 
-    public List<Item> parse() throws IOException {
-        List<Item> items = null;
+    public LinkedList<Item> parse() throws IOException {
+        LinkedList<Item> items = null;
         XmlPullParser parser = Xml.newPullParser();
         InputStream stream = this.getInputStream();
         try {
@@ -39,7 +40,7 @@ public class NewYorkTimesXmlParser extends BaseFeedParser {
                 String name = null;
                 switch (eventType) {
                     case XmlPullParser.START_DOCUMENT:
-                        items = new ArrayList<Item>();
+                        items = new LinkedList<>();
                         break;
                     case XmlPullParser.START_TAG:
                         name = parser.getName();
