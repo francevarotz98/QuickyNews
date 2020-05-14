@@ -8,17 +8,14 @@ import androidx.fragment.app.Fragment;
 import android.content.BroadcastReceiver;
 //import android.content.Context;
 //import android.content.IntentFilter;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -26,7 +23,6 @@ import it.unipd.dei.esp1920.quickynews.fragments.Categories;
 import it.unipd.dei.esp1920.quickynews.fragments.Favorites;
 import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
 import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
-import it.unipd.dei.esp1920.quickynews.storage.AvailableSpace;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         //TOOLBAR
         mToolbar=findViewById(R.id.toolBar);
         setSupportActionBar(mToolbar);              //rende predefinata la toolbar creata
+
         mTextViewTitle= findViewById(R.id.tV_title_name);
         mTextViewTitle.setText("Quicky News");
 

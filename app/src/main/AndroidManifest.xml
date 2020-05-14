@@ -29,7 +29,8 @@
             </intent-filter>
         </activity>
         <activity 
-            android:name=".Settings">
+            android:name=".Settings"
+            android:parentActivityName=".MainActivity">
         </activity>
         <receiver
             android:name=".connections.NetConnectionReceiver"

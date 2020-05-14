@@ -3,11 +3,13 @@ package it.unipd.dei.esp1920.quickynews;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import it.unipd.dei.esp1920.quickynews.storage.AvailableSpace;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -36,6 +38,7 @@ public class Settings extends AppCompatActivity {
         //TOOLBAR
         mToolbar=findViewById(R.id.toolBar);
         setSupportActionBar(mToolbar);              //rende predefinata la toolbar creata
+
         mTextViewTitle= findViewById(R.id.tV_title_name);
         mTextViewTitle.setText("Settings");
 
@@ -101,4 +104,5 @@ public class Settings extends AppCompatActivity {
         // Commit to storage synchronously
         editor.commit();
     }
+
 }
