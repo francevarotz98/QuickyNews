@@ -3,7 +3,7 @@
     <string name="nav_top_news">Top News</string>
     <string name="nav_pref_news">Favorites</string>
     <string name="nav_map">Location</string>
-    <string name="nav_categories">Categories</string>
+    <string name="nav_for_you">For you</string>
     <string name="chBox_tech">Technology</string>
     <string name="chBox_food">Food</string>
     <string name="chBox_sport">Sport</string>
@@ -16,6 +16,6 @@
     <string name="textView_download_size">Choose how many Mbytes you want to download:</string>
     <string name="minSpace">Min</string>
     <string name="maxSpace">Max</string>
-    <string name="settin_icon_title">User</string> <!--pay attention during merging !!! -->
+    <string name="settin_icon_title">User</string>
 
 </resources>

@@ -10,9 +10,10 @@
         layout="@layout/toolbar_layout" />
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="26dp">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="26dp"
+        android:fillViewport="true">
      <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -62,7 +63,83 @@
                 android:id="@+id/sk_seekBar"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
+         <!-- linea orizzontale tra un impostazione e l'altra -->
+         <View
+             android:layout_width="wrap_content"
+             android:layout_height="2dp"
+             android:layout_marginTop="15dp"
+             android:background="@android:color/darker_gray"/>
 
+         <TextView
+             android:id="@+id/id_set_categories"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="25dp"
+             android:text="@string/set_categories"
+             android:textSize="20sp"
+             android:typeface="monospace" />
+
+         <CheckBox
+             android:id="@+id/checkBox_sport"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="12dp"
+             android:textSize="15dp"
+             android:text="@string/chBox_sport"
+             android:typeface="monospace" />
+
+         <CheckBox
+             android:id="@+id/checkBox_food"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="12dp"
+             android:textSize="15dp"
+             android:text="@string/chBox_food"
+             android:typeface="monospace" />
+
+         <CheckBox
+             android:id="@+id/checkBox_tech"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="12dp"
+             android:textSize="15dp"
+             android:text="@string/chBox_tech"
+             android:typeface="monospace" />
+
+         <CheckBox
+             android:id="@+id/checkBox_mot"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="12dp"
+             android:textSize="15dp"
+             android:text="@string/chBox_mot"
+             android:typeface="monospace" />
+
+         <CheckBox
+             android:id="@+id/checkBox_econ"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="12dp"
+             android:textSize="15dp"
+             android:text="@string/chBox_econ"
+             android:typeface="monospace" />
+
+         <CheckBox
+             android:id="@+id/checkBox_pol"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="12dp"
+             android:textSize="15dp"
+             android:text="@string/chBox_pol"
+             android:typeface="monospace" />
+         <!-- linea orizzontale tra un impostazione e l'altra -->
+         <View
+             android:layout_width="wrap_content"
+             android:layout_height="2dp"
+             android:layout_marginTop="15dp"
+             android:background="@android:color/darker_gray"/>
         </LinearLayout>
+
+
     </ScrollView>
 </RelativeLayout>

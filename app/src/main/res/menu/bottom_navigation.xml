@@ -12,7 +12,7 @@
 
     <item
         android:id="@+id/nav_categories"
-        android:icon="@drawable/ic_format_list_bulleted_black_24dp"
-        android:title="@string/nav_categories" />
+        android:icon="@drawable/ic_whatshot_white_24dp"
+        android:title="@string/nav_for_you" />
 
 </menu>
