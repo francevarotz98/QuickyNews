@@ -11,6 +11,7 @@ import it.unipd.dei.esp1920.quickynews.storage.AvailableSpace;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -42,6 +43,7 @@ public class Settings extends AppCompatActivity {
         mTextViewTitle= findViewById(R.id.tV_title_name);
         mTextViewTitle.setText("Settings");
 
+
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         int_sb = preferences.getInt("seekBarValue", 0);
         str_et = preferences.getString("editTextValue", null);
@@ -65,6 +67,7 @@ public class Settings extends AppCompatActivity {
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                Log.d(TAG,"onProgressChanged()");
                 int tmp1 = (int)maxSpace;
                 int tmp2 = (int)minSpace;
                 mBChosen=(tmp1-tmp2)*progress/100+tmp2;                                             //IMPORTANTE
@@ -74,11 +77,13 @@ public class Settings extends AppCompatActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+                Log.d(TAG,"onStartTrackingTouch()");
 
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                Log.d(TAG,"onStopTrackingTouch()");
 
             }
         });
@@ -88,6 +93,7 @@ public class Settings extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        Log.d(TAG,"onPause()");
 
         // Store values between instances here
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
