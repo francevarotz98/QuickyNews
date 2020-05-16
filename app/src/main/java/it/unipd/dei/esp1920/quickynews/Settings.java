@@ -60,6 +60,7 @@ public class Settings extends AppCompatActivity {
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         int_sb = preferences.getInt("seekBarValue", 0);
         str_et = preferences.getString("editTextValue", null);
+        str_et2=preferences.getString("editTextValue2", null);
 
         mTextView=(TextView)findViewById(R.id.tV_progression_percentage);
         mTextView.setText(str_et);
@@ -94,12 +95,18 @@ public class Settings extends AppCompatActivity {
         listCategories= getResources().getStringArray(R.array.categories_item);
         checkedCategories = new boolean[listCategories.length];
 
-        checkedCategories[0]=preferences.getBoolean("chBoxTech",false);
-        checkedCategories[1] = preferences.getBoolean("chBoxFood",false);
-        checkedCategories[2] = preferences.getBoolean("chBoxSport",false);
-        checkedCategories[3] = preferences.getBoolean("chBoxPol",false);
-        checkedCategories[4]= preferences.getBoolean("chBoxMot",false);
-        checkedCategories[5]= preferences.getBoolean("chBoxEcon",false);
+        bln_cb_tech=preferences.getBoolean("chBoxTech",false);
+        bln_cb_food = preferences.getBoolean("chBoxFood",false);
+        bln_cb_sport = preferences.getBoolean("chBoxSport",false);
+        bln_cb_pol = preferences.getBoolean("chBoxPol",false);
+        bln_cb_mot= preferences.getBoolean("chBoxMot",false);
+        bln_cb_econ= preferences.getBoolean("chBoxEcon",false);
+        checkedCategories[0]=(bln_cb_tech);
+        checkedCategories[1]=(bln_cb_food);
+        checkedCategories[2]=(bln_cb_sport);
+        checkedCategories[3]=(bln_cb_pol);
+        checkedCategories[4]=(bln_cb_mot);
+        checkedCategories[5]=(bln_cb_econ);
 
     for(int n=0; n<listCategories.length;n++)
         Log.d(TAG,"onCreate: checkedCategories=" + checkedCategories[n]);
@@ -242,4 +249,17 @@ public class Settings extends AppCompatActivity {
         editor.commit();
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        mItemSelected=(TextView)findViewById(R.id.tV_categories_list);
+        str_et2 = mItemSelected.getText().toString();
+        editor.putString("editTextValue2", str_et2);
+
+    }
 }
