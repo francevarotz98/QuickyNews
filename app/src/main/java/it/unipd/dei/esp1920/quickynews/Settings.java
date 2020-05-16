@@ -1,9 +1,13 @@
 package it.unipd.dei.esp1920.quickynews;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -13,16 +17,23 @@ import it.unipd.dei.esp1920.quickynews.storage.AvailableSpace;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import java.util.ArrayList;
 
 
 public class Settings extends AppCompatActivity {
 
+    private String[] listCategories;
+    private boolean[] checkedCategories;
+    ArrayList<Integer> mUserCategories=new ArrayList<>();
 
     private SeekBar  mSeekBar;
-    private TextView mTextView, mTextViewTitle;
+    private TextView mTextView, mTextViewTitle,mItemSelected;
     private Toolbar mToolbar;
+    private Button mCategories;
     private int int_sb;
     private String str_et;
     private boolean bln_cb_sport,bln_cb_tech,bln_cb_food,bln_cb_mot,bln_cb_econ,bln_cb_pol;         //variabili per salvare lo stato delle categorie
@@ -49,7 +60,7 @@ public class Settings extends AppCompatActivity {
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         int_sb = preferences.getInt("seekBarValue", 0);
         str_et = preferences.getString("editTextValue", null);
-        bln_cb_sport = preferences.getBoolean("chBoxSport",false);
+/*        bln_cb_sport = preferences.getBoolean("chBoxSport",false);
         bln_cb_tech = preferences.getBoolean("chBoxTech",false);
         bln_cb_food = preferences.getBoolean("chBoxFood",false);
         bln_cb_mot = preferences.getBoolean("chBoxMot",false);
@@ -66,8 +77,54 @@ public class Settings extends AppCompatActivity {
         mSelectedFood.setChecked(bln_cb_food);
         mSelectedMot.setChecked(bln_cb_mot);
         mSelectedEcon.setChecked(bln_cb_econ);
-        mSelectedPol.setChecked(bln_cb_pol);
+        mSelectedPol.setChecked(bln_cb_pol);*/
 
+
+//--------------------------------------------------------------------------------------------------
+
+        mCategories=(Button)findViewById(R.id.btn_choose_categories);
+        mItemSelected=(TextView)findViewById(R.id.tV_categories_list);
+        listCategories= getResources().getStringArray(R.array.categories_item);
+        checkedCategories = new boolean[listCategories.length];
+
+        mCategories.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG,"onClick()");
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(Settings.this);
+                mBuilder.setTitle("Choose Categories");
+                mBuilder.setMultiChoiceItems(listCategories, checkedCategories, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int position, boolean isChecked) {
+                        if(isChecked) {                                                      //se è "checkato"
+                            mUserCategories.add(position);                                    //lo aggiungo
+                        } else if(mUserCategories.contains(position)){
+                                mUserCategories.remove(Integer.valueOf(position));
+                            }
+                        }
+
+                });
+                //mBuilder.setCancelable(false);
+                mBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d(TAG,"setPositiveButton()");
+                        String item = "";
+                        for(int i =0; i<mUserCategories.size();i++){                            //loopiamo attraverso l'array list
+                            item=item + listCategories[mUserCategories.get(i)];                 //item inserito nella lista
+                            if(i!=mUserCategories.size()-1){                                    //se sono NON nell'uttimo item aggiungo una virgola dopo
+                                item=item+", ";
+                            }
+                        }
+                        mItemSelected.setText(item);
+                    }
+                });
+                AlertDialog mDialog = mBuilder.create();
+                mDialog.show();
+            }
+        });
+
+//---------------------------------------------------------------------------------------------------
         mTextView=(TextView)findViewById(R.id.tV_progression_percentage);
         mTextView.setText(str_et);
         mSeekBar=(SeekBar)findViewById(R.id.sk_seekBar);
@@ -128,7 +185,7 @@ public class Settings extends AppCompatActivity {
         editor.putString("editTextValue", str_et);
 
         //------SALVATAGGIO STATO
-        CheckBox mSelectedSport=(CheckBox)findViewById(R.id.checkBox_sport);
+/*        CheckBox mSelectedSport=(CheckBox)findViewById(R.id.checkBox_sport);
         CheckBox mSelectedTech=(CheckBox)findViewById(R.id.checkBox_tech);
         CheckBox mSelectedFood=(CheckBox)findViewById(R.id.checkBox_food);
         CheckBox mSelectedMot=(CheckBox)findViewById(R.id.checkBox_mot);
@@ -146,7 +203,7 @@ public class Settings extends AppCompatActivity {
         editor.putBoolean("chBoxFood", bln_cb_food);
         editor.putBoolean("chBoxMot", bln_cb_mot);
         editor.putBoolean("chBoxEcon", bln_cb_econ);
-        editor.putBoolean("chBoxPol", bln_cb_pol);
+        editor.putBoolean("chBoxPol", bln_cb_pol);*/
 
         // Commit to storage synchronously
         editor.commit();

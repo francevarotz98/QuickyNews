@@ -17,5 +17,18 @@
     <string name="minSpace">Min</string>
     <string name="maxSpace">Max</string>
     <string name="settin_icon_title">User</string>
+    <string name="back_to_settings">Back to settings</string>
+    <string name="set_categories_dialog">Choose the categories</string>
+    <string name="ok">OK</string>
+
+
+    <string-array name="categories_item">
+        <item>Technology</item>
+        <item>Food</item>
+        <item>Sport</item>
+        <item>Politic</item>
+        <item>Motors</item>
+        <item>Economy</item>
+    </string-array>
 
 </resources>
