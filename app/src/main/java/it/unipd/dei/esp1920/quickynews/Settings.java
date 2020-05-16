@@ -28,14 +28,14 @@ public class Settings extends AppCompatActivity {
 
     private String[] listCategories;
     private boolean[] checkedCategories;
-    ArrayList<Integer> mUserCategories=new ArrayList<>();
+    private ArrayList<Integer> mUserCategories=new ArrayList<>();
 
     private SeekBar  mSeekBar;
     private TextView mTextView, mTextViewTitle,mItemSelected;
     private Toolbar mToolbar;
     private Button mCategories;
     private int int_sb;
-    private String str_et;
+    private String str_et,str_et2;
     private boolean bln_cb_sport,bln_cb_tech,bln_cb_food,bln_cb_mot,bln_cb_econ,bln_cb_pol;         //variabili per salvare lo stato delle categorie
     private TextView mTextViewMin, mTextViewMax;        //textView da Parsare a int, da mettere a fianco
                                                         // alla percentuale della seekbar
@@ -60,6 +60,14 @@ public class Settings extends AppCompatActivity {
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         int_sb = preferences.getInt("seekBarValue", 0);
         str_et = preferences.getString("editTextValue", null);
+
+        mTextView=(TextView)findViewById(R.id.tV_progression_percentage);
+        mTextView.setText(str_et);
+        mSeekBar=(SeekBar)findViewById(R.id.sk_seekBar);
+        mSeekBar.setProgress(int_sb);
+        mItemSelected=(TextView)findViewById(R.id.tV_categories_list);
+        mItemSelected.setText(str_et2);
+
 /*        bln_cb_sport = preferences.getBoolean("chBoxSport",false);
         bln_cb_tech = preferences.getBoolean("chBoxTech",false);
         bln_cb_food = preferences.getBoolean("chBoxFood",false);
@@ -83,9 +91,18 @@ public class Settings extends AppCompatActivity {
 //--------------------------------------------------------------------------------------------------
 
         mCategories=(Button)findViewById(R.id.btn_choose_categories);
-        mItemSelected=(TextView)findViewById(R.id.tV_categories_list);
         listCategories= getResources().getStringArray(R.array.categories_item);
         checkedCategories = new boolean[listCategories.length];
+
+        checkedCategories[0]=preferences.getBoolean("chBoxTech",false);
+        checkedCategories[1] = preferences.getBoolean("chBoxFood",false);
+        checkedCategories[2] = preferences.getBoolean("chBoxSport",false);
+        checkedCategories[3] = preferences.getBoolean("chBoxPol",false);
+        checkedCategories[4]= preferences.getBoolean("chBoxMot",false);
+        checkedCategories[5]= preferences.getBoolean("chBoxEcon",false);
+
+    for(int n=0; n<listCategories.length;n++)
+        Log.d(TAG,"onCreate: checkedCategories=" + checkedCategories[n]);
 
         mCategories.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,10 +142,6 @@ public class Settings extends AppCompatActivity {
         });
 
 //---------------------------------------------------------------------------------------------------
-        mTextView=(TextView)findViewById(R.id.tV_progression_percentage);
-        mTextView.setText(str_et);
-        mSeekBar=(SeekBar)findViewById(R.id.sk_seekBar);
-        mSeekBar.setProgress(int_sb);
 
         totSpace = AvailableSpace.getTotalDiskSpace();    //spazio totale
 
@@ -172,6 +185,8 @@ public class Settings extends AppCompatActivity {
         super.onPause();
         Log.d(TAG,"onPause()");
 
+        for(int n=0; n<listCategories.length;n++)
+            Log.d(TAG,"onPause: checkedCategories=" + checkedCategories[n]);
         // Store values between instances here
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -183,6 +198,24 @@ public class Settings extends AppCompatActivity {
         mTextView= (TextView) findViewById(R.id.tV_progression_percentage);
         str_et = mTextView.getText().toString();
         editor.putString("editTextValue", str_et);
+
+        mItemSelected=(TextView)findViewById(R.id.tV_categories_list);
+        str_et2 = mItemSelected.getText().toString();
+        editor.putString("editTextValue2", str_et2);
+
+        bln_cb_tech=checkedCategories[0];
+        bln_cb_food= checkedCategories[1];
+        bln_cb_sport= checkedCategories[2];
+        bln_cb_pol= checkedCategories[3];
+        bln_cb_mot=checkedCategories[4];
+        bln_cb_econ =checkedCategories[5];
+
+        editor.putBoolean("chBoxSport", bln_cb_sport);
+        editor.putBoolean("chBoxTech", bln_cb_tech);
+        editor.putBoolean("chBoxFood", bln_cb_food);
+        editor.putBoolean("chBoxMot", bln_cb_mot);
+        editor.putBoolean("chBoxEcon", bln_cb_econ);
+        editor.putBoolean("chBoxPol", bln_cb_pol);
 
         //------SALVATAGGIO STATO
 /*        CheckBox mSelectedSport=(CheckBox)findViewById(R.id.checkBox_sport);
