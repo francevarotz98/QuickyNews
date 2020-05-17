@@ -3,6 +3,7 @@ package it.unipd.dei.esp1920.quickynews.connections;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Network;
 import android.net.NetworkInfo;
 import android.util.Log;
 import android.net.ConnectivityManager;
@@ -21,28 +22,34 @@ public class NetConnectionReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action=intent.getAction();
-        Log.i(TAG,"onReceive() method");
+        Log.d(TAG,"onReceive() method");
 
-        ConnectivityManager cm=(ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        wifi=cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        mobile=cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        checkConnection(context);
+    }
 
-        if(wifi.getState()==CONNECTED){ //before I check wifi because faster than mobile network connection
+    public static void checkConnection(Context context) {
+        Log.d(TAG,"checkConnection()");
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifi= cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+        if(wifi.getState()==CONNECTED) { // before I check wifi because faster than mobile network connection
             Log.d(TAG,"Connected to wifi ");
             isConnected=true;
         }
-        else if (mobile.getState()==CONNECTED){
+        else if (mobile.getState()==CONNECTED) {
             Log.d(TAG,"Connected to internet with mobile");
             isConnected=true;
         }
-        else{
-            Log.d(TAG,"NOT connected to internet");
-            isConnected=false;
+        else {
+            Log.d(TAG, "NOT connected to internet");
+            isConnected = false;
         }
-
     }
 
-    public static boolean isConnected() {
+    public static boolean isConnected(Context context) {
+        Log.d(TAG,"isConnected()");
+        checkConnection(context);
         return isConnected;
     }
 }

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.LinkedList;
 
 import it.unipd.dei.esp1920.quickynews.R;
+import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
 import it.unipd.dei.esp1920.quickynews.fetch.Item;
 
 public class TopNews extends Fragment implements GetFeedTask.AsyncResponse {
@@ -32,7 +33,10 @@ public class TopNews extends Fragment implements GetFeedTask.AsyncResponse {
         recyclerView = v.findViewById(R.id.recyclerView);
         adapter = new FeedListAdapter(getContext(), feedList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        new GetFeedTask(this).execute("https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml");
+        if(NetConnectionReceiver.isConnected(getContext())) {
+            Log.d(TAG,"GetFeedTask.execute()");
+            new GetFeedTask(this).execute("https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml");
+        }
         recyclerView.setAdapter(adapter);
         return v;
     }
