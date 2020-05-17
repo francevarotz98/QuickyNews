@@ -69,28 +69,7 @@ public class Settings extends AppCompatActivity {
         mItemSelected=(TextView)findViewById(R.id.tV_categories_list);
         mItemSelected.setText(str_et2);
 
-/*        bln_cb_sport = preferences.getBoolean("chBoxSport",false);
-        bln_cb_tech = preferences.getBoolean("chBoxTech",false);
-        bln_cb_food = preferences.getBoolean("chBoxFood",false);
-        bln_cb_mot = preferences.getBoolean("chBoxMot",false);
-        bln_cb_econ = preferences.getBoolean("chBoxEcon",false);
-        bln_cb_pol = preferences.getBoolean("chBoxPol",false);
-        CheckBox mSelectedSport=(CheckBox)findViewById(R.id.checkBox_sport);
-        CheckBox mSelectedTech=(CheckBox)findViewById(R.id.checkBox_tech);
-        CheckBox mSelectedFood=(CheckBox)findViewById(R.id.checkBox_food);
-        CheckBox mSelectedMot=(CheckBox)findViewById(R.id.checkBox_mot);
-        CheckBox mSelectedEcon=(CheckBox)findViewById(R.id.checkBox_econ);
-        CheckBox mSelectedPol=(CheckBox)findViewById(R.id.checkBox_pol);
-        mSelectedSport.setChecked(bln_cb_sport);
-        mSelectedTech.setChecked(bln_cb_tech);
-        mSelectedFood.setChecked(bln_cb_food);
-        mSelectedMot.setChecked(bln_cb_mot);
-        mSelectedEcon.setChecked(bln_cb_econ);
-        mSelectedPol.setChecked(bln_cb_pol);*/
-
-
-//--------------------------------------------------------------------------------------------------
-
+        //parte dedicata all'AlertDialog
         mCategories=(Button)findViewById(R.id.btn_choose_categories);
         listCategories= getResources().getStringArray(R.array.categories_item);
         checkedCategories = new boolean[listCategories.length];
@@ -128,7 +107,7 @@ public class Settings extends AppCompatActivity {
                         }
 
                 });
-                //mBuilder.setCancelable(false);
+                mBuilder.setCancelable(false);
                 mBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -147,8 +126,7 @@ public class Settings extends AppCompatActivity {
                 mDialog.show();
             }
         });
-
-//---------------------------------------------------------------------------------------------------
+        //fine parte AlertDialog
 
         totSpace = AvailableSpace.getTotalDiskSpace();    //spazio totale
 
@@ -223,27 +201,6 @@ public class Settings extends AppCompatActivity {
         editor.putBoolean("chBoxMot", bln_cb_mot);
         editor.putBoolean("chBoxEcon", bln_cb_econ);
         editor.putBoolean("chBoxPol", bln_cb_pol);
-
-        //------SALVATAGGIO STATO
-/*        CheckBox mSelectedSport=(CheckBox)findViewById(R.id.checkBox_sport);
-        CheckBox mSelectedTech=(CheckBox)findViewById(R.id.checkBox_tech);
-        CheckBox mSelectedFood=(CheckBox)findViewById(R.id.checkBox_food);
-        CheckBox mSelectedMot=(CheckBox)findViewById(R.id.checkBox_mot);
-        CheckBox mSelectedEcon=(CheckBox)findViewById(R.id.checkBox_econ);
-        CheckBox mSelectedPol=(CheckBox)findViewById(R.id.checkBox_pol);
-        bln_cb_sport=mSelectedSport.isChecked();
-        bln_cb_tech=mSelectedTech.isChecked();
-        bln_cb_food=mSelectedFood.isChecked();
-        bln_cb_mot=mSelectedMot.isChecked();
-        bln_cb_econ=mSelectedEcon.isChecked();
-        bln_cb_pol=mSelectedPol.isChecked();
-
-        editor.putBoolean("chBoxSport", bln_cb_sport);
-        editor.putBoolean("chBoxTech", bln_cb_tech);
-        editor.putBoolean("chBoxFood", bln_cb_food);
-        editor.putBoolean("chBoxMot", bln_cb_mot);
-        editor.putBoolean("chBoxEcon", bln_cb_econ);
-        editor.putBoolean("chBoxPol", bln_cb_pol);*/
 
         // Commit to storage synchronously
         editor.commit();
