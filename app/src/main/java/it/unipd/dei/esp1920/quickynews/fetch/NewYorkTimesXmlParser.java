@@ -29,7 +29,7 @@ public class NewYorkTimesXmlParser extends BaseFeedParser {
 
     public LinkedList<Item> parse() throws IOException {
         LinkedList<Item> items = null;
-        Log.d(TAG,"parse()");
+        Log.d(TAG,"inside NewYorkTimesXmlParser.parse()");
         XmlPullParser parser = Xml.newPullParser();
         InputStream stream = this.getInputStream();
         try {
