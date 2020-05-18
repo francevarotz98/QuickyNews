@@ -15,7 +15,7 @@ import static java.lang.Integer.parseInt;
 
 public class GuardianXmlParser extends BaseFeedParser {
 
-    private static String TAG="NewYorkTimesXmlParser";
+    private static String TAG="GuardianXmlParser";
     public GuardianXmlParser(String feedUrl) {
         super(feedUrl);
     }
@@ -32,6 +32,7 @@ public class GuardianXmlParser extends BaseFeedParser {
 
     // removes unwanted tags from a piece of information
     private static String removeTagsFrom(String text) {
+        Log.d(TAG, "removeTagsFrom()");
         String returned = "";
         int start = 0; // represents the index of the current '<'
         int end = 0; // represents the index of the current '>'
@@ -56,6 +57,7 @@ public class GuardianXmlParser extends BaseFeedParser {
 
     // searches for a specific tag and returns its content (without removing internal tags)
     private static String getContentOf(String tag, String text) {
+        Log.d(TAG, "getContentOf(tag, text)");
         int start = 0; // represents the index of the current '<'
         int end = 0; // represents the index of the current '>'
         int returnedStart = -1;
@@ -77,6 +79,7 @@ public class GuardianXmlParser extends BaseFeedParser {
 
     // searches for an element with specific start and end tags and returns its content (without removing internal tags)
     private static String getContentOf(String startTag, String endTag, String text) {
+        Log.d(TAG, "getContentOf(startTag, endTag, text)");
         int start = 0; // represents the index of the current '<'
         int end = 0; // represents the index of the current '>'
         int returnedStart = -1;
@@ -150,7 +153,6 @@ public class GuardianXmlParser extends BaseFeedParser {
                                     String s = getContentOf("p class=\"block-time published-time\"", "/p", nextText);
                                     int returnedEnd = parseInt(s.substring(0, s.indexOf(" ")));
                                     s = getContentOf("p", nextText.substring(returnedEnd+4));
-                                    returnedEnd = parseInt(s.substring(0, s.indexOf(" ")));
                                     String currentP = s.substring(s.indexOf(" ") + 1);
                                     /* while(currentP.contains("<a href=")) {
                                         s = getContentOf("p", nextText.substring(returnedEnd+4));
