@@ -52,9 +52,8 @@ public class Settings extends AppCompatActivity {
         //TOOLBAR
         mToolbar=findViewById(R.id.toolBar);
         setSupportActionBar(mToolbar);              //rende predefinata la toolbar creata
-
-        mTextViewTitle= findViewById(R.id.tV_title_name);
-        mTextViewTitle.setText("Settings");
+        getSupportActionBar().setTitle("Settings");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
@@ -120,6 +119,7 @@ public class Settings extends AppCompatActivity {
                             }
                         }
                         mItemSelected.setText(item);
+                        Log.d(TAG,"mItemSelected()" + mItemSelected.getText());
                     }
                 });
                 AlertDialog mDialog = mBuilder.create();
