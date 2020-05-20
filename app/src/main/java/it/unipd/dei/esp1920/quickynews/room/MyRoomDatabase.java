@@ -27,7 +27,7 @@ public abstract class MyRoomDatabase extends RoomDatabase
             synchronized (MyRoomDatabase.class){
                 if(INSTANCE==null){
                     INSTANCE= Room.databaseBuilder(context.getApplicationContext(),
-                            MyRoomDatabase.class,"news_database").build();//.addCallback(mRoomDataBaseCallBack).build();
+                            MyRoomDatabase.class,"news_database").addCallback(mRoomDataBaseCallBack).build();
                 }
             }
         }
@@ -36,7 +36,7 @@ public abstract class MyRoomDatabase extends RoomDatabase
 
     }
 
-/*
+
     private static RoomDatabase.Callback mRoomDataBaseCallBack = new RoomDatabase.Callback(){
       @Override
       public void onOpen(@NonNull SupportSQLiteDatabase db){
@@ -48,18 +48,9 @@ public abstract class MyRoomDatabase extends RoomDatabase
 
               RssNews rss = new RssNews(3,"www.prova.it","Provemo","me piaxe provare","22.05.20","provetta");
               rssDao.insertRssNews(rss);
-
-
-
           });
-
-
-
       }
-
-
-
     };
-*/
+
 
 }
