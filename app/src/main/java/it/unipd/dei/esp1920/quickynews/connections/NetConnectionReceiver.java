@@ -22,7 +22,7 @@ public class NetConnectionReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action=intent.getAction();
-        Log.d(TAG,"onReceive() method");
+        Log.d(TAG,"onReceive()");
 
         checkConnection(context);
     }

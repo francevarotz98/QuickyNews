@@ -14,8 +14,7 @@ public class MyRepository
     private LiveData<List<News>> mAllNews;
     private LiveData<List<RssNews>> mAllRssNews;
 
-    MyRepository(Application app)
-    {
+    public MyRepository(Application app) {
         MyRoomDatabase db = MyRoomDatabase.getDatabase(app);
         mNewsDao = db.newsDao();
         mRssNewsDao = db.rssNewsDao();
@@ -25,25 +24,23 @@ public class MyRepository
     }
 
 
-    LiveData<List<News>> getAllNews(){
+    public LiveData<List<News>> getAllNews(){
         return mAllNews;
     }
 
-    LiveData<List<RssNews>> getAllRssNews(){
+    public LiveData<List<RssNews>> getAllRssNews(){
         return mAllRssNews;
     }
 
-    void insertNews(News n){
-        MyRoomDatabase.databaseWriteExecutor.execute(()->{
-            mNewsDao.insertNews(n);
-        });
+    public void insertNews(News n){
+        MyRoomDatabase.databaseWriteExecutor.execute(()-> mNewsDao.insertNews(n));
     }
 
-    void insertRssNews(RssNews n){
-        MyRoomDatabase.databaseWriteExecutor.execute(()->{
-            mRssNewsDao.insertRssNews(n);
-        });
+    public void insertRssNews(RssNews n){
+        MyRoomDatabase.databaseWriteExecutor.execute(()-> mRssNewsDao.insertRssNews(n));
     }
+
+    //TODO: implementare metodi DELETE?
 
 
 

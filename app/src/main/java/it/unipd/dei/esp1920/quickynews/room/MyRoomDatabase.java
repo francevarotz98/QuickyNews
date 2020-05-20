@@ -1,6 +1,7 @@
 package it.unipd.dei.esp1920.quickynews.room;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -41,11 +42,9 @@ public abstract class MyRoomDatabase extends RoomDatabase
       @Override
       public void onOpen(@NonNull SupportSQLiteDatabase db){
           super.onOpen(db);
-
+          Log.d("MyRoomDatabase","onOpen() qui");
           databaseWriteExecutor.execute(() -> {
-
               RssNewsDao rssDao = INSTANCE.rssNewsDao();
-
               RssNews rss = new RssNews(3,"www.prova.it","Provemo","me piaxe provare","22.05.20","provetta");
               rssDao.insertRssNews(rss);
           });
