@@ -35,7 +35,7 @@ public class TopNews extends Fragment implements GetFeedTask.AsyncResponse {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         if(NetConnectionReceiver.isConnected(getContext())) {
             Log.d(TAG,"GetFeedTask.execute()");
-            // new GetFeedTask(this).execute("https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml");
+            //new GetFeedTask(this).execute("https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml");
             new GetFeedTask(this).execute("https://www.theguardian.com/international/rss");
         }
         recyclerView.setAdapter(adapter);

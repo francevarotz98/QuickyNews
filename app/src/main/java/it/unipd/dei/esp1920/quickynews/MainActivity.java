@@ -50,9 +50,7 @@ public class MainActivity extends AppCompatActivity {
         //TOOLBAR
         mToolbar=findViewById(R.id.toolBar);
         setSupportActionBar(mToolbar);              //rende predefinata la toolbar creata
-
-        mTextViewTitle= findViewById(R.id.tV_title_name);
-        mTextViewTitle.setText("Quicky News");
+        getSupportActionBar().setTitle("Quicky News");
 
         //BOTTOM NAVIGATION BAR
         BottomNavigationView botNav=findViewById(R.id.bottom_navigation);
