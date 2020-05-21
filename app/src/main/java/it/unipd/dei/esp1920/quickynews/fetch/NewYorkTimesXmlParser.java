@@ -8,11 +8,15 @@ import android.util.Xml;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
+import java.util.Locale;
+
+import it.unipd.dei.esp1920.quickynews.news.Article;
 
 public class NewYorkTimesXmlParser extends BaseFeedParser {
-
     private static String TAG="NewYorkTimesXmlParser";
+
     public NewYorkTimesXmlParser(String feedUrl) {
         super(feedUrl);
     }
@@ -76,9 +80,9 @@ public class NewYorkTimesXmlParser extends BaseFeedParser {
                             String itemCategory = currentItem.getCategory();
                             if(itemCategory == null)
                                 currentItem.setCategory("No category");
-                            /* String itemDate = currentItem.getDate();
+                            String itemDate = currentItem.getDate();
                                if(itemDate == null)
-                                currentItem.setDate("No date"); */
+                                   currentItem.setDate("No date");
                             String itemDescription = currentItem.getDescription();
                             if(itemDescription == null)
                                     currentItem.setDescription("No description");

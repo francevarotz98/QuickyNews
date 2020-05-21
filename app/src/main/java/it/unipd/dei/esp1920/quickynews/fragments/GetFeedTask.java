@@ -29,11 +29,11 @@ class GetFeedTask extends AsyncTask<String, Void, LinkedList<Item>> {
     @Override
     protected LinkedList<Item> doInBackground(String... urls) {
         String url = urls[0];
-        // NewYorkTimesXmlParser parser = new NewYorkTimesXmlParser(url);
-        GuardianXmlParser parser = new GuardianXmlParser(url);
+        NewYorkTimesXmlParser parser = new NewYorkTimesXmlParser(url);
+        // GuardianXmlParser parser = new GuardianXmlParser(url);
         try {
-            // Log.d(TAG,"new NewYorkTimesXmlParser(url).parse()");
-            Log.d(TAG,"new GuardianXmlParser(url).parse()");
+            Log.d(TAG,"new NewYorkTimesXmlParser(url).parse()");
+            // Log.d(TAG,"new GuardianXmlParser(url).parse()");
             return parser.parse();
         }
         catch (IOException e) {

@@ -6,8 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class Article {
-    static SimpleDateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
+public class Article implements Comparable<Article> {
+    private final SimpleDateFormat FORMATTER1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
+    private final SimpleDateFormat FORMATTER2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ", Locale.US);
 
     private Source source;
     private String author;
@@ -19,6 +20,18 @@ public class Article {
     private String content;
     // private String category;
 
+    public Article() {
+        this.source = null;
+        this.author = null;
+        this.title = null;
+        this.description = null;
+        this.url = null;
+        this.urlToImage = null;
+        this.publishedAt = null;
+        this.content = content;
+        // this.category = category;
+    }
+
     public Article(Source source, String author, String title, String description, String url, String urlToImage, String publishedAt, String content /*, String category */) {
         this.source = source;
         this.author = author;
@@ -28,22 +41,28 @@ public class Article {
         this.urlToImage = urlToImage;
         if(publishedAt.equals("null")) {
             try {
-                this.publishedAt = FORMATTER.parse("0000-00-00T00:00:00+0000");
+                this.publishedAt = FORMATTER1.parse("0000-00-00T00:00:00+00:00");
             }
             catch (ParseException e) {
                 throw new RuntimeException(e);
             }
         }
         else {
-            publishedAt = publishedAt.substring(0,publishedAt.length()-1);
-            if(publishedAt.length() > 19) {
-                publishedAt = publishedAt.substring(0,19);
+            if(publishedAt.substring(publishedAt.length()-1).equals("Z")) {
+                publishedAt = publishedAt.substring(0, publishedAt.length() - 1);
+                publishedAt += "+00:00";
             }
-            publishedAt += "+0000";
             try {
-                this.publishedAt = FORMATTER.parse(publishedAt.trim());
+                this.publishedAt = FORMATTER1.parse(publishedAt.trim());
             }
             catch (ParseException e) {
+                try {
+                    Date format2 = FORMATTER2.parse(publishedAt.trim());
+                    publishedAt = FORMATTER1.format(format2);
+                    this.publishedAt = FORMATTER1.parse(publishedAt);
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
                 throw new RuntimeException(e);
             }
         }
@@ -99,9 +118,11 @@ public class Article {
         this.urlToImage = urlToImage;
     }
 
-    public String getPublishedAt() {
-        return FORMATTER.format(this.publishedAt);
+    public String getStringPublishedAt() {
+        return FORMATTER1.format(this.publishedAt);
     }
+
+    public Date getDatePublishedAt() { return this.publishedAt; }
 
     public void setPublishedAt(Date publishedAt) {
         this.publishedAt = publishedAt;
@@ -122,4 +143,9 @@ public class Article {
     public void setCategory(String category) {
         this.category = category;
     } */
+
+    @Override
+    public int compareTo(Article o) {
+        return this.publishedAt.compareTo(o.getDatePublishedAt());
+    }
 }

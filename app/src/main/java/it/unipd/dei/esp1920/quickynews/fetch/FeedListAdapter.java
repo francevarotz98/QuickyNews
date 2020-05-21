@@ -1,4 +1,4 @@
-package it.unipd.dei.esp1920.quickynews.fragments;
+package it.unipd.dei.esp1920.quickynews.fetch;
 
 import android.content.Context;
 //import android.text.Layout;
@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.LinkedList;
 
 import it.unipd.dei.esp1920.quickynews.R;
-import it.unipd.dei.esp1920.quickynews.fetch.Item;
 
 public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ItemViewHolder> {
 
