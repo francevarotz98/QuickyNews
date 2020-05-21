@@ -33,8 +33,6 @@ import java.util.List;
 import java.util.Locale;
 
 import it.unipd.dei.esp1920.quickynews.R;
-import it.unipd.dei.esp1920.quickynews.fetch.FeedListAdapter;
-import it.unipd.dei.esp1920.quickynews.fetch.Item;
 import it.unipd.dei.esp1920.quickynews.news.Article;
 import it.unipd.dei.esp1920.quickynews.news.NewsApiResponse;
 import it.unipd.dei.esp1920.quickynews.news.NewsListAdapter;
@@ -103,6 +101,8 @@ public class TopNews extends Fragment /* implements GetFeedTask.AsyncResponse */
 
                             String description = jsonArticle.getString("description");
 
+                            String date = jsonArticle.getString("publishedAt");
+
                             if (description.equals("")) continue;
 
                             Article article = new Article(
@@ -112,7 +112,7 @@ public class TopNews extends Fragment /* implements GetFeedTask.AsyncResponse */
                                     description,
                                     jsonArticle.getString("url"),
                                     jsonArticle.getString("urlToImage"),
-                                    jsonArticle.getString("publishedAt"),
+                                    date,
                                     jsonArticle.getString("content")
                                     );
 

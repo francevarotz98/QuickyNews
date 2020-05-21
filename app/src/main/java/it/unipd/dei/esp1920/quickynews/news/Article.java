@@ -1,5 +1,7 @@
 package it.unipd.dei.esp1920.quickynews.news;
 
+import android.util.Log;
+
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,8 +9,11 @@ import java.util.Date;
 import java.util.Locale;
 
 public class Article implements Comparable<Article> {
-    private final SimpleDateFormat FORMATTER1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
-    private final SimpleDateFormat FORMATTER2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ", Locale.US);
+    private static final String TAG = "Article";
+
+    private static final SimpleDateFormat FORMATTER1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
+    private static final SimpleDateFormat FORMATTER2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ", Locale.US);
+    private static final SimpleDateFormat FORMATTER3 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ", Locale.US);
 
     private Source source;
     private String author;
@@ -54,16 +59,22 @@ public class Article implements Comparable<Article> {
             }
             try {
                 this.publishedAt = FORMATTER1.parse(publishedAt.trim());
-            }
-            catch (ParseException e) {
+            } catch (ParseException e) {
                 try {
                     Date format2 = FORMATTER2.parse(publishedAt.trim());
                     publishedAt = FORMATTER1.format(format2);
                     this.publishedAt = FORMATTER1.parse(publishedAt);
                 } catch (ParseException ex) {
+                    try {
+                        Date format3 = FORMATTER3.parse(publishedAt.trim());
+                        publishedAt = FORMATTER1.format(format3);
+                        this.publishedAt = FORMATTER1.parse(publishedAt);
+                    } catch (ParseException exx) {
+                        exx.printStackTrace();
+                    }
                     ex.printStackTrace();
                 }
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
         this.content = content;
