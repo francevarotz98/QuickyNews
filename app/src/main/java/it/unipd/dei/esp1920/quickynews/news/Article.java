@@ -2,7 +2,6 @@ package it.unipd.dei.esp1920.quickynews.news;
 
 import android.util.Log;
 
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

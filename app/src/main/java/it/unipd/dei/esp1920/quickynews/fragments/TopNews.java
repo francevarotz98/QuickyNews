@@ -38,6 +38,7 @@ import java.util.Locale;
 import it.unipd.dei.esp1920.quickynews.MainActivity;
 import it.unipd.dei.esp1920.quickynews.NewsViewModel;
 import it.unipd.dei.esp1920.quickynews.R;
+import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
 import it.unipd.dei.esp1920.quickynews.news.Article;
 import it.unipd.dei.esp1920.quickynews.news.NewsApiResponse;
 import it.unipd.dei.esp1920.quickynews.news.NewsListAdapter;
@@ -137,8 +138,8 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                                     jsonArticle.getString("content")
                                     );
 
-                            if(!(article.getContent().equals("null") || article.getUrlToImage().equals("null")
-                                    || article.getDescription().contains(article.getTitle())))
+                            if(!(article.getUrlToImage().equals("null")
+                                    || article.getDescription().contains(article.getTitle()) || date.equals("null")))
                                 newsList.add(article);
                         }
                         if(!wasEmpty) {
@@ -146,6 +147,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             newsApiResponse = new NewsApiResponse(status, newsList);
                             adapter = new NewsListAdapter(getContext(), newsApiResponse);
                             recyclerView.setAdapter(adapter);
+                            swipeRefreshLayout.setRefreshing(false);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -231,7 +233,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             );
 
                             // controllo che il link dell'immagine non sia nullo e che la descrizione non sia uguale al titolo, poi aggiungo l'articolo alla lista
-                            if(!(urlToImage == null || article.getDescription().contains(article.getTitle())))
+                            if(!(urlToImage == null || article.getDescription().contains(article.getTitle()) || date.equals("null")))
                                 newsList.add(article);
                         }
                         // se la lista conteneva già articoli presi da NewsApi allora devo ordinare la lista in base alle date degli articoli
@@ -240,6 +242,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             newsApiResponse = new NewsApiResponse(status, newsList);
                             adapter = new NewsListAdapter(getContext(), newsApiResponse);
                             recyclerView.setAdapter(adapter);
+                            swipeRefreshLayout.setRefreshing(false);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -282,10 +285,13 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     @Override
     public void onRefresh() {
         Log.d(TAG, "onRefresh()");
-        swipeRefreshLayout.setRefreshing(true);
-        fetchNews();
-        swipeRefreshLayout.setRefreshing(false);
+        if(NetConnectionReceiver.isConnected(getContext())) {
+            swipeRefreshLayout.setRefreshing(true);
+            fetchNews();
+        }
+        else {
+            Toast.makeText(getContext(), "No Internet connection", Toast.LENGTH_SHORT).show();
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
-
-
 }

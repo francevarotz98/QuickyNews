@@ -14,10 +14,10 @@ import static android.net.NetworkInfo.State.CONNECTED;
 
 public class NetConnectionReceiver extends BroadcastReceiver {
 
-    private static final String TAG="NetConnectionReceiver";
+    private static final String TAG = "NetConnectionReceiver";
     private NetworkInfo wifi;
     private NetworkInfo mobile;
-    private static boolean isConnected=false; //default
+    private static boolean isConnected = false; //default
 
     @Override
     public void onReceive(Context context, Intent intent) {
