@@ -3,7 +3,6 @@ package it.unipd.dei.esp1920.quickynews.room;
 
 
 import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;

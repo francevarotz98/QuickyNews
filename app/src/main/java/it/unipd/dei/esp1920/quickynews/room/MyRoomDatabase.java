@@ -37,12 +37,13 @@ public abstract class MyRoomDatabase extends RoomDatabase
 
     }
 
-
+    //Here we should put the code of the xml parser in order
+    //to fulfill the screen with the news
     private static RoomDatabase.Callback mRoomDataBaseCallBack = new RoomDatabase.Callback(){
       @Override
       public void onOpen(@NonNull SupportSQLiteDatabase db){
           super.onOpen(db);
-          Log.d("MyRoomDatabase","onOpen() qui");
+          Log.d("MyRoomDatabase","onOpen()");
           databaseWriteExecutor.execute(() -> {
               RssNewsDao rssDao = INSTANCE.rssNewsDao();
               RssNews rss = new RssNews(3,"www.prova.it","Provemo","me piaxe provare","22.05.20","provetta");

@@ -1,10 +1,8 @@
 package it.unipd.dei.esp1920.quickynews.room;
 
 
-import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 

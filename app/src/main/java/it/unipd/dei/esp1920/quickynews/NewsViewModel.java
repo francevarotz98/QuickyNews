@@ -10,6 +10,17 @@ import it.unipd.dei.esp1920.quickynews.room.MyRepository;
 import it.unipd.dei.esp1920.quickynews.room.News;
 import it.unipd.dei.esp1920.quickynews.room.RssNews;
 
+/*
+ * N.B.!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ *
+ *     DO NOT(!!!!) STORE Activity/Fragment/View or
+ *     their Contexts in a ViewModel.
+ *
+ *  I need a ViewModel class to, e.g., save data
+ *  when the device is rotated.
+ *
+ * */
+
 public class NewsViewModel extends AndroidViewModel
 {
     private MyRepository mRepository;
@@ -31,9 +42,13 @@ public class NewsViewModel extends AndroidViewModel
         return mAllRssNews;
     }
 
-    //TODO: capire se anche in ViewModel sia
-    //      indispensabile creare metodi per
-    //      inserire/rimuovere elementi
+    public void insertNews(News n){
+        mRepository.insertNews(n);
+    }
+
+    public void insertRssNews(RssNews r){
+        mRepository.insertRssNews(r);
+    }
 
 
     //TODO: creare NewListAdapter che estende RecyclerView

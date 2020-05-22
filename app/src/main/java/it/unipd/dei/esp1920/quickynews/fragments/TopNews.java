@@ -1,5 +1,7 @@
 package it.unipd.dei.esp1920.quickynews.fragments;
 
+import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -32,11 +35,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import it.unipd.dei.esp1920.quickynews.MainActivity;
+import it.unipd.dei.esp1920.quickynews.NewsViewModel;
 import it.unipd.dei.esp1920.quickynews.R;
 import it.unipd.dei.esp1920.quickynews.news.Article;
 import it.unipd.dei.esp1920.quickynews.news.NewsApiResponse;
 import it.unipd.dei.esp1920.quickynews.news.NewsListAdapter;
 import it.unipd.dei.esp1920.quickynews.news.Source;
+
+
+import it.unipd.dei.esp1920.quickynews.room.*;
 
 public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshListener/* implements GetFeedTask.AsyncResponse */ {
 
@@ -48,6 +56,8 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private NewsListAdapter adapter;
+
+    private NewsViewModel mViewModel;
 
     @Nullable
     @Override
@@ -239,6 +249,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // displaying the error in a toast if occurs
+                        Log.d(TAG,"onErrorResponse()");
                         Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
