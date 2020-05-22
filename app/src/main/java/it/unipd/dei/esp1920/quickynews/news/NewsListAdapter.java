@@ -19,10 +19,10 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
 
     private final NewsApiResponse mNewsListContainer;
     private LayoutInflater mInflater;
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
+    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
 
 
-    class ArticleViewHolder extends RecyclerView.ViewHolder {
+    static class ArticleViewHolder extends RecyclerView.ViewHolder {
         final TextView mSource;
         final TextView mTitle;
         final TextView mDescription;

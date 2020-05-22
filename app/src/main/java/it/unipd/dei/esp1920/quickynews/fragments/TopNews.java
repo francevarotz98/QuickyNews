@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,7 +24,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,7 +38,7 @@ import it.unipd.dei.esp1920.quickynews.news.NewsApiResponse;
 import it.unipd.dei.esp1920.quickynews.news.NewsListAdapter;
 import it.unipd.dei.esp1920.quickynews.news.Source;
 
-public class TopNews extends Fragment /* implements GetFeedTask.AsyncResponse */ {
+public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshListener/* implements GetFeedTask.AsyncResponse */ {
 
     private final static String TAG="Top News";
 
@@ -46,16 +46,25 @@ public class TopNews extends Fragment /* implements GetFeedTask.AsyncResponse */
     private NewsApiResponse newsApiResponse;
     private List<Article> newsList;
     private RecyclerView recyclerView;
-    private NewsListAdapter adapter = null;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private NewsListAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG,"onCreateView()");
         View v = inflater.inflate(R.layout.fragment_home,container,false);
+        swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView = v.findViewById(R.id.recyclerView);
         newsList = new LinkedList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        /* swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetchNews();
+            }
+        }); */
         fetchNews();
         /* if(NetConnectionReceiver.isConnected(getContext())) {
             Log.d(TAG,"GetFeedTask.execute()");
@@ -73,6 +82,8 @@ public class TopNews extends Fragment /* implements GetFeedTask.AsyncResponse */
 
     private void fetchNews() {
         Log.d(TAG, "fetchNews()");
+
+        newsList = new LinkedList<>();
 
         StringRequest stringRequest1 = new StringRequest(Request.Method.GET, "https://newsapi.org/v2/top-headlines?" +
                 "sources=the-washington-post,cnn,bbc-news,al-jazeera-english,the-wall-street-journal&language=en&sortBy=date&apiKey=e8e11922f51241959ab4a38de91061e5",
@@ -256,4 +267,14 @@ public class TopNews extends Fragment /* implements GetFeedTask.AsyncResponse */
             v.set(j,temp);
         }
     }
+
+    @Override
+    public void onRefresh() {
+        Log.d(TAG, "onRefresh()");
+        swipeRefreshLayout.setRefreshing(true);
+        fetchNews();
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+
 }

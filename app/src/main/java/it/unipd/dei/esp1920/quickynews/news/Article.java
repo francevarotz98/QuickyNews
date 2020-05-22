@@ -72,9 +72,7 @@ public class Article implements Comparable<Article> {
                     } catch (ParseException exx) {
                         exx.printStackTrace();
                     }
-                    ex.printStackTrace();
                 }
-                e.printStackTrace();
             }
         }
         this.content = content;
