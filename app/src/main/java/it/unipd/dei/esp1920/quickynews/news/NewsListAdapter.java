@@ -68,19 +68,21 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                 hours = minutes / 60.0;
                 int h = (int) (hours + 0.5);
                 if(h > 1)
-                    holder.mDate.setText(h + " ore fa");
+                    holder.mDate.setText(h + " hours ago");
                 else
-                    holder.mDate.setText(h + " ora fa");
+                    holder.mDate.setText(h + " hour ago");
             }
             else if(minutes > 1)
-                holder.mDate.setText(minutes + " minuti fa");
+                holder.mDate.setText(minutes + " minutes ago");
             else if(minutes == 1)
-                holder.mDate.setText(minutes + " minuto fa");
+                holder.mDate.setText(minutes + " minute ago");
             else if(minutes == 0)
-            holder.mDate.setText("ora");
-        } catch (ParseException e) {
+            holder.mDate.setText("hour");
+        }
+        catch (ParseException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
