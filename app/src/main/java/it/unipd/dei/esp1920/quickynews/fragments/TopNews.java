@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -52,11 +53,8 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     private final static String TAG="Top News";
 
     // private LinkedList<Item> feedList = new LinkedList<>();
-    private NewsApiResponse newsApiResponse;
-    private List<Article> newsList;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private NewsListAdapter adapter;
 
     private NewsViewModel mViewModel;
 
@@ -68,21 +66,20 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView = v.findViewById(R.id.recyclerView);
-        newsList = new LinkedList<>();
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        /* swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                fetchNews();
-            }
-        }); */
-        fetchNews();
+        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
         /* if(NetConnectionReceiver.isConnected(getContext())) {
             Log.d(TAG,"GetFeedTask.execute()");
             new GetFeedTask(this).execute("https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml");
             // new GetFeedTask(this).execute("https://www.theguardian.com/international/rss");
         } */
         return v;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.d(TAG, "onActivityCreated()");
+        fetchNews();
     }
 
     /* @Override
@@ -94,7 +91,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     private void fetchNews() {
         Log.d(TAG, "fetchNews()");
 
-        newsList = new LinkedList<>();
+        List<Article> newsList = new LinkedList<>();
 
         StringRequest stringRequest1 = new StringRequest(Request.Method.GET, "https://newsapi.org/v2/top-headlines?" +
                 "sources=the-washington-post,cnn,bbc-news,al-jazeera-english,the-wall-street-journal&language=en&sortBy=date&apiKey=e8e11922f51241959ab4a38de91061e5",
@@ -144,10 +141,9 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                         }
                         if(!wasEmpty) {
                             insertionSort(newsList);
-                            newsApiResponse = new NewsApiResponse(status, newsList);
-                            adapter = new NewsListAdapter(getContext(), newsApiResponse);
-                            recyclerView.setAdapter(adapter);
+                            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(status, newsList)));
                             swipeRefreshLayout.setRefreshing(false);
+                            recyclerView.getAdapter().notifyDataSetChanged();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -239,10 +235,9 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                         // se la lista conteneva già articoli presi da NewsApi allora devo ordinare la lista in base alle date degli articoli
                         if(!wasEmpty) {
                             insertionSort(newsList);
-                            newsApiResponse = new NewsApiResponse(status, newsList);
-                            adapter = new NewsListAdapter(getContext(), newsApiResponse);
-                            recyclerView.setAdapter(adapter);
+                            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(status, newsList)));
                             swipeRefreshLayout.setRefreshing(false);
+                            recyclerView.getAdapter().notifyDataSetChanged();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -253,15 +248,13 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                     public void onErrorResponse(VolleyError error) {
                         // displaying the error in a toast if occurs
                         Log.d(TAG,"onErrorResponse()");
-                        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Server error", Toast.LENGTH_LONG).show();
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                 });
 
         // creo la coda di richieste
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-
-        // cancello la cache a ogni nuova richiesta
-        requestQueue.getCache().clear();
 
         // aggiungo le due richieste alla coda
         requestQueue.add(stringRequest1);

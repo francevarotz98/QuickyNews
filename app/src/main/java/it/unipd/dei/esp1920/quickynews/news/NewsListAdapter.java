@@ -18,11 +18,11 @@ import it.unipd.dei.esp1920.quickynews.R;
 public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ArticleViewHolder> {
 
     private final NewsApiResponse mNewsListContainer;
-    private LayoutInflater mInflater;
+    // private LayoutInflater mInflater;
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
 
 
-     class ArticleViewHolder extends RecyclerView.ViewHolder {
+    class ArticleViewHolder extends RecyclerView.ViewHolder {
         final TextView mSource;
         final TextView mTitle;
         final TextView mDescription;
@@ -39,14 +39,14 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
         }
     }
 
-    public NewsListAdapter(Context context, NewsApiResponse newsListContainer) {
-        mInflater = LayoutInflater.from(context);
+    public NewsListAdapter(/* Context context, */ NewsApiResponse newsListContainer) {
+        // mInflater = LayoutInflater.from(context);
         mNewsListContainer = newsListContainer;
     }
 
     @Override
     public NewsListAdapter.ArticleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = mInflater.inflate(R.layout.feed_list_item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_list_item, parent, false);
         return new ArticleViewHolder(itemView, this);
     }
 
