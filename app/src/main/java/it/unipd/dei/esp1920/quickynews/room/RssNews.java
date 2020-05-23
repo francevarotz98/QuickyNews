@@ -18,7 +18,7 @@ public class RssNews
     private String description;
     private String date;
     private String category;
-    //private final String  TAG="RssNews";
+
 
     public RssNews(@NonNull int id_Rss, String URL,String title,String description,String date,String category){
         this.id_Rss=id_Rss;

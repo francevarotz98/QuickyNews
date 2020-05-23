@@ -22,7 +22,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
 
 
-    static class ArticleViewHolder extends RecyclerView.ViewHolder {
+     class ArticleViewHolder extends RecyclerView.ViewHolder {
         final TextView mSource;
         final TextView mTitle;
         final TextView mDescription;
