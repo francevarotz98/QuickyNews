@@ -56,20 +56,9 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView botNav=findViewById(R.id.bottom_navigation);
         botNav.setOnNavigationItemSelectedListener(navList);
 
-        //TODO: NEL CASO DEL PRIMO ACCESSO METTEREI UN IF/SWITCH CHE MI PORTA ALLE SETTINGS
-        if(flagFragment==0) {
-            //Log.d(TAG, "ENTRO NEL PRIMO IF");
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, new TopNews()).commit();
-        }
-        else if(flagFragment==1) {
-            //Log.d(TAG, "ENTRO NEL SECONDO IF");
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, new Favorites()).commit();
-        }
-        else {
-            //Log.d(TAG, "ENTRO NEL TERZO IF");
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, new Categories()).commit();
-        }
 
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, new TopNews()).commit();
+        //TODO: NEL CASO DEL PRIMO ACCESSO METTEREI UN IF/SWITCH CHE MI PORTA ALLE SETTINGS
     }
 
     @Override
@@ -111,15 +100,12 @@ public class MainActivity extends AppCompatActivity {
             switch (menuItem.getItemId()) {
                 case R.id.nav_top_news:
                     selectFrag = new TopNews();
-                    flagFragment=0;
                     break;
                 case R.id.nav_pref_news:
                     selectFrag = new Favorites();
-                    flagFragment=1;
                     break;
                 case R.id.nav_categories:
                     selectFrag = new Categories();
-                    flagFragment=2;
                     break;
             }
 

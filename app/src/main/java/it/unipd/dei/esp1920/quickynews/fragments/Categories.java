@@ -41,8 +41,4 @@ public class Categories extends Fragment {
 
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
 }

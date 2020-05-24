@@ -31,7 +31,7 @@ public class Settings extends AppCompatActivity {
     private ArrayList<Integer> mUserCategories=new ArrayList<>();
 
     private SeekBar  mSeekBar;
-    private TextView mTextView, mTextViewTitle,mItemSelected;
+    private TextView mTextView, mTextViewTitle;
     private Toolbar mToolbar;
     private Button mCategories;
     private int int_sb;
@@ -65,8 +65,6 @@ public class Settings extends AppCompatActivity {
         mTextView.setText(str_et);
         mSeekBar=(SeekBar)findViewById(R.id.sk_seekBar);
         mSeekBar.setProgress(int_sb);
-        mItemSelected=(TextView)findViewById(R.id.tV_categories_list);
-        mItemSelected.setText(str_et2);
 
         //parte dedicata all'AlertDialog
         mCategories=(Button)findViewById(R.id.btn_choose_categories);
@@ -111,15 +109,6 @@ public class Settings extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.d(TAG,"setPositiveButton()");
-                        String item = "";
-                        for(int i =0; i<mUserCategories.size();i++){                            //loopiamo attraverso l'array list
-                            item=item + listCategories[mUserCategories.get(i)];                 //item inserito nella lista
-                            if(i!=mUserCategories.size()-1){                                    //se sono NON nell'uttimo item aggiungo una virgola dopo
-                                item=item+", ";
-                            }
-                        }
-                        mItemSelected.setText(item);
-                        Log.d(TAG,"mItemSelected()" + mItemSelected.getText());
                     }
                 });
                 AlertDialog mDialog = mBuilder.create();
@@ -184,10 +173,6 @@ public class Settings extends AppCompatActivity {
         str_et = mTextView.getText().toString();
         editor.putString("editTextValue", str_et);
 
-        mItemSelected=(TextView)findViewById(R.id.tV_categories_list);
-        str_et2 = mItemSelected.getText().toString();
-        editor.putString("editTextValue2", str_et2);
-
         bln_cb_tech=checkedCategories[0];
         bln_cb_food= checkedCategories[1];
         bln_cb_sport= checkedCategories[2];
@@ -210,13 +195,6 @@ public class Settings extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-
-        mItemSelected=(TextView)findViewById(R.id.tV_categories_list);
-        str_et2 = mItemSelected.getText().toString();
-        editor.putString("editTextValue2", str_et2);
 
     }
 }

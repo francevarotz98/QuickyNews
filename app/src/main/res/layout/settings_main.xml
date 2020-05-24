@@ -82,12 +82,6 @@
              android:background="@android:color/transparent"
              android:textAllCaps = "false"
              android:textStyle="normal"/>
-         <TextView
-             android:id="@+id/tV_categories_list"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:textStyle="italic"
-             android:textColor="@android:color/darker_gray"/>
 
          <!-- linea orizzontale tra un impostazione e l'altra -->
          <View
