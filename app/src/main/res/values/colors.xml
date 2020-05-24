@@ -6,4 +6,5 @@
     <color name="blue">#1a1aff</color>
     <color name="yellow">#ffeb00</color>
     <color name="col_frag_bg">#F5F5F5</color>
+    <color name="col_btn_pressed">#f7f7f7</color>
 </resources>
