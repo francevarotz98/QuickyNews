@@ -18,7 +18,7 @@ public interface RssNewsDao
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertRssNews(RssNews n);
 
-    @Query("DELETE from RSSNEWS_TABLE WHERE id_Rss=:id")
+    @Query("DELETE FROM rssnews_table WHERE id_Rss=:id")
     void deleteRssNews(int id);
 
 

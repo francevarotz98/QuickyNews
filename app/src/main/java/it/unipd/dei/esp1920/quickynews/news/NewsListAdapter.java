@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import it.unipd.dei.esp1920.quickynews.R;
+import it.unipd.dei.esp1920.quickynews.room.News;
 
 public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ArticleViewHolder> {
 
@@ -21,6 +23,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
     // private LayoutInflater mInflater;
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
 
+    private List<Article> mListArticle;
 
     class ArticleViewHolder extends RecyclerView.ViewHolder {
         final TextView mSource;
@@ -37,6 +40,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
             mDate = itemView.findViewById(R.id.item_date);
             mAdapter = adapter;
         }
+
     }
 
     public NewsListAdapter(/* Context context, */ NewsApiResponse newsListContainer) {
@@ -83,6 +87,11 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
             e.printStackTrace();
         }
 
+    }
+
+    void setArticle(List<Article> articles){
+        mListArticle = articles;
+        notifyDataSetChanged();
     }
 
     @Override

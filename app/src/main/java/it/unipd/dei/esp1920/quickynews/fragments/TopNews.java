@@ -1,15 +1,13 @@
 package it.unipd.dei.esp1920.quickynews.fragments;
 
-import android.app.Application;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -36,8 +34,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-import it.unipd.dei.esp1920.quickynews.MainActivity;
-import it.unipd.dei.esp1920.quickynews.NewsViewModel;
+
+import it.unipd.dei.esp1920.quickynews.ArticleViewModel;
 import it.unipd.dei.esp1920.quickynews.R;
 import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
 import it.unipd.dei.esp1920.quickynews.news.Article;
@@ -45,8 +43,6 @@ import it.unipd.dei.esp1920.quickynews.news.NewsApiResponse;
 import it.unipd.dei.esp1920.quickynews.news.NewsListAdapter;
 import it.unipd.dei.esp1920.quickynews.news.Source;
 
-
-import it.unipd.dei.esp1920.quickynews.room.*;
 
 public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshListener/* implements GetFeedTask.AsyncResponse */ {
 
@@ -56,7 +52,13 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private NewsViewModel mViewModel;
+    private ArticleViewModel mArticleViewModel;
+
+    @Override
+    public void onCreate(Bundle bundle){
+        super.onCreate(bundle);
+        Log.d(TAG,"onCreate()");
+    }
 
     @Nullable
     @Override
@@ -67,12 +69,27 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+        //mArticleViewModel =  new ViewModelProvider().get(ArticleViewModel.class);
+
+
         /* if(NetConnectionReceiver.isConnected(getContext())) {
             Log.d(TAG,"GetFeedTask.execute()");
             new GetFeedTask(this).execute("https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml");
             // new GetFeedTask(this).execute("https://www.theguardian.com/international/rss");
         } */
         return v;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //mArticleViewModel =  new ViewModelProvider(requireActivity()).get(ArticleViewModel.class);
+        /*
+        * TODO: 1) inserire notizie fetchate nel db;
+        *       2) una volta fatto punto 1, "collegare" recycler view al db e non alle news fetchate (prima di
+        *               tutto capendo come far funzionare linea 86 viewmodel, cioè creano un suo layout).
+        * */
+
     }
 
     @Override
@@ -141,6 +158,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                         }
                         if(!wasEmpty) {
                             insertionSort(newsList);
+                            Log.d(TAG,"entro nell'if, status = "+status);
                             recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(status, newsList)));
                             swipeRefreshLayout.setRefreshing(false);
                             recyclerView.getAdapter().notifyDataSetChanged();
@@ -268,7 +286,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
 
             int j;
 
-            for (j = i; j > 0 && temp.getDatePublishedAt().compareTo(v.get(j-1).getDatePublishedAt()) >= 0; j--) {
+            for (j = i; j > 0 && temp.getPublishedAt().compareTo(v.get(j-1).getPublishedAt()) >= 0; j--) {
                 v.set(j,v.get(j-1));
             }
             v.set(j,temp);
@@ -287,4 +305,25 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
             swipeRefreshLayout.setRefreshing(false);
         }
     }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        Log.d(TAG,"onPause()");
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        Log.d(TAG,"onStop()");
+    }
+
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        Log.d(TAG,"onDestroyView()");
+    }
+
+
+
 }

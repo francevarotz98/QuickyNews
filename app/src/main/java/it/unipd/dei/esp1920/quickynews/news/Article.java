@@ -2,11 +2,16 @@ package it.unipd.dei.esp1920.quickynews.news;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+@Entity(tableName = "article_table")
 public class Article implements Comparable<Article> {
     private static final String TAG = "Article";
 
@@ -18,6 +23,8 @@ public class Article implements Comparable<Article> {
     private String author;
     private String title;
     private String description;
+    @PrimaryKey//(autoGenerate = true) //autogenerate primary keys
+    @NonNull
     private String url;
     private String urlToImage;
     private Date publishedAt;
@@ -110,6 +117,7 @@ public class Article implements Comparable<Article> {
         this.description = description;
     }
 
+    @NonNull
     public String getUrl() {
         return url;
     }
@@ -130,7 +138,7 @@ public class Article implements Comparable<Article> {
         return FORMATTER1.format(this.publishedAt);
     }
 
-    public Date getDatePublishedAt() { return this.publishedAt; }
+    public Date getPublishedAt() { return this.publishedAt; }  //it was getDatePublishedAt but it was changed because of room
 
     public void setPublishedAt(Date publishedAt) {
         this.publishedAt = publishedAt;
@@ -154,6 +162,6 @@ public class Article implements Comparable<Article> {
 
     @Override
     public int compareTo(Article o) {
-        return this.publishedAt.compareTo(o.getDatePublishedAt());
+        return this.publishedAt.compareTo(o.getPublishedAt());
     }
 }
