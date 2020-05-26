@@ -125,9 +125,6 @@ public class Settings extends AppCompatActivity {
 
 
         //--------------------------------------------------------------------------------------------------
-        View testView = getLayoutInflater().inflate(R.layout.dialog_seekbar_settings, null);
-        mSeekBar=(SeekBar)testView.findViewById(R.id.sk_seekBar);
-        mSeekBar.setProgress(saveseekbarintP);
 
         totSpace = AvailableSpace.getTotalDiskSpace();    //spazio totale
 
@@ -141,6 +138,8 @@ public class Settings extends AppCompatActivity {
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(Settings.this);
                 mBuilder.setTitle("Choose Size");
                 View testView = getLayoutInflater().inflate(R.layout.dialog_seekbar_settings, null);
+                mSeekBar=(SeekBar)testView.findViewById(R.id.sk_seekBar);
+                mSeekBar.setProgress(saveseekbarintP);
                 mBuilder.setView(testView);
                 mTextView=(TextView)testView.findViewById(R.id.tV_progression_percentage);
 
