@@ -9,7 +9,7 @@
     <string name="chBox_sport">Sport</string>
     <string name="chBox_pol">Politic</string>
     <string name="chBox_mot">Motors</string>
-    <string name="chBox_econ">Economy</string>
+    <string name="chBox_econ">Business</string>
     <string name="set_categories">Categories</string>
     <string name="toolBar_settings">Settings</string>
     <string name="welcome">Your main top news!</string>
@@ -28,7 +28,7 @@
         <item>Sport</item>
         <item>Politic</item>
         <item>Motors</item>
-        <item>Economy</item>
+        <item>Business</item>
     </string-array>
 
 </resources>
