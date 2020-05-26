@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -34,10 +35,12 @@ import java.util.List;
 import java.util.Locale;
 
 
+import it.unipd.dei.esp1920.quickynews.news.ArticleDao;
 import it.unipd.dei.esp1920.quickynews.news.ArticleViewModel;
 import it.unipd.dei.esp1920.quickynews.R;
 import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
 import it.unipd.dei.esp1920.quickynews.news.Article;
+import it.unipd.dei.esp1920.quickynews.news.MyRepository;
 import it.unipd.dei.esp1920.quickynews.news.NewsApiResponse;
 import it.unipd.dei.esp1920.quickynews.news.NewsListAdapter;
 import it.unipd.dei.esp1920.quickynews.news.Source;
@@ -50,6 +53,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     // private LinkedList<Item> feedList = new LinkedList<>();
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private MyRepository myRepository;
 
     private ArticleViewModel mArticleViewModel;
 
@@ -69,7 +73,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
         //mArticleViewModel =  new ViewModelProvider().get(ArticleViewModel.class);
-
+        myRepository = new MyRepository(getActivity().getApplication());
 
         /* if(NetConnectionReceiver.isConnected(getContext())) {
             Log.d(TAG,"GetFeedTask.execute()");
@@ -157,12 +161,18 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                                     );
 
                             if(!(article.getUrlToImage().equals("null")
-                                    || article.getDescription().contains(article.getTitle()) || date.equals("null")))
+                                    || article.getDescription().contains(article.getTitle()) || date.equals("null"))){
                                 newsList.add(article);
+                               // Log.d(TAG,"**** article = "+article.getTitle());
+                                myRepository.insertArticle(article);
+
+
+
+                            }
                         }
                         if(!wasEmpty) {
                             insertionSort(newsList);
-                            Log.d(TAG,"entro nell'if, status = "+status);
+                            //Log.d(TAG,"entro nell'if, status = "+status);
                             recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(status, newsList)));
                             swipeRefreshLayout.setRefreshing(false);
                         }
@@ -250,8 +260,12 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             );
 
                             // controllo che il link dell'immagine non sia nullo e che la descrizione non sia uguale al titolo, poi aggiungo l'articolo alla lista
-                            if(!(urlToImage == null || article.getDescription().contains(article.getTitle()) || date.equals("null")))
+                            if(!(urlToImage == null || article.getDescription().contains(article.getTitle()) || date.equals("null"))){
                                 newsList.add(article);
+                                //Log.d(TAG,"**** article = "+article.getTitle());
+                                myRepository.insertArticle(article);
+
+                            }
                         }
                         // se la lista conteneva già articoli presi da NewsApi allora devo ordinare la lista in base alle date degli articoli
                         if(!wasEmpty) {
@@ -284,6 +298,12 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
 
     private void fetchNewsWithoutInternet(){
         Log.d(TAG,"fetchNewsWithoutInternet()");
+        LiveData<List<Article>>a= myRepository.getAllArticle();
+
+        System.out.println("ìììì a= "+a);
+        Log.d(TAG,"+++++++ = "+a);
+
+
     }
 
     private static void insertionSort(List<Article> v) {
