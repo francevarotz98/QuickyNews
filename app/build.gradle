@@ -31,7 +31,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation "androidx.appcompat:appcompat:1.3.0-alpha01"
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
@@ -41,6 +41,7 @@ dependencies {
     implementation 'com.android.volley:volley:1.1.1'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     implementation 'com.squareup.picasso:picasso:2.71828' // citata come esempio nelle linee guida di Build for Billions
+    implementation 'org.jsoup:jsoup:1.13.1'
 
     //Room dependencies
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"

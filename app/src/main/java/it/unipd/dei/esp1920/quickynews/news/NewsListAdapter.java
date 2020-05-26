@@ -1,6 +1,8 @@
 package it.unipd.dei.esp1920.quickynews.news;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +16,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import it.unipd.dei.esp1920.quickynews.NewsDetailActivity;
 import it.unipd.dei.esp1920.quickynews.R;
 
 public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ArticleViewHolder> {
+
+    private static final String TAG = "NewsListAdapter";
 
     private final NewsApiResponse mNewsListContainer;
     private LayoutInflater mInflater;
@@ -30,9 +35,11 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
         final TextView mDescription;
         final TextView mDate;
         final NewsListAdapter mAdapter;
+        final View mView;
 
         ArticleViewHolder(View itemView, NewsListAdapter adapter) {
             super(itemView);
+            mView = itemView;
             mSource = itemView.findViewById(R.id.item_source);
             mTitle = itemView.findViewById(R.id.item_title);
             mDescription = itemView.findViewById(R.id.item_description);
@@ -89,12 +96,21 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
             else if(minutes == 1)
                 holder.mDate.setText(minutes + " minute ago");
             else if(minutes == 0)
-            holder.mDate.setText("hour");
-        }
-        catch (ParseException e) {
+            holder.mDate.setText("now");
+        } catch (ParseException e) {
             e.printStackTrace();
         }
-
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick()");
+                // Send an intent to the NewsDetailActivity
+                Context context = v.getContext();
+                Intent intent = new Intent(context, NewsDetailActivity.class);
+                intent.putExtra("url", mCurrent.getUrl());
+                context.startActivity(intent);
+            }
+        });
     }
 
     public void setArticle(List<Article> articles){
