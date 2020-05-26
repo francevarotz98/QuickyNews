@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-import it.unipd.dei.esp1920.quickynews.ArticleViewModel;
+import it.unipd.dei.esp1920.quickynews.news.ArticleViewModel;
 import it.unipd.dei.esp1920.quickynews.R;
 import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
 import it.unipd.dei.esp1920.quickynews.news.Article;
@@ -95,10 +95,12 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d(TAG, "onActivityCreated()");
-        if(NetConnectionReceiver.isConnected(getContext()))
+        if (NetConnectionReceiver.isConnected(getContext()))
             fetchNews();
-        else
+        else{
             Toast.makeText(getContext(), "No Internet connection", Toast.LENGTH_SHORT).show();
+            fetchNewsWithoutInternet();
+        }
     }
 
     /* @Override
@@ -279,6 +281,11 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         requestQueue.add(stringRequest2);
     }
 
+
+    private void fetchNewsWithoutInternet(){
+        Log.d(TAG,"fetchNewsWithoutInternet()");
+    }
+
     private static void insertionSort(List<Article> v) {
         for (int i = 1; i < v.size(); i++) {
             Article temp = v.get(i);
@@ -302,6 +309,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         else {
             Toast.makeText(getContext(), "No Internet connection", Toast.LENGTH_SHORT).show();
             swipeRefreshLayout.setRefreshing(false);
+            fetchNewsWithoutInternet();
         }
     }
 

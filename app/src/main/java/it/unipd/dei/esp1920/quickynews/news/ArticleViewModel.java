@@ -1,4 +1,4 @@
-package it.unipd.dei.esp1920.quickynews;
+package it.unipd.dei.esp1920.quickynews.news;
 
 import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
@@ -23,7 +23,6 @@ import it.unipd.dei.esp1920.quickynews.news.MyRepository;
 public class ArticleViewModel extends AndroidViewModel
 {
     private MyRepository mRepository;
-    //private LiveData<List<News>> mAllNews;
     private LiveData<List<Article>> mAllArticle;
 
     public ArticleViewModel(Application application) {
