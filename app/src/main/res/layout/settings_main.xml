@@ -21,16 +21,21 @@
             android:orientation="vertical">
 
 
-        <TextView
+        <Button
             android:id="@+id/settings_textV_download_size"
             android:layout_width="match_parent"
+            android:gravity="left|center_vertical"
             android:layout_height="wrap_content"
             android:text="@string/textView_download_size"
             android:typeface="monospace"
+            android:background="@drawable/custom_button"
+            android:textAllCaps = "false"
             android:textSize="20dp"
-            android:layout_marginTop="36dp" />
+            android:layout_marginTop="36dp"
+            android:textStyle="normal"/>
+         />
 
-            <TextView
+<!--            <TextView
                 android:id="@+id/tV_progression_percentage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -49,7 +54,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/minSpace"
                     android:typeface="monospace"
-                    android:textAlignment="viewStart" />            <!--non sono sicuro di questo viewStart però funzia-->
+                    android:textAlignment="viewStart" />            &lt;!&ndash;non sono sicuro di questo viewStart però funzia&ndash;&gt;
 
                 <TextView
                     android:id="@+id/tV_maxSpace"
@@ -63,7 +68,7 @@
             <SeekBar
                 android:id="@+id/sk_seekBar"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content" />-->
         <!-- linea orizzontale tra un impostazione e l'altra -->
          <View
              android:layout_width="wrap_content"
