@@ -33,7 +33,7 @@ public class ArticleViewModel extends AndroidViewModel
     }
 
 
-    LiveData<List<Article>> getAllArticle(){
+    public LiveData<List<Article>> getAllArticle(){
         return mAllArticle;
     }
 
@@ -43,6 +43,5 @@ public class ArticleViewModel extends AndroidViewModel
     }
 
 
-    //TODO: creare NewListAdapter che estende RecyclerView
 
 }

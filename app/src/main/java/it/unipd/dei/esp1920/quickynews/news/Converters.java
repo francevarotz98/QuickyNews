@@ -27,7 +27,6 @@ public class Converters {
         return s == null ? null : new Source(null,null); //TODO: CAPIRE CHE ERRORI POSSA CAUSARE ...
     }
 
-
     @TypeConverter
     public static String conversionSource(Source s){
         return s == null ? null : s.getName();

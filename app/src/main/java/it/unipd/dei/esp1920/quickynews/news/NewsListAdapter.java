@@ -15,12 +15,11 @@ import java.util.List;
 import java.util.Locale;
 
 import it.unipd.dei.esp1920.quickynews.R;
-import it.unipd.dei.esp1920.quickynews.room.News;
 
 public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ArticleViewHolder> {
 
     private final NewsApiResponse mNewsListContainer;
-    // private LayoutInflater mInflater;
+    private LayoutInflater mInflater;
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
 
     private List<Article> mListArticle;
@@ -42,6 +41,15 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
         }
 
     }
+
+
+
+    public NewsListAdapter(){
+
+        mNewsListContainer = null;
+        //mInflater = LayoutInflater.from(c);
+    }
+
 
     public NewsListAdapter(/* Context context, */ NewsApiResponse newsListContainer) {
         // mInflater = LayoutInflater.from(context);
@@ -89,7 +97,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
 
     }
 
-    void setArticle(List<Article> articles){
+    public void setArticle(List<Article> articles){
         mListArticle = articles;
         notifyDataSetChanged();
     }

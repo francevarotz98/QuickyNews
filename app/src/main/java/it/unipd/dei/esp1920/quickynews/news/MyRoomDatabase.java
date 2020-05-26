@@ -30,7 +30,7 @@ public abstract class MyRoomDatabase extends RoomDatabase
             synchronized (MyRoomDatabase.class){
                 if(INSTANCE==null){
                     INSTANCE= Room.databaseBuilder(context.getApplicationContext(),
-                            MyRoomDatabase.class,"rssnews_database").addCallback(mRoomDataBaseCallBack).build();
+                            MyRoomDatabase.class,"article_database").addCallback(mRoomDataBaseCallBack).build();
                 }
             }
         }

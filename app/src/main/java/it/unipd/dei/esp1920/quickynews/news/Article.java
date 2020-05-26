@@ -1,6 +1,5 @@
 package it.unipd.dei.esp1920.quickynews.news;
 
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
@@ -23,7 +22,7 @@ public class Article implements Comparable<Article> {
     private String author;
     private String title;
     private String description;
-    @PrimaryKey//(autoGenerate = true) //autogenerate primary keys
+    @PrimaryKey//(autoGenerate = true) //autogenerate primary keys TODO: capire se sia giusto URL
     @NonNull
     private String url;
     private String urlToImage;
@@ -31,6 +30,7 @@ public class Article implements Comparable<Article> {
     private String content;
     // private String category;
 
+    //for POJOs
     public Article() {
         this.source = null;
         this.author = null;
@@ -42,6 +42,7 @@ public class Article implements Comparable<Article> {
         this.content = content;
         // this.category = category;
     }
+
 
     public Article(Source source, String author, String title, String description, String url, String urlToImage, String publishedAt, String content /*, String category */) {
         this.source = source;

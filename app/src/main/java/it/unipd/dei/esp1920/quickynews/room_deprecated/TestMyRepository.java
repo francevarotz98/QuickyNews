@@ -1,4 +1,4 @@
-package it.unipd.dei.esp1920.quickynews.room;
+package it.unipd.dei.esp1920.quickynews.room_deprecated;
 
 import android.app.Application;
 

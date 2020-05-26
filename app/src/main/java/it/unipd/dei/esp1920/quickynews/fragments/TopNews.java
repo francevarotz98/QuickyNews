@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,9 +40,11 @@ import it.unipd.dei.esp1920.quickynews.ArticleViewModel;
 import it.unipd.dei.esp1920.quickynews.R;
 import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
 import it.unipd.dei.esp1920.quickynews.news.Article;
+import it.unipd.dei.esp1920.quickynews.news.MyRepository;
 import it.unipd.dei.esp1920.quickynews.news.NewsApiResponse;
 import it.unipd.dei.esp1920.quickynews.news.NewsListAdapter;
 import it.unipd.dei.esp1920.quickynews.news.Source;
+
 
 
 public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshListener/* implements GetFeedTask.AsyncResponse */ {
@@ -53,11 +56,25 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private ArticleViewModel mArticleViewModel;
+    private List<Article> newsList;
+    private MyRepository myRepository;
 
     @Override
     public void onCreate(Bundle bundle){
         super.onCreate(bundle);
         Log.d(TAG,"onCreate()");
+    /*
+        mArticleViewModel =  new ViewModelProvider(this).get(ArticleViewModel.class);
+        mArticleViewModel.getAllArticle().observe(this, new Observer<List<Article>>() {
+            @Override
+            public void onChanged(@Nullable final List<Article> articles){
+
+                new NewsListAdapter().setArticle(newsList);
+            }
+        });
+    */
+
+
     }
 
     @Nullable
@@ -82,8 +99,17 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        Log.d(TAG,"onViewCreated()");
         super.onViewCreated(view, savedInstanceState);
-        //mArticleViewModel =  new ViewModelProvider(requireActivity()).get(ArticleViewModel.class);
+  /*     mArticleViewModel =  new ViewModelProvider(this).get(ArticleViewModel.class);
+        mArticleViewModel.getAllArticle().observe(this, new Observer<List<Article>>() {
+            @Override
+            public void onChanged(@Nullable final List<Article> articles){
+
+                new NewsListAdapter().setArticle(newsList);
+            }
+        });
+*/
         /*
         * TODO: 1) inserire notizie fetchate nel db;
         *       2) una volta fatto punto 1, "collegare" recycler view al db e non alle news fetchate (prima di
@@ -96,6 +122,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d(TAG, "onActivityCreated()");
+        myRepository = new MyRepository(getActivity().getApplication());
         fetchNews();
     }
 
@@ -108,7 +135,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     private void fetchNews() {
         Log.d(TAG, "fetchNews()");
 
-        List<Article> newsList = new LinkedList<>();
+        newsList = new LinkedList<>();
 
         StringRequest stringRequest1 = new StringRequest(Request.Method.GET, "https://newsapi.org/v2/top-headlines?" +
                 "sources=the-washington-post,cnn,bbc-news,al-jazeera-english,the-wall-street-journal&language=en&sortBy=date&apiKey=e8e11922f51241959ab4a38de91061e5",
@@ -153,13 +180,16 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                                     );
 
                             if(!(article.getUrlToImage().equals("null")
-                                    || article.getDescription().contains(article.getTitle()) || date.equals("null")))
+                                    || article.getDescription().contains(article.getTitle()) || date.equals("null"))) {
                                 newsList.add(article);
+                                myRepository.insertArticle(article);
+                            }
                         }
                         if(!wasEmpty) {
                             insertionSort(newsList);
                             Log.d(TAG,"entro nell'if, status = "+status);
                             recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(status, newsList)));
+                            //recyclerView.setAdapter
                             swipeRefreshLayout.setRefreshing(false);
                             recyclerView.getAdapter().notifyDataSetChanged();
                         }
@@ -217,10 +247,12 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
 
                             String description = jsonArticle.getString("abstract");
 
+
                             // serve per poter stampare correttamente le virgolette e gli apostrofi
                             title = new String(title.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
                             description = new String(description.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
-
+                            //Log.d(TAG,"******* title = "+title);
+                            //Log.d(TAG,"description = "+description+"\n\n");
                             // serve per decidere se l'articolo è stato pubblicato più di 1 giorno fa
                             Date today = new Date();
                             String now = FORMATTER.format(today);
@@ -246,9 +278,12 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                                     "No content"
                             );
 
+
                             // controllo che il link dell'immagine non sia nullo e che la descrizione non sia uguale al titolo, poi aggiungo l'articolo alla lista
-                            if(!(urlToImage == null || article.getDescription().contains(article.getTitle()) || date.equals("null")))
+                            if(!(urlToImage == null || article.getDescription().contains(article.getTitle()) || date.equals("null"))) {
                                 newsList.add(article);
+                                myRepository.insertArticle(article);
+                            }
                         }
                         // se la lista conteneva già articoli presi da NewsApi allora devo ordinare la lista in base alle date degli articoli
                         if(!wasEmpty) {
