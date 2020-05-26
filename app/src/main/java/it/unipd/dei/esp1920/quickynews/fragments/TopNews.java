@@ -230,7 +230,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                                 Date fetchDate = FORMATTER.parse(now);
                                 long millis = Math.abs(fetchDate.getTime() - articleDate.getTime());
                                 int hours = (int) (millis / 1000)  / 3600;
-                                if(hours > 12) continue;
+                                if(hours > 24) continue;
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
