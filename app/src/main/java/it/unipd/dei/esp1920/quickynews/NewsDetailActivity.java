@@ -31,13 +31,19 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
         mWebView.getSettings().setCacheMode( WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
         if(getIntent() != null) {
-            mWebView.loadUrl(getIntent().getStringExtra("url"));
+            String url = getIntent().getStringExtra("url");
+            if(url.substring(0,5).equals("http:"))
+                url = "https" + url.substring(4);
+            mWebView.loadUrl(url);
         }
         */
 
         if(getIntent() != null) {
             mWebView = findViewById(R.id.news_detail_text);
-            new GetNewsTask(this).execute(getIntent().getStringExtra("url"));
+            String url = getIntent().getStringExtra("url");
+            if(url.substring(0,5).equals("http:"))
+                url = "https" + url.substring(4);
+            new GetNewsTask(this).execute(url);
         }
     }
 
