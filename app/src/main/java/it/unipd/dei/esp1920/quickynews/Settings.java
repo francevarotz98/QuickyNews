@@ -31,7 +31,7 @@ public class Settings extends AppCompatActivity {
     private ArrayList<Integer> mUserCategories=new ArrayList<>();
 
 
-    private int saveseekbarintP;                         //per salvare lo stato della seekbar
+    private static int saveseekbarintP;                         //per salvare lo stato della seekbar
     private String saveseekbarString;
     private Button mSeekbarBtn;
 
@@ -136,6 +136,7 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(Settings.this);
+                Log.d(TAG,"saveseekbarintP onClick ="+ saveseekbarintP);
                 mBuilder.setTitle("Choose Size");
                 View testView = getLayoutInflater().inflate(R.layout.dialog_seekbar_settings, null);
                 mSeekBar=(SeekBar)testView.findViewById(R.id.sk_seekBar);
@@ -174,7 +175,7 @@ public class Settings extends AppCompatActivity {
                     }
                 });
                 saveseekbarintP = mSeekBar.getProgress();
-                Log.d(TAG,"saveseekbarintP fuori ="+ saveseekbarintP);
+
                 mBuilder.setCancelable(false);
                 mBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
@@ -190,6 +191,7 @@ public class Settings extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+        Log.d(TAG,"saveseekbarintP fuori ="+ saveseekbarintP);
         //--------------------------------------------------------------------------------------------------
 
 
