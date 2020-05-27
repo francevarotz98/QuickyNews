@@ -30,6 +30,12 @@ public class Settings extends AppCompatActivity {
     private boolean[] checkedCategories;
     private ArrayList<Integer> mUserCategories=new ArrayList<>();
 
+
+    private int saveseekbarintP;                         //per salvare lo stato della seekbar
+    private String saveseekbarString;
+    private Button mSeekbarBtn;
+
+
     private SeekBar  mSeekBar;
     private TextView mTextView, mTextViewTitle;
     private Toolbar mToolbar;
@@ -57,14 +63,14 @@ public class Settings extends AppCompatActivity {
 
 
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-        int_sb = preferences.getInt("seekBarValue", 0);
+        saveseekbarintP = preferences.getInt("seekBarValue", 0);
         str_et = preferences.getString("editTextValue", null);
         str_et2=preferences.getString("editTextValue2", null);
 
-        mTextView=(TextView)findViewById(R.id.tV_progression_percentage);
-        mTextView.setText(str_et);
-        mSeekBar=(SeekBar)findViewById(R.id.sk_seekBar);
-        mSeekBar.setProgress(int_sb);
+        //mTextView=(TextView)findViewById(R.id.tV_progression_percentage);
+        //mTextView.setText(str_et);
+        //mSeekBar=(SeekBar)findViewById(R.id.sk_seekBar);
+        /*mSeekBar.setProgress(int_sb);*/
 
         //parte dedicata all'AlertDialog
         mCategories=(Button)findViewById(R.id.btn_choose_categories);
@@ -117,7 +123,78 @@ public class Settings extends AppCompatActivity {
         });
         //fine parte AlertDialog
 
+
+        //--------------------------------------------------------------------------------------------------
+
         totSpace = AvailableSpace.getTotalDiskSpace();    //spazio totale
+
+        minSpace=(totSpace/100*1)/(1000000);    //min =1% del tot
+        maxSpace=(totSpace/100*7)/(1000000);   ///max=7%del tot
+
+        mSeekbarBtn=(Button)findViewById(R.id.settings_textV_download_size);
+        mSeekbarBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(Settings.this);
+                mBuilder.setTitle("Choose Size");
+                View testView = getLayoutInflater().inflate(R.layout.dialog_seekbar_settings, null);
+                mSeekBar=(SeekBar)testView.findViewById(R.id.sk_seekBar);
+                mSeekBar.setProgress(saveseekbarintP);
+                mBuilder.setView(testView);
+                mTextView=(TextView)testView.findViewById(R.id.tV_progression_percentage);
+
+                mTextView.setText(str_et);
+                mTextViewMin=(TextView)testView.findViewById(R.id.tV_minSpace);
+                mTextViewMax=(TextView)testView.findViewById(R.id.tV_maxSpace);
+                mTextViewMax.setText("Max: " + maxSpace +"Mb");                    //serve solo all'aspetto grafico
+                mTextViewMin.setText("Min: " + minSpace+ "Mb");                    //serve solo all'aspetto grafico
+                mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        Log.d(TAG,"onProgressChanged()");
+                        int tmp1 = (int)maxSpace;
+                        int tmp2 = (int)minSpace;
+                        mBChosen=(tmp1-tmp2)*progress/100+tmp2;                                             //IMPORTANTE
+                        mTextView.setText("" + mBChosen + "Mb");                            //mostra la percentuale in Mb di progresso
+                        saveseekbarintP=progress;
+                        Log.d(TAG,"saveseekbarintP dentro ="+ progress);
+                        // della seekbar
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                        Log.d(TAG,"onStartTrackingTouch()");
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        Log.d(TAG,"onStopTrackingTouch()");
+
+                    }
+                });
+                saveseekbarintP = mSeekBar.getProgress();
+                Log.d(TAG,"saveseekbarintP fuori ="+ saveseekbarintP);
+                mBuilder.setCancelable(false);
+                mBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d(TAG,"setPositiveButton()");
+                        Log.d(TAG,"saveseekbarintP Positive="+ saveseekbarintP);
+                        saveseekbarintP=which;
+                        Log.d(TAG,"saveseekbarintP Positive which="+ saveseekbarintP);
+
+                    }
+                });
+                AlertDialog alertDialog = mBuilder.create();
+                alertDialog.show();
+            }
+        });
+        //--------------------------------------------------------------------------------------------------
+
+
+
+/*        totSpace = AvailableSpace.getTotalDiskSpace();    //spazio totale
 
         minSpace=(totSpace/100*1)/(1000000);    //min =1% del tot
         maxSpace=(totSpace/100*7)/(1000000);   ///max=7%del tot
@@ -125,10 +202,10 @@ public class Settings extends AppCompatActivity {
         mTextViewMin=(TextView)findViewById(R.id.tV_minSpace);
         mTextViewMax=(TextView)findViewById(R.id.tV_maxSpace);
         mTextViewMax.setText("Max: " + maxSpace +"Mb");                    //serve solo all'aspetto grafico
-        mTextViewMin.setText("Min: " + minSpace+ "Mb");                    //serve solo all'aspetto grafico
+        mTextViewMin.setText("Min: " + minSpace+ "Mb");                    //serve solo all'aspetto grafico*/
 
 
-        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+/*        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 Log.d(TAG,"onProgressChanged()");
@@ -150,7 +227,7 @@ public class Settings extends AppCompatActivity {
                 Log.d(TAG,"onStopTrackingTouch()");
 
             }
-        });
+        });*/
 
     }
 
@@ -159,19 +236,26 @@ public class Settings extends AppCompatActivity {
         super.onPause();
         Log.d(TAG,"onPause()");
 
-        for(int n=0; n<listCategories.length;n++)
-            Log.d(TAG,"onPause: checkedCategories=" + checkedCategories[n]);
+        for(int n=0; n<listCategories.length;n++) {
+            Log.d(TAG, "onPause: checkedCategories=" + checkedCategories[n]);
+            Log.d(TAG,"saveseekbarintP ="+ saveseekbarintP);
+        }
         // Store values between instances here
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
+
+/*        saveseekbarintP=int_sb;
+        editor.putInt("seekBarValue", saveseekbarintP);*/
+/*
         SeekBar mSeekBar = (SeekBar)findViewById(R.id.sk_seekBar);
         int_sb = mSeekBar.getProgress();
         editor.putInt("seekBarValue", int_sb);
+*/
 
-        mTextView= (TextView) findViewById(R.id.tV_progression_percentage);
+/*        mTextView= (TextView) findViewById(R.id.tV_progression_percentage);
         str_et = mTextView.getText().toString();
-        editor.putString("editTextValue", str_et);
+        editor.putString("editTextValue", str_et);*/
 
         bln_cb_tech=checkedCategories[0];
         bln_cb_food= checkedCategories[1];

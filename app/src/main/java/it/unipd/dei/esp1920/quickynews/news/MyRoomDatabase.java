@@ -17,7 +17,6 @@ import java.util.concurrent.Executors;
 @TypeConverters({Converters.class}) //in order to manage Source and Date types
 public abstract class MyRoomDatabase extends RoomDatabase
 {
-    //abstract NewsDao newsDao();
     abstract ArticleDao articleDao();
 
     private static volatile MyRoomDatabase INSTANCE;

@@ -13,14 +13,14 @@ public class MyRepository
     private  ArticleDao mArticleDao;
     //private LiveData<List<News>> mAllNews;
     private LiveData<List<Article>> mAllArticle;
+    private int numArticle;
 
     public MyRepository(Application app) {
         MyRoomDatabase db = MyRoomDatabase.getDatabase(app);
-        //  mNewsDao = db.newsDao();
         mArticleDao = db.articleDao();
-        //get all Livedata News and Rssnews
-        // mAllNews = mNewsDao.getNews();
-        mAllArticle = mArticleDao.getArticle();
+        mAllArticle = mArticleDao.getAllArticle();
+
+        //numArticle = mArticleDao.countArticle();
     }
 
     public LiveData<List<Article>> getAllArticle(){
@@ -30,6 +30,10 @@ public class MyRepository
 
     public void insertArticle(Article n){
         MyRoomDatabase.databaseWriteExecutor.execute(()-> mArticleDao.insertArticle(n));
+    }
+
+    public int countArticle(){
+         return numArticle;
     }
 
     //TODO: implementare metodi DELETE?
