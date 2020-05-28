@@ -24,6 +24,7 @@ import it.unipd.dei.esp1920.quickynews.fragments.Categories;
 import it.unipd.dei.esp1920.quickynews.fragments.Favorites;
 import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
 import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
+import it.unipd.dei.esp1920.quickynews.settings.Settings;
 
 public class MainActivity extends AppCompatActivity {
 

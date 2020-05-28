@@ -16,10 +16,11 @@
     <string name="textView_download_size">Choose how many Mbytes you want to download</string>
     <string name="minSpace">Min</string>
     <string name="maxSpace">Max</string>
-    <string name="settin_icon_title">String</string>
+    <string name="settin_icon_title">Settings</string>
     <string name="back_to_settings">Back to settings</string>
     <string name="set_categories_dialog">Choose the categories</string>
     <string name="ok">OK</string>
+    <string name="size">Size chosen:</string>
 
 
     <string-array name="categories_item">
