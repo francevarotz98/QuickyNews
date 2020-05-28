@@ -54,8 +54,9 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private MyRepository myRepository;
-
     private ArticleViewModel mArticleViewModel;
+    private List<Article> newsList = new LinkedList<>();
+    private String tmpStatus;
 
     @Override
     public void onCreate(Bundle bundle){
@@ -116,7 +117,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     private void fetchNews() {
         Log.d(TAG, "fetchNews()");
 
-        List<Article> newsList = new LinkedList<>();
+        newsList = new LinkedList<>();
 
         StringRequest stringRequest1 = new StringRequest(Request.Method.GET, "https://newsapi.org/v2/top-headlines?" +
                 "sources=cnn,bbc-news,al-jazeera-english&language=en&sortBy=date&apiKey=e8e11922f51241959ab4a38de91061e5",
@@ -130,6 +131,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                         JSONObject obj = new JSONObject(response);
 
                         String status = obj.getString("status");
+                        tmpStatus=status;
 
                         JSONArray jsonArticles = obj.getJSONArray("articles");
 
@@ -160,8 +162,8 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                                     jsonArticle.getString("content")
                                     );
 
-                            if(!(article.getUrlToImage().equals("null")
-                                    || article.getDescription().contains(article.getTitle()) || date.equals("null"))){
+                            if(!(article.getUrlToImage().equals("null") ||
+                                     article.getDescription().contains(article.getTitle()) || date.equals("null"))){
                                 newsList.add(article);
                                 Log.d(TAG,"Added to db article with title = "+article.getTitle());
                                 myRepository.insertArticle(article);
@@ -290,14 +292,22 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         // aggiungo le due richieste alla coda
         requestQueue.add(stringRequest1);
         requestQueue.add(stringRequest2);
+        newsList.clear();
     }
 
 
     private void fetchNewsWithoutInternet(){
         Log.d(TAG,"fetchNewsWithoutInternet()");
-        LiveData<List<Article>>a= myRepository.getAllArticle();
+        List<Article>/*LiveData<List<Article>>*/ a= myRepository.getAllArticle();
         Log.d(TAG,"num of saved news = "+myRepository.countArticle());
+        for(Article article : a){
+            newsList.add(article);
+        }
 
+        if(!newsList.isEmpty())
+            insertionSort(newsList);
+        recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(tmpStatus, newsList)));
+        tmpStatus="";
 
     }
 

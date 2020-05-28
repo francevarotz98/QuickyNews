@@ -12,7 +12,7 @@ import java.util.List;
 public interface ArticleDao {
 
     @Query("SELECT * FROM article_table ORDER BY publishedAt")
-    LiveData<List<Article>> getAllArticle();
+    List<Article>/*LiveData<List<Article>>*/ getAllArticle();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertArticle(Article a);
@@ -23,6 +23,8 @@ public interface ArticleDao {
     @Query("SELECT count(url) FROM article_table")
     int countArticle();
 
+    @Query("SELECT * FROM article_table WHERE isFavorite='True'")
+    List<Article> getAllFavorites();
     /*
     @Query("SELECT title FROM article_table LIMIT 1") //query di debug
     String titleArticle();

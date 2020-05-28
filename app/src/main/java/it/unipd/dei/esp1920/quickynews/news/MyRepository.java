@@ -10,8 +10,8 @@ public class MyRepository
 {
 
     private  ArticleDao mArticleDao;
-    private LiveData<List<Article>> mAllArticle;
-    //private int numArticle;
+    private List<Article>/*LiveData<List<Article>>*/ mAllArticle;
+    private int numArticle;
     //private String mTitle;
 
     public MyRepository(Application app) {
@@ -19,10 +19,10 @@ public class MyRepository
         mArticleDao = db.articleDao();
         mAllArticle = mArticleDao.getAllArticle();
 
-        //numArticle = mArticleDao.countArticle();
+        numArticle = mArticleDao.countArticle();
     }
 
-    public LiveData<List<Article>> getAllArticle(){
+    public List<Article>/*LiveData<List<Article>>*/ getAllArticle(){
         return mAllArticle;
     }
 
@@ -32,7 +32,11 @@ public class MyRepository
     }
 
     public int countArticle(){
-         return mArticleDao.countArticle();
+         return numArticle;
+    }
+
+    public List<Article>  getFavoritesArticle(){
+        return mArticleDao.getAllFavorites();
     }
     /*
     public String titleArticle(){

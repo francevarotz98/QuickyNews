@@ -29,6 +29,7 @@ public class Article implements Comparable<Article> {
     private Date publishedAt;
     private String content;
     // private String category;
+    private boolean isFavorite;
 
     //for POJOs
     public Article() {
@@ -41,6 +42,7 @@ public class Article implements Comparable<Article> {
         this.publishedAt = null;
         this.content = content;
         // this.category = category;
+        this.isFavorite=false;
     }
 
 
@@ -51,6 +53,7 @@ public class Article implements Comparable<Article> {
         this.description = description;
         this.url = url;
         this.urlToImage = urlToImage;
+        this.isFavorite=false;
         if(publishedAt.equals("null")) {
             try {
                 this.publishedAt = FORMATTER1.parse("0000-00-00T00:00:00+00:00");
@@ -151,6 +154,14 @@ public class Article implements Comparable<Article> {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public boolean getIsFavorite(){
+        return isFavorite;
+    }
+
+    public void setIsFavorite(boolean isFavorite){
+        this.isFavorite=isFavorite;
     }
 
     /* public String getCategory() {

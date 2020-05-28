@@ -23,7 +23,7 @@ import it.unipd.dei.esp1920.quickynews.news.MyRepository;
 public class ArticleViewModel extends AndroidViewModel
 {
     private MyRepository mRepository;
-    private LiveData<List<Article>> mAllArticle;
+    private List<Article>/*LiveData<List<Article>>*/ mAllArticle;
 
     public ArticleViewModel(Application application) {
         super(application);
@@ -32,7 +32,7 @@ public class ArticleViewModel extends AndroidViewModel
     }
 
 
-    public LiveData<List<Article>> getAllArticle(){
+    public List<Article>/*LiveData<List<Article>>*/ getAllArticle(){
         return mAllArticle;
     }
 
