@@ -9,11 +9,10 @@ import java.util.List;
 public class MyRepository
 {
 
-    //private NewsDao mNewsDao;
     private  ArticleDao mArticleDao;
-    //private LiveData<List<News>> mAllNews;
     private LiveData<List<Article>> mAllArticle;
-    private int numArticle;
+    //private int numArticle;
+    //private String mTitle;
 
     public MyRepository(Application app) {
         MyRoomDatabase db = MyRoomDatabase.getDatabase(app);
@@ -33,8 +32,13 @@ public class MyRepository
     }
 
     public int countArticle(){
-         return numArticle;
+         return mArticleDao.countArticle();
     }
+    /*
+    public String titleArticle(){
+        return mArticleDao.titleArticle();
+    }
+    */
 
     //TODO: implementare metodi DELETE?
 

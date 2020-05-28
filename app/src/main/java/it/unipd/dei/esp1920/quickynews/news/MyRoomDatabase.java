@@ -29,8 +29,8 @@ public abstract class MyRoomDatabase extends RoomDatabase
             synchronized (MyRoomDatabase.class){
                 if(INSTANCE==null){
                     INSTANCE= Room.databaseBuilder(context.getApplicationContext(),
-                            MyRoomDatabase.class,"article_database").addCallback(mRoomDataBaseCallBack).build();
-                }
+                            MyRoomDatabase.class,"article_database").allowMainThreadQueries().addCallback(mRoomDataBaseCallBack).build();
+                }                                                         //TODO: togliere allowMainThreadQueries() una volta realizzata l'app.
             }
         }
 

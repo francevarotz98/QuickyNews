@@ -23,6 +23,10 @@ public interface ArticleDao {
     @Query("SELECT count(url) FROM article_table")
     int countArticle();
 
+    /*
+    @Query("SELECT title FROM article_table LIMIT 1") //query di debug
+    String titleArticle();
+    */
     //TODO: update method? Is it necessary?
 
 

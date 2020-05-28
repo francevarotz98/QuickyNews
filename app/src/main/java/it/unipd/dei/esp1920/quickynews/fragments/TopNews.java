@@ -163,10 +163,8 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             if(!(article.getUrlToImage().equals("null")
                                     || article.getDescription().contains(article.getTitle()) || date.equals("null"))){
                                 newsList.add(article);
-                               // Log.d(TAG,"**** article = "+article.getTitle());
+                                Log.d(TAG,"Added to db article with title = "+article.getTitle());
                                 myRepository.insertArticle(article);
-
-
 
                             }
                         }
@@ -262,9 +260,8 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             // controllo che il link dell'immagine non sia nullo e che la descrizione non sia uguale al titolo, poi aggiungo l'articolo alla lista
                             if(!(urlToImage == null || article.getDescription().contains(article.getTitle()) || date.equals("null"))){
                                 newsList.add(article);
-                                //Log.d(TAG,"**** article = "+article.getTitle());
+                                Log.d(TAG,"Added to db article with title = "+article.getTitle());
                                 myRepository.insertArticle(article);
-
                             }
                         }
                         // se la lista conteneva già articoli presi da NewsApi allora devo ordinare la lista in base alle date degli articoli
@@ -299,9 +296,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     private void fetchNewsWithoutInternet(){
         Log.d(TAG,"fetchNewsWithoutInternet()");
         LiveData<List<Article>>a= myRepository.getAllArticle();
-
-        System.out.println("ìììì a= "+a);
-        Log.d(TAG,"+++++++ = "+a);
+        Log.d(TAG,"num of saved news = "+myRepository.countArticle());
 
 
     }
