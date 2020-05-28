@@ -10,6 +10,7 @@ import android.content.BroadcastReceiver;
 //import android.content.IntentFilter;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,12 +28,11 @@ import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG="MainActivity";
+    private Fragment selectFrag;
     private Toolbar mToolbar;
     private TextView mTextViewTitle;
-   // private String  flag; //variabile che mi fa capire in quale fragment sono TOPNEWS=0, FAVORITES=1, SETTINGS=2. è una stringa da fare il parsing
     private int flagFragment; //variabile per il parsing di int
     private BroadcastReceiver  mNetConnectionReceiver;
-    private static final String KEY_BUNDLE = "KEY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +40,36 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d(TAG,"onCreate()");
 
-        if (savedInstanceState != null) {
-            flagFragment = savedInstanceState.getInt(KEY_BUNDLE, 0);
-        }
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        flagFragment=preferences.getInt("flagFragmentVal", 0);
+        Log.d(TAG,"flagFragmentVal onCreate(): " + flagFragment);
 
         mNetConnectionReceiver =new NetConnectionReceiver();
         this.registerReceiver(mNetConnectionReceiver,new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
+        BottomNavigationView.OnNavigationItemSelectedListener navList= new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                Log.d(TAG,"onNavigationItemSelected()");
+                switch (menuItem.getItemId()) {
+                    case R.id.nav_top_news:
+                        selectFrag = new TopNews();
+                        flagFragment=0;
+                        break;
+                    case R.id.nav_pref_news:
+                        selectFrag = new Favorites();
+                        flagFragment=1;
+                        break;
+                    case R.id.nav_categories:
+                        selectFrag = new Categories();
+                        flagFragment=2;
+                        break;
+                }
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, selectFrag).commit();
+                return true;
+            }
+        };
 
         //TOOLBAR
         mToolbar=findViewById(R.id.toolBar);
@@ -56,8 +80,22 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView botNav=findViewById(R.id.bottom_navigation);
         botNav.setOnNavigationItemSelectedListener(navList);
 
+        if(flagFragment==0) {
+            //Log.d(TAG, "ENTRO NEL PRIMO IF");
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, new TopNews()).commit();
+            botNav.setSelectedItemId(R.id.nav_top_news);
+        }
+        else if(flagFragment==1) {
+            //Log.d(TAG, "ENTRO NEL SECONDO IF");
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, new Favorites()).commit();
+            botNav.setSelectedItemId(R.id.nav_pref_news);
+        }
+        else {
+            //Log.d(TAG, "ENTRO NEL TERZO IF");
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, new Categories()).commit();
+            botNav.setSelectedItemId(R.id.nav_categories);
+        }
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, new TopNews()).commit();
         //TODO: NEL CASO DEL PRIMO ACCESSO METTEREI UN IF/SWITCH CHE MI PORTA ALLE SETTINGS
     }
 
@@ -73,7 +111,10 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onPause();
         Log.d(TAG,"onPause()");
-
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("flagFragmentVal", flagFragment);
+        editor.apply();
     }
 
 
@@ -91,38 +132,6 @@ public class MainActivity extends AppCompatActivity {
         this.unregisterReceiver(mNetConnectionReceiver);
     }
 
-
-    private BottomNavigationView.OnNavigationItemSelectedListener navList= new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-            Fragment selectFrag=null;
-            Log.d(TAG,"onNavigationItemSelected()");
-            switch (menuItem.getItemId()) {
-                case R.id.nav_top_news:
-                    selectFrag = new TopNews();
-                    break;
-                case R.id.nav_pref_news:
-                    selectFrag = new Favorites();
-                    break;
-                case R.id.nav_categories:
-                    selectFrag = new Categories();
-                    break;
-            }
-
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, selectFrag).commit();
-            return true;
-        }
-    };
-
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState)
-    {
-        super.onSaveInstanceState(savedInstanceState);
-        Log.d(TAG,"onSaveInstanceState()");
-        savedInstanceState.putInt(KEY_BUNDLE,flagFragment);
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
