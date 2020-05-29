@@ -11,10 +11,10 @@ import java.util.List;
 @Dao
 public interface ArticleDao {
 
-    @Query("SELECT * FROM article_table ORDER BY publishedAt")
+    @Query("SELECT * FROM article_table ORDER BY publishedAt DESC")
     List<Article>/*LiveData<List<Article>>*/ getAllArticle();
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE) //replace perchè se ci dovesse essere un aggiornamento ==> news aggiornata
     void insertArticle(Article a);
 
     @Query("DELETE FROM article_table WHERE url= :u" )

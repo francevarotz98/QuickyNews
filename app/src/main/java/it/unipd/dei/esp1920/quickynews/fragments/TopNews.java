@@ -103,7 +103,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         if (NetConnectionReceiver.isConnected(getContext()))
             fetchNews();
         else{
-            Toast.makeText(getContext(), "No Internet connection", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), "No Internet connection", Toast.LENGTH_SHORT).show();
             fetchNewsWithoutInternet();
         }
     }
@@ -304,8 +304,10 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
             newsList.add(article);
         }
 
-        if(!newsList.isEmpty())
+       /* if(!newsList.isEmpty())
             insertionSort(newsList);
+
+        */
         recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(tmpStatus, newsList)));
         tmpStatus="";
 

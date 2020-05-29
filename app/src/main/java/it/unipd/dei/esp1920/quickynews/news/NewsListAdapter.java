@@ -111,6 +111,16 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                 context.startActivity(intent);
             }
         });
+
+/*
+        holder.mView.setOnLongClickListener(new View.OnLongClickListener(){
+
+            @Override
+            public void onLongCLick(View v){
+
+            }
+        });
+*/
     }
 
     public void setArticle(List<Article> articles){
@@ -124,4 +134,8 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
             return 0;
         return mNewsListContainer.getArticles().size();
     }
+
+
+
+
 }
