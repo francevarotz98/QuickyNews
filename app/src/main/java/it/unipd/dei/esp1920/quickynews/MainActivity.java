@@ -58,13 +58,13 @@ public class MainActivity extends AppCompatActivity {
                         selectFrag = new TopNews();
                         flagFragment=0;
                         break;
-                    case R.id.nav_pref_news:
+                    case R.id.nav_saved_news:
                         selectFrag = new Favorites();
-                        flagFragment=1;
-                        break;
-                    case R.id.nav_categories:
-                        selectFrag = new Categories();
                         flagFragment=2;
+                        break;
+                    case R.id.nav_for_you:
+                        selectFrag = new Categories();
+                        flagFragment=1;
                         break;
                 }
 
@@ -87,15 +87,15 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, new TopNews()).commit();
             botNav.setSelectedItemId(R.id.nav_top_news);
         }
-        else if(flagFragment==1) {
+        else if(flagFragment==2) {
             //Log.d(TAG, "ENTRO NEL SECONDO IF");
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, new Favorites()).commit();
-            botNav.setSelectedItemId(R.id.nav_pref_news);
+            botNav.setSelectedItemId(R.id.nav_saved_news);
         }
         else {
             //Log.d(TAG, "ENTRO NEL TERZO IF");
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, new Categories()).commit();
-            botNav.setSelectedItemId(R.id.nav_categories);
+            botNav.setSelectedItemId(R.id.nav_for_you);
         }
 
         //TODO: NEL CASO DEL PRIMO ACCESSO METTEREI UN IF/SWITCH CHE MI PORTA ALLE SETTINGS

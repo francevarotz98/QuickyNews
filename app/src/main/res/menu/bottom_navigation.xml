@@ -5,14 +5,17 @@
         android:id="@+id/nav_top_news"
         android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/nav_top_news" />
-    <item
-        android:id="@+id/nav_pref_news"
-        android:icon="@drawable/ic_star_black_24dp"
-        android:title="@string/nav_pref_news" />
 
     <item
-        android:id="@+id/nav_categories"
+        android:id="@+id/nav_for_you"
         android:icon="@drawable/ic_whatshot_white_24dp"
         android:title="@string/nav_for_you" />
+
+    <item
+        android:id="@+id/nav_saved_news"
+        android:icon="@drawable/ic_bookmark_border_black_24dp"
+        android:title="@string/nav_saved_news" />
+
+
 
 </menu>
