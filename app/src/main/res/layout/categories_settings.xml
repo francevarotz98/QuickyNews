@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/toolbar_layout" />
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="20dp"
+        android:fillViewport="true"
+        android:layout_below="@+id/toolBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+<!--        <TextView
+            android:id="@+id/id_set_categories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="@string/set_categories"
+            android:textSize="20sp"
+            android:typeface="monospace" />-->
+
+        <CheckBox
+            android:id="@+id/checkBox_sport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textSize="17dp"
+            android:text="@string/chBox_sport"
+            android:typeface="monospace" />
+
+        <CheckBox
+            android:id="@+id/checkBox_business"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textSize="17dp"
+            android:text="@string/chBox_business"
+            android:typeface="monospace" />
+
+        <CheckBox
+            android:id="@+id/checkBox_tech"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textSize="17dp"
+            android:text="@string/chBox_tech"
+            android:typeface="monospace" />
+
+        <CheckBox
+            android:id="@+id/checkBox_science"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textSize="17dp"
+            android:text="@string/chBox_science"
+            android:typeface="monospace" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

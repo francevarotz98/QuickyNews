@@ -43,6 +43,10 @@
             android:parentActivityName=".settings.Settings">
 
         </activity>
+        <activity android:name=".settings.CategoriesSettings"
+            android:parentActivityName=".settings.Settings">
+
+        </activity>
 
         <receiver
             android:name=".connections.NetConnectionReceiver"
