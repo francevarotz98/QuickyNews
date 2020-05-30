@@ -30,7 +30,7 @@ public abstract class MyRoomDatabase extends RoomDatabase
                 if(INSTANCE==null){
                     INSTANCE= Room.databaseBuilder(context.getApplicationContext(),
                             MyRoomDatabase.class,"article_database").allowMainThreadQueries().addCallback(mRoomDataBaseCallBack).build();
-                }                                                         //TODO: togliere allowMainThreadQueries() una volta realizzata l'app.
+                }                                                         //TODO: togliere allowMainThreadQueries() una volta realizzata l'app ?!
             }
         }
 

@@ -25,6 +25,9 @@ public interface ArticleDao {
 
     @Query("SELECT * FROM article_table WHERE isFavorite='True'")
     List<Article> getAllFavorites();
+
+    @Query("UPDATE article_table SET isFavorite= :isFavorite WHERE url = :url")
+    void setFavoriteArticle(String url, boolean isFavorite);
     /*
     @Query("SELECT title FROM article_table LIMIT 1") //query di debug
     String titleArticle();

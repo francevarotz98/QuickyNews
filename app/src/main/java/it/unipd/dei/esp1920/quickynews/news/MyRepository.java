@@ -28,7 +28,7 @@ public class MyRepository
 
 
     public void insertArticle(Article n){
-        MyRoomDatabase.databaseWriteExecutor.execute(()-> mArticleDao.insertArticle(n));
+        MyRoomDatabase.databaseWriteExecutor.execute(() -> mArticleDao.insertArticle(n));
     }
 
     public int countArticle(){
@@ -37,6 +37,10 @@ public class MyRepository
 
     public List<Article>  getFavoritesArticle(){
         return mArticleDao.getAllFavorites();
+    }
+
+    public void setFavorite(String url, boolean isFavorite){
+        MyRoomDatabase.databaseWriteExecutor.execute( () -> mArticleDao.setFavoriteArticle(url, isFavorite));
     }
     /*
     public String titleArticle(){

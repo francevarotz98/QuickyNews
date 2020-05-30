@@ -1,8 +1,11 @@
 package it.unipd.dei.esp1920.quickynews.news;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,7 @@ import java.util.Locale;
 
 import it.unipd.dei.esp1920.quickynews.NewsDetailActivity;
 import it.unipd.dei.esp1920.quickynews.R;
+import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
 
 public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ArticleViewHolder> {
 
@@ -48,7 +52,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
             mAdapter = adapter;
         }
 
-    }
+    }//{\(c)ArticleViewHolder}
 
 
 
@@ -116,11 +120,35 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
         holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Context context = v.getContext();
-                Toast toast =Toast.makeText(context,"Bella raga! 130",Toast.LENGTH_SHORT);
-                toast.show();
+                Log.d(TAG,"onLongClick()");
+                final CharSequence[] items = {"Yes", "No"};
+
+
+                Log.d(TAG,"+++view = "+v);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+
+                builder.setTitle("Do you want to save this news?");
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int item) {
+                        Log.d(TAG,"onClick() of onLongClick()");
+                        if(items[item]=="Yes"){ //yes
+                            TopNews.getRepository().setFavorite("prova",true);
+                            Toast toast= Toast.makeText(v.getContext(),"You have saved your news.\n Now you can find it on Saved",Toast.LENGTH_LONG);
+                            //t.setGravity(Gravity.CENTER_HORIZONTAL,15,10);
+                            toast.show();
+                        }
+                        else //no
+                            TopNews.getRepository().setFavorite("prova",false);
+
+                    }
+                });
+                builder.show();
                 return true;
             }
+
+
         });
     }
 

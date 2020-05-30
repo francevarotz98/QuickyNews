@@ -53,7 +53,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     // private LinkedList<Item> feedList = new LinkedList<>();
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private MyRepository myRepository;
+    private static MyRepository myRepository;
     private ArticleViewModel mArticleViewModel;
     private List<Article> newsList = new LinkedList<>();
     private String tmpStatus;
@@ -356,6 +356,10 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     public void onDestroyView(){
         super.onDestroyView();
         Log.d(TAG,"onDestroyView()");
+    }
+
+    public static MyRepository getRepository(){
+        return myRepository;
     }
 
 
