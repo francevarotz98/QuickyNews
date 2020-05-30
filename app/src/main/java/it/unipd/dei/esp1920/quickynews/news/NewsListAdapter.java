@@ -27,7 +27,7 @@ import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
 public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ArticleViewHolder> {
 
     private static final String TAG = "NewsListAdapter";
-
+    private MyRepository myRepository = TopNews.getRepository();
     private final NewsApiResponse mNewsListContainer;
     private LayoutInflater mInflater;
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
@@ -122,27 +122,25 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
             public boolean onLongClick(View v) {
                 Log.d(TAG,"onLongClick()");
                 final CharSequence[] items = {"Yes", "No"};
-
-
-                Log.d(TAG,"+++view = "+v);
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-
                 builder.setTitle("Do you want to save this news?");
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int item) {
                         Log.d(TAG,"onClick() of onLongClick()");
+                        Log.d(TAG,"Title of Article long-pressed  = "+mCurrent.getTitle());
                         if(items[item]=="Yes"){ //yes
-                            TopNews.getRepository().setFavorite("prova",true);
+                            myRepository.setFavorite(mCurrent.getUrl(),true);
                             Toast toast= Toast.makeText(v.getContext(),"You have saved your news.\n Now you can find it on Saved",Toast.LENGTH_LONG);
                             //t.setGravity(Gravity.CENTER_HORIZONTAL,15,10);
                             toast.show();
                         }
                         else //no
-                            TopNews.getRepository().setFavorite("prova",false);
+                            myRepository.setFavorite(mCurrent.getUrl(),false);
 
-                    }
+                        Log.d(TAG,"All favorites  = "+myRepository.getFavoritesArticle());
+
+                    }//{[\m]onClick}
                 });
                 builder.show();
                 return true;

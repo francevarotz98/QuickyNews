@@ -20,8 +20,8 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import it.unipd.dei.esp1920.quickynews.fragments.Categories;
-import it.unipd.dei.esp1920.quickynews.fragments.Favorites;
+import it.unipd.dei.esp1920.quickynews.fragments.ForYou;
+import it.unipd.dei.esp1920.quickynews.fragments.Saved;
 import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
 import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
 import it.unipd.dei.esp1920.quickynews.settings.Settings;
@@ -59,11 +59,11 @@ public class MainActivity extends AppCompatActivity {
                         flagFragment=0;
                         break;
                     case R.id.nav_saved_news:
-                        selectFrag = new Favorites();
+                        selectFrag = new Saved();
                         flagFragment=2;
                         break;
                     case R.id.nav_for_you:
-                        selectFrag = new Categories();
+                        selectFrag = new ForYou();
                         flagFragment=1;
                         break;
                 }
@@ -89,12 +89,12 @@ public class MainActivity extends AppCompatActivity {
         }
         else if(flagFragment==2) {
             //Log.d(TAG, "ENTRO NEL SECONDO IF");
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, new Favorites()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, new Saved()).commit();
             botNav.setSelectedItemId(R.id.nav_saved_news);
         }
         else {
             //Log.d(TAG, "ENTRO NEL TERZO IF");
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, new Categories()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, new ForYou()).commit();
             botNav.setSelectedItemId(R.id.nav_for_you);
         }
 

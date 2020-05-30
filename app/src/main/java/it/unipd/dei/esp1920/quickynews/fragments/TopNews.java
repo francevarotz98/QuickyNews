@@ -87,12 +87,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //mArticleViewModel =  new ViewModelProvider(requireActivity()).get(ArticleViewModel.class);
-        /*
-        * TODO: 1) inserire notizie fetchate nel db;
-        *       2) una volta fatto punto 1, "collegare" recycler view al db e non alle news fetchate (prima di
-        *               tutto capendo come far funzionare linea 86 viewmodel, cioè creano un suo layout).
-        * */
+
 
     }
 
@@ -165,7 +160,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             if(!(article.getUrlToImage().equals("null") ||
                                      article.getDescription().contains(article.getTitle()) || date.equals("null"))){
                                 newsList.add(article);
-                                Log.d(TAG,"Added to db article with title = "+article.getTitle());
+                                //Log.d(TAG,"Added to db article with title = "+article.getTitle());
                                 myRepository.insertArticle(article);
 
                             }
@@ -262,7 +257,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             // controllo che il link dell'immagine non sia nullo e che la descrizione non sia uguale al titolo, poi aggiungo l'articolo alla lista
                             if(!(urlToImage == null || article.getDescription().contains(article.getTitle()) || date.equals("null"))){
                                 newsList.add(article);
-                                Log.d(TAG,"Added to db article with title = "+article.getTitle());
+                               // Log.d(TAG,"Added to db article with title = "+article.getTitle());
                                 myRepository.insertArticle(article);
                             }
                         }
@@ -300,6 +295,8 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         Log.d(TAG,"fetchNewsWithoutInternet()");
         List<Article>/*LiveData<List<Article>>*/ a= myRepository.getAllArticle();
         Log.d(TAG,"num of saved news = "+myRepository.countArticle());
+        Log.d(TAG,"All favorites  = "+myRepository.getFavoritesArticle());
+
         for(Article article : a){
             newsList.add(article);
         }

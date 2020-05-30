@@ -19,7 +19,7 @@ public abstract class MyRoomDatabase extends RoomDatabase
 {
     abstract ArticleDao articleDao();
 
-    private static volatile MyRoomDatabase INSTANCE;
+    private static volatile MyRoomDatabase INSTANCE; //create one and only one instance of MyRoomDatabase because of that volatile
     private static final int NUMBER_OF_THREADS = 4; //TODO: capire quanti usarne effettivamente
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS); //singleton creation (singleton is useful
     // when exactly one object is needed)
@@ -45,14 +45,7 @@ public abstract class MyRoomDatabase extends RoomDatabase
         public void onOpen(@NonNull SupportSQLiteDatabase db){
             super.onOpen(db);
             Log.d("MyRoomDatabase","onOpen()");
-            // If you want to keep data through app restarts,
-            // comment out the following block
-  /*            databaseWriteExecutor.execute(() -> {
-   *            ArticleDao artDao = INSTANCE.articleDao();
-   *           Article art = new Article(null,"prova","prova","prova","prova","prova","prova","prova");
-   *          artDao.insertArticle(art);
-   *     });
-  */
+
         }
     };
 
