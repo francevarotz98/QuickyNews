@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,10 +49,22 @@ public class Saved extends Fragment {
         Log.d(TAG,"onCreateView");
         View view = inflater.inflate(R.layout.fragment_home,container,false);
         myRepository = TopNews.getRepository();
-        recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        Log.d(TAG,"myRepository = "+myRepository);
-        recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse("",myRepository.getFavoritesArticle())));
+
+        /*
+        * SOLUZIONE TEMPORANEA PER ERRORE NullPointerException per variabile
+        * myRepository. Possibile soluzione: creare variabile myRepository
+        * nel metodo onCreate di MainActivity e NON nel fragment TopNews.
+        * 
+        * */
+
+        if(myRepository==null)
+            Toast.makeText(view.getContext(),"Please, click on Top News(bottom left) then come back",Toast.LENGTH_LONG).show();
+        else {
+            recyclerView = view.findViewById(R.id.recyclerView);
+            recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse("", myRepository.getFavoritesArticle())));
+        }
+
         return view;
     }
 
