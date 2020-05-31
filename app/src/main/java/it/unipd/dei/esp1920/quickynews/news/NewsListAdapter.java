@@ -1,13 +1,16 @@
 package it.unipd.dei.esp1920.quickynews.news;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.ParseException;
@@ -18,6 +21,7 @@ import java.util.Locale;
 
 import it.unipd.dei.esp1920.quickynews.NewsDetailActivity;
 import it.unipd.dei.esp1920.quickynews.R;
+import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
 
 public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ArticleViewHolder> {
 
@@ -26,7 +30,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
     private final NewsApiResponse mNewsListContainer;
     private LayoutInflater mInflater;
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
-
+    private MyRepository myRepository = TopNews.getRepository();
     private List<Article> mListArticle;
 
     class ArticleViewHolder extends RecyclerView.ViewHolder {
@@ -54,6 +58,19 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
         //mInflater = LayoutInflater.from(c);
     }
 
+    /*TODO: al costruttore aggiungere un parametro, ad
+    *    esempio String fragment, oppure int fragment,
+    *   al quale gli passo il valore del fragment
+    *   nel quale costruisco l'oggetto NewsListAdapter.
+    *   Perchè mi serve? Così nel metodo onLongClick so
+    *   se l'utente stia invocando il metodo onLongClick()
+    *   nel fragment TopNews, e quindi voglia presumibilmente
+    *   salvare la notizia, o nel fragment Saved, e il metodo
+    *   sarà quindi invocato, presumibilmente, perchè l'utente
+    *   voglia eliminare la notizia (quindi cambiare la scritta
+    *   del toast che esce con, per esempio, 'Do you want to delete this news?').
+    *
+    * */
 
     public NewsListAdapter(/* Context context, */ NewsApiResponse newsListContainer) {
         // mInflater = LayoutInflater.from(context);
@@ -109,6 +126,42 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                 context.startActivity(intent);
             }
         });
+
+        holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.d(TAG,"onLongClick()");
+                final CharSequence[] items = {"Yes", "No"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setTitle("Do you want to save this news?");
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int item) {
+                        Log.d(TAG,"onClick() of onLongClick()");
+                        Log.d(TAG,"Title of Article long-pressed  = "+mCurrent.getTitle());
+                        if(items[item]=="Yes"){ //yes
+                            myRepository.setFavorite(mCurrent.getUrl(),true);
+                            Toast toast= Toast.makeText(v.getContext(),"You have saved your news.\n Now you can find it on Saved",Toast.LENGTH_LONG);
+                            //t.setGravity(Gravity.CENTER_HORIZONTAL,15,10);
+                            toast.show();
+                        }
+                        else //no
+                            myRepository.setFavorite(mCurrent.getUrl(),false);
+
+                        Log.d(TAG,"All favorites  = "+myRepository.getFavoritesArticle());
+
+                    }//{[\m]onClick}
+                });
+                builder.show();
+                return true;
+            }
+
+
+        });
+
+
+
+
     }
 
     public void setArticle(List<Article> articles){

@@ -23,8 +23,8 @@ public interface ArticleDao {
     @Query("SELECT count(url) FROM article_table")
     int countArticle();
 
-    @Query("SELECT * FROM article_table WHERE isFavorite=1") //N.B.: in Room's query, in order to confront boolean values, remember
-        List<Article> getAllFavorites();                         //  that : 1(Room) == true(Java) and 0(Room) == false(Java)
+    @Query("SELECT * FROM article_table WHERE isFavorite=1 ORDER BY publishedAt DESC") //N.B.: in Room's query, in order to confront boolean values, remember
+        List<Article> getAllFavorites();                                              //  that : 1(Room) == true(Java) and 0(Room) == false(Java)
 
     @Query("UPDATE article_table SET isFavorite= :isFavorite WHERE url = :url")
     void setFavoriteArticle(String url, boolean isFavorite);
