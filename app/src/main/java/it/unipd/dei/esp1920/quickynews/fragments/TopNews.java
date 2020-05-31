@@ -1,5 +1,6 @@
 package it.unipd.dei.esp1920.quickynews.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,6 +58,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     private ArticleViewModel mArticleViewModel;
     private List<Article> newsList = new LinkedList<>();
     private String tmpStatus;
+    private Context context;
 
     @Override
     public void onCreate(Bundle bundle){
@@ -76,11 +78,12 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         //mArticleViewModel =  new ViewModelProvider().get(ArticleViewModel.class);
         myRepository = new MyRepository(getActivity().getApplication());
 
-        /* if(NetConnectionReceiver.isConnected(getContext())) {
-            Log.d(TAG,"GetFeedTask.execute()");
-            new GetFeedTask(this).execute("https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml");
-            // new GetFeedTask(this).execute("https://www.theguardian.com/international/rss");
-        } */
+        if (NetConnectionReceiver.isConnected(context))
+            fetchNews();
+        else {
+            //Toast.makeText(getContext(), "No Internet connection", Toast.LENGTH_SHORT).show();
+            fetchNewsWithoutInternet();
+        }
         return v;
     }
 
@@ -92,15 +95,10 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.d(TAG, "onActivityCreated()");
-        if (NetConnectionReceiver.isConnected(getContext()))
-            fetchNews();
-        else{
-            //Toast.makeText(getContext(), "No Internet connection", Toast.LENGTH_SHORT).show();
-            fetchNewsWithoutInternet();
-        }
+    public void onAttach(Context context) {
+        Log.d(TAG, "onAttach()");
+        this.context = context;
+        super.onAttach(context);
     }
 
     /* @Override
@@ -111,11 +109,14 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
 
     private void fetchNews() {
         Log.d(TAG, "fetchNews()");
+        final SimpleDateFormat FORMATTER1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
+        final SimpleDateFormat FORMATTER2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ", Locale.US);
+        final SimpleDateFormat FORMATTER3 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ", Locale.US);
 
         newsList = new LinkedList<>();
 
         StringRequest stringRequest1 = new StringRequest(Request.Method.GET, "https://newsapi.org/v2/top-headlines?" +
-                "sources=cnn,bbc-news,al-jazeera-english&language=en&sortBy=date&apiKey=e8e11922f51241959ab4a38de91061e5",
+                "sources=bbc-sport,cnn,bbc-news,al-jazeera-english&pageSize=100&language=en&sortBy=date&apiKey=e8e11922f51241959ab4a38de91061e5",
                 response -> {
                     try {
                         Log.d(TAG, "onResponse() for NewsApi");
@@ -142,9 +143,44 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
 
                             String description = jsonArticle.getString("description");
 
+                            if (description.equals("")) continue;
+
                             String date = jsonArticle.getString("publishedAt");
 
-                            if (description.equals("")) continue;
+                            Date articleDate = new Date();
+
+                            if(date.substring(date.length()-1).equals("Z"))
+                                date = date.substring(0, date.length()-1) + "+00:00";
+
+                            try {
+                                articleDate = FORMATTER1.parse(date.trim());
+                            } catch (ParseException e) {
+                                try {
+                                    Date format2 = FORMATTER2.parse(date.trim());
+                                    date = FORMATTER1.format(format2);
+                                    articleDate = FORMATTER1.parse(date);
+                                } catch (ParseException ex) {
+                                    try {
+                                        Date format3 = FORMATTER3.parse(date.trim());
+                                        date = FORMATTER1.format(format3);
+                                        articleDate = FORMATTER1.parse(date);
+                                    } catch (ParseException exx) {
+                                        exx.printStackTrace();
+                                    }
+                                }
+                            }
+
+                            // serve per decidere se l'articolo è stato pubblicato più di 1 giorno fa
+                            Date today = new Date();
+                            String now = FORMATTER1.format(today);
+                            try {
+                                Date fetchDate = FORMATTER1.parse(now);
+                                long millis = Math.abs(fetchDate.getTime() - articleDate.getTime());
+                                int hours = (int) (millis / 1000)  / 3600;
+                                if(hours > 19) continue;
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
 
                             Article article = new Article(
                                     source,
@@ -179,7 +215,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // displaying the error in a toast if occurs
-                        Toast.makeText(getContext(), "Server error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "NewsApi server error", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -188,8 +224,6 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                 response -> {
                     try {
                         Log.d(TAG, "onResponse() for NYTimes");
-                        // final SimpleDateFormat NYT_FORMATTER = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.US);
-                        final SimpleDateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
 
                         boolean wasEmpty = true;
                         if(!newsList.isEmpty())
@@ -203,8 +237,14 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
 
                         Source source = new Source("nytimes", "The New York Times");
 
-                        for (int i = 0; i < jsonArticles.length(); i++) {
+                        mainLoop: for (int i = 0; i < jsonArticles.length(); i++) {
                             JSONObject jsonArticle = jsonArticles.getJSONObject(i);
+
+                            String url = jsonArticle.getString("url");
+                            String[] path = url.split("/");
+                            for(String p : path) {
+                                if(p.equals("briefing")) continue mainLoop;
+                            }
 
                             JSONArray jsonMultimedias = jsonArticle.getJSONArray("multimedia");
                             JSONObject jsonMultimedia;
@@ -231,13 +271,13 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
 
                             // serve per decidere se l'articolo è stato pubblicato più di 1 giorno fa
                             Date today = new Date();
-                            String now = FORMATTER.format(today);
+                            String now = FORMATTER1.format(today);
                             try {
-                                Date articleDate = FORMATTER.parse(date);
-                                Date fetchDate = FORMATTER.parse(now);
+                                Date articleDate = FORMATTER1.parse(date);
+                                Date fetchDate = FORMATTER1.parse(now);
                                 long millis = Math.abs(fetchDate.getTime() - articleDate.getTime());
                                 int hours = (int) (millis / 1000)  / 3600;
-                                if(hours > 13) continue;
+                                if(hours > 19) continue;
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
@@ -248,7 +288,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                                     jsonArticle.getString("byline"),
                                     title,
                                     description,
-                                    jsonArticle.getString("url"),
+                                    url,
                                     urlToImage,
                                     date,
                                     "No content"
@@ -276,13 +316,13 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                     public void onErrorResponse(VolleyError error) {
                         // displaying the error in a toast if occurs
                         Log.d(TAG,"onErrorResponse()");
-                        Toast.makeText(getContext(), "Server error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "NYTimes server error", Toast.LENGTH_SHORT).show();
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 });
 
         // creo la coda di richieste
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
 
         // aggiungo le due richieste alla coda
         requestQueue.add(stringRequest1);
@@ -326,7 +366,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     @Override
     public void onRefresh() {
         Log.d(TAG, "onRefresh()");
-        if(NetConnectionReceiver.isConnected(getContext())) {
+        if(NetConnectionReceiver.isConnected(context)) {
             swipeRefreshLayout.setRefreshing(true);
             fetchNews();
         }

@@ -1,16 +1,12 @@
 package it.unipd.dei.esp1920.quickynews.news;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,12 +18,11 @@ import java.util.Locale;
 
 import it.unipd.dei.esp1920.quickynews.NewsDetailActivity;
 import it.unipd.dei.esp1920.quickynews.R;
-import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
 
 public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ArticleViewHolder> {
 
     private static final String TAG = "NewsListAdapter";
-    private MyRepository myRepository = TopNews.getRepository();
+
     private final NewsApiResponse mNewsListContainer;
     private LayoutInflater mInflater;
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
@@ -51,10 +46,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
             mDate = itemView.findViewById(R.id.item_date);
             mAdapter = adapter;
         }
-
-    }//{\(c)ArticleViewHolder}
-
-
+    }
 
     public NewsListAdapter(){
 
@@ -113,40 +105,9 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                 Context context = v.getContext();
                 Intent intent = new Intent(context, NewsDetailActivity.class);
                 intent.putExtra("url", mCurrent.getUrl());
+                intent.putExtra("source_id", mCurrent.getSource().getId());
                 context.startActivity(intent);
             }
-        });
-
-        holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Log.d(TAG,"onLongClick()");
-                final CharSequence[] items = {"Yes", "No"};
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setTitle("Do you want to save this news?");
-                builder.setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int item) {
-                        Log.d(TAG,"onClick() of onLongClick()");
-                        Log.d(TAG,"Title of Article long-pressed  = "+mCurrent.getTitle());
-                        if(items[item]=="Yes"){ //yes
-                            myRepository.setFavorite(mCurrent.getUrl(),true);
-                            Toast toast= Toast.makeText(v.getContext(),"You have saved your news.\n Now you can find it on Saved",Toast.LENGTH_LONG);
-                            //t.setGravity(Gravity.CENTER_HORIZONTAL,15,10);
-                            toast.show();
-                        }
-                        else //no
-                            myRepository.setFavorite(mCurrent.getUrl(),false);
-
-                        Log.d(TAG,"All favorites  = "+myRepository.getFavoritesArticle());
-
-                    }//{[\m]onClick}
-                });
-                builder.show();
-                return true;
-            }
-
-
         });
     }
 
@@ -161,8 +122,4 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
             return 0;
         return mNewsListContainer.getArticles().size();
     }
-
-
-
-
 }

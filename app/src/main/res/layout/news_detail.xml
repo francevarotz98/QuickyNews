@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".NewsDetailActivity">
 
-    <WebView
-        android:id="@+id/news_detail_text"
+    <VideoView
+        android:id="@+id/news_detail_video"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </WebView>
+    </VideoView>
 
 </RelativeLayout>
