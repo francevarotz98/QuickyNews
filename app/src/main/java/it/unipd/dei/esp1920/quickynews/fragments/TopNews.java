@@ -47,7 +47,7 @@ import it.unipd.dei.esp1920.quickynews.news.NewsListAdapter;
 import it.unipd.dei.esp1920.quickynews.news.Source;
 
 
-public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshListener/* implements GetFeedTask.AsyncResponse */ {
+public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private final static String TAG="Top News";
 
@@ -143,7 +143,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
 
                             String description = jsonArticle.getString("description");
 
-                            if (description.equals("")) continue;
+                            if(description.equals("null") || description.equals("")) continue;
 
                             String date = jsonArticle.getString("publishedAt");
 
