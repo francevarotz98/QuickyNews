@@ -1,12 +1,20 @@
 package it.unipd.dei.esp1920.quickynews;
 
+import android.app.ActionBar;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Layout;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.VideoView;
 
@@ -22,16 +30,17 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
     private ScrollView scrollView;
     private LinearLayout linearLayout;
 
+    private static final ViewGroup.LayoutParams MM_LAYOUT_PARAMS = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         scrollView = new ScrollView(this);
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        scrollView.setLayoutParams(layoutParams);
+        scrollView.setLayoutParams(MM_LAYOUT_PARAMS);
 
         linearLayout = new LinearLayout(this);
-        linearLayout.setLayoutParams(layoutParams);
+        linearLayout.setLayoutParams(MM_LAYOUT_PARAMS);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
         if(getIntent() != null) {
@@ -43,24 +52,22 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
                 url = "https" + url.substring(4);
             Log.d(TAG, "url = " + url);
 
-            // se l'url indirizza a una pagina della CNN contenente un video...
             if(url.substring(0,25).equals("https://us.cnn.com/videos")) {
                 VideoView vv = new VideoView(this);
                 MediaController mc = new MediaController(this);
                 vv.setMediaController(mc);
                 vv.setVideoURI(Uri.parse("https://cnnios-f.akamaihd.net/i/cnn/big/" + url.substring(26) + "_ios_,440,650,840,1240,3000,5500,.mp4.csmil/master.m3u8"));
                 linearLayout.addView(vv);
+                mc.setAnchorView(linearLayout);
+                vv.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,650));
             }
-
-            Log.d(TAG, "url = " + url);
-
-            // faccio il parsing della pagina
             new GetNewsTask(this, this).execute(url,source_id);
         }
     }
 
-    // viene invocato dopo che il task è stato completato
+    // viene invocato dopo che GetNewsTask è stato completato
     public void processFinish(ArrayList<View> result) {
+
         while(!result.isEmpty()) {
             View v = result.remove(0);
             if(v.getParent() != null) {

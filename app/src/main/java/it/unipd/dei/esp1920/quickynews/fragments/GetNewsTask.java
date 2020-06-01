@@ -2,11 +2,14 @@ package it.unipd.dei.esp1920.quickynews.fragments;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -45,7 +48,7 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
                 break;
                 case "bbc-news": returned = fetchBbc(url);
                 break;
-                case "cnn": returned = fetchCnn(url); // TODO: ancora da implementare
+                case "cnn": returned = fetchCnn(url);
                 break;
                 case "al-jazeera-english": returned = fetchAlJazeera(url); // TODO: Ancora da implementare
                 break;
@@ -84,8 +87,11 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
         if(d != null) {
             text = d.text() + '\n';
         }
-        else {
+        else if(doc.selectFirst("[class=css-nxfrgc evys1bk0]") != null) {
             text = doc.selectFirst("[class=css-nxfrgc evys1bk0]").text() +'\n';
+        }
+        else {
+            text = doc.getElementsByClass("css-h99hf").first().text() + '\n';
         }
         textView = new TextView(weakContext.get());
         textView.setTypeface(null, Typeface.BOLD);
@@ -246,10 +252,111 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
 
     private ArrayList<View> fetchCnn(String url) throws IOException {
         Log.d(TAG, "fetchCnn()");
+
+        // se l'url indirizza a una pagina della CNN contenente un video
+        if(url.substring(0,25).equals("https://us.cnn.com/videos")) return fetchCnnVideo(url);
+
+        // se l'url contiene aggiornamenti live
+        if(url.split("/")[4].equals("live-news")) return fetchCnnLive(Jsoup.connect(url).get());
+
+        ArrayList<View> returned = new ArrayList<>();
         Document doc = Jsoup.connect(url).get();
-        String title = "";
-        String content = "";
-        return null;
+
+        String text = doc.getElementsByClass("pg-headline").tagName("h1").first().text();
+        TextView textView = new TextView(weakContext.get());
+        textView.setLayoutParams(LAYOUT_PARAMS);
+        textView.setTypeface(null, Typeface.BOLD);
+        textView.setText(text + '\n');
+        returned.add(textView);
+
+        String author = "";
+        String date = "";
+
+        Element by = doc.getElementsByClass("metadata__info").tagName("div").first();
+        if(by != null) {
+            author = by.getElementsByClass("metadata__byline__author").tagName("span").first().text();
+            date = by.getElementsByClass("update-time").tagName("p").first().text();
+        }
+        else {
+            Element articleBody = doc.selectFirst("[itemprop=articleBody]");
+            author = articleBody.getElementsByClass("metadata__byline__author").tagName("span").first().text();
+            date = articleBody.getElementsByClass("update-time").tagName("p").first().text();
+        }
+        textView = new TextView(weakContext.get());
+        textView.setTypeface(null, Typeface.BOLD);
+        textView.setText(author + '\n' + date + '\n');
+        returned.add(textView);
+
+        Elements paragraphs = doc.getElementById("body-text").getElementsByClass("l-container").first().getElementsByClass("zn-body__paragraph");
+        for(Element paragraph : paragraphs) {
+            textView = new TextView(weakContext.get());
+            if(paragraph.childrenSize() != 0 && paragraph.child(0).tagName().equals("h3")) textView.setTypeface(null, Typeface.BOLD);
+            textView.setText(paragraph.text() + '\n');
+            returned.add(textView);
+        }
+        return returned;
+    }
+
+    private ArrayList<View> fetchCnnLive(Document doc) throws IOException {
+        Log.d(TAG, "fetchCnnLive()");
+
+        ArrayList<View> returned = new ArrayList<>();
+
+        Element title = doc.getElementsByClass("Text-sc-1amvtpj-0-h1-h1").tagName("h1").first();
+        TextView textView = new TextView(weakContext.get());
+        textView.setLayoutParams(LAYOUT_PARAMS);
+        textView.setTypeface(null, Typeface.BOLD);
+        textView.setText(title.text() + '\n');
+        returned.add(textView);
+
+        String author = title.parent().select("[data-type=byline-area]").tagName("p").first().text();
+        textView = new TextView(weakContext.get());
+        textView.setText(author + '\n');
+        returned.add(textView);
+
+        // TODO Ho preso solamente l'ultimo aggiornamento pubblicato, ma se si vuole se ne possono prendere anche di più
+        Elements lastUpdate_children = doc.selectFirst("[class=sc-cJSrbW poststyles__PostBox-sc-1egoi1-0 tzojb]").children();
+        for(Element child : lastUpdate_children) {
+            if(child.hasClass("render-stellar-contentstyles__Content-sc-9v7nwy-0")) {
+                for(Element grandChild : child.children()) {
+                    textView = new TextView(weakContext.get());
+                    textView.setText(grandChild.text() + '\n');
+                    returned.add(textView);
+                }
+                break;
+            }
+            else if(child.tagName().equals("header")) {
+                for(Element grandChild : child.children()) {
+                    textView = new TextView(weakContext.get());
+                    if(grandChild.tagName().equals("h2")) textView.setTypeface(null, Typeface.BOLD);
+                    textView.setText(grandChild.text());
+                    returned.add(textView);
+                }
+            }
+        }
+        return returned;
+    }
+
+    private ArrayList<View> fetchCnnVideo(String url) throws IOException {
+        Log.d(TAG, "fetchCnnVideo()");
+
+        ArrayList<View> returned = new ArrayList<>();
+        Document doc = Jsoup.connect(url).get();
+
+        Element videoDescription = doc.selectFirst("[id^=leaf-video-]");
+
+        Element headline = videoDescription.selectFirst("[id^=js-leaf-video_headline-]");
+        TextView textView = new TextView(weakContext.get());
+        textView.setTypeface(null, Typeface.BOLD);
+        textView.setText(headline.text() + '\n');
+        returned.add(textView);
+
+        Element description = videoDescription.selectFirst("[id^=js-video_description-]");
+        textView = new TextView(weakContext.get());
+        textView.setText(description.text() + '\n');
+        returned.add(textView);
+
+        return returned;
     }
 
     private ArrayList<View> fetchAlJazeera(String url) throws IOException {
