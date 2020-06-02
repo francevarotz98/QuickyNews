@@ -71,7 +71,7 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
     @Override
     protected void onPostExecute(ArrayList<View> result) {
         delegate.processFinish(result);
-        //myRepository.setPageHTML(this.url,result);
+       // myRepository.setPageHTML(this.url,result);
     }
 
     private ArrayList<View> fetchNewYorkTimes(String url) throws IOException {

@@ -161,14 +161,17 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                                     public void processFinish(ArrayList<View> output) {
                                         Log.d(TAG,"processFinish() di onClick()");
                                         myRepository.setPageHTML(mCurrent.getUrl(),output);
+                                        Log.d(TAG,"***mCurrent.getPageHTML()="+output);//mCurrent.getPageHTML());
                                     }
                                 }).execute(mCurrent.getUrl(),mCurrent.getSource().getId());
+
                             }
 
                             else{
                                 Toast toast= Toast.makeText(v.getContext(),"Keep calm.\n You still have your news on Saved.",Toast.LENGTH_LONG);
                                 //t.setGravity(Gravity.CENTER_HORIZONTAL,15,10);
                                 toast.show();
+                                Log.d(TAG,"***mCurrent.getPageHTML() nell'else="+mCurrent.getPageHTML());
                             }
 
 

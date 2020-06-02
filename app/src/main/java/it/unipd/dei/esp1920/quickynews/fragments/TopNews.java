@@ -80,10 +80,9 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
 
         if (NetConnectionReceiver.isConnected(context))
             fetchNews();
-        else {
-            //Toast.makeText(getContext(), "No Internet connection", Toast.LENGTH_SHORT).show();
+        else
             fetchNewsWithoutInternet();
-        }
+
         return v;
     }
 

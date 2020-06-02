@@ -37,15 +37,20 @@ public interface ArticleDao {
     @Query("UPDATE article_table SET isFavorite= :isFavorite WHERE url = :url")
     void setFavoriteArticle(String url, boolean isFavorite);
 
+
     /*
     @Query("SELECT pageHTML FROM article_table WHERE url = :url")
     ArrayList<View> getPageHTML(String url);
-    */
 
+    ----> USA METODO getPageHTML() di Article
+    */
 
     @Query("UPDATE article_table SET pageHTML = :pageHTML WHERE url = :url")
     void setPageHTML(String url,ArrayList<View> pageHTML);
 
+    /*@Query("SELECT * FROM article_table WHERE ")
+    void List<Article> getArticlesCategories();
+*/
 
     /*
     @Query("SELECT title FROM article_table LIMIT 1") //query di debug

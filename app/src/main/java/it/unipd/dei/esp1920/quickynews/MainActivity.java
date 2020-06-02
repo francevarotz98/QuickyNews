@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         mNetConnectionReceiver =new NetConnectionReceiver();
         this.registerReceiver(mNetConnectionReceiver,new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
-
         BottomNavigationView.OnNavigationItemSelectedListener navList= new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

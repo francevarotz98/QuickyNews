@@ -14,7 +14,7 @@ public class CategoriesSettings extends Settings {
 
     private final String TAG="Categories1";
     private Toolbar mToolbar;
-    private boolean bln_cb_sport,bln_cb_tech,bln_cb_food,bln_cb_mot,bln_cb_econ,bln_cb_pol;         //variabili per salvare lo stato delle categorie
+    private static boolean bln_cb_sport,bln_cb_tech,bln_cb_food,bln_cb_mot; //variabili per salvare lo stato delle categorie
 
 
 
@@ -27,9 +27,8 @@ public class CategoriesSettings extends Settings {
         //TOOLBAR
         mToolbar=findViewById(R.id.toolBar);
         setSupportActionBar(mToolbar);              //rende predefinata la toolbar creata
-        getSupportActionBar().setTitle("Chose categories");
+        getSupportActionBar().setTitle("Choose categories");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
 
@@ -37,8 +36,6 @@ public class CategoriesSettings extends Settings {
         bln_cb_tech = preferences.getBoolean("chBoxTech",false);
         bln_cb_food = preferences.getBoolean("chBoxFood",false);
         bln_cb_mot = preferences.getBoolean("chBoxMot",false);
-        bln_cb_econ = preferences.getBoolean("chBoxEcon",false);
-        bln_cb_pol = preferences.getBoolean("chBoxPol",false);
         CheckBox mSelectedSport=(CheckBox)findViewById(R.id.checkBox_sport);
         CheckBox mSelectedTech=(CheckBox)findViewById(R.id.checkBox_tech);
         CheckBox mSelectedFood=(CheckBox)findViewById(R.id.checkBox_business);
@@ -78,5 +75,34 @@ public class CategoriesSettings extends Settings {
         // Commit to storage synchronously
         editor.commit();
     }
+
+
+    public static boolean getPreferenceSport(){
+
+        //bln_cb_sport=testSport();
+        return bln_cb_sport;
+    }
+
+    public boolean testSport(){
+        SharedPreferences pref= getPreferences(MODE_PRIVATE);
+        bln_cb_sport = pref.getBoolean("chBoxSport",false);
+        return bln_cb_sport;
+
+    }
+
+
+    public static boolean getPreferenceTech(){
+        return bln_cb_tech;
+    }
+
+    public static boolean getPreferenceBusiness(){
+        return bln_cb_food; //TODO: CHANGE NAME
+    }
+
+    public static boolean getPreferenceScience(){
+        return bln_cb_mot; //TODO:CHANGE NAME
+    }
+
+
 
 }
