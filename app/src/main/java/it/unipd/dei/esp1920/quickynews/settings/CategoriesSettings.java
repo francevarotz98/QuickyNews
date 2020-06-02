@@ -14,7 +14,7 @@ public class CategoriesSettings extends Settings {
 
     private final String TAG="Categories1";
     private Toolbar mToolbar;
-    private static boolean bln_cb_sport,bln_cb_tech,bln_cb_food,bln_cb_mot; //variabili per salvare lo stato delle categorie
+    private static boolean bln_cb_sport,bln_cb_tech, bln_cb_busin, bln_cb_science; //variabili per salvare lo stato delle categorie
 
 
 
@@ -34,16 +34,16 @@ public class CategoriesSettings extends Settings {
 
         bln_cb_sport = preferences.getBoolean("chBoxSport",false);
         bln_cb_tech = preferences.getBoolean("chBoxTech",false);
-        bln_cb_food = preferences.getBoolean("chBoxFood",false);
-        bln_cb_mot = preferences.getBoolean("chBoxMot",false);
+        bln_cb_busin = preferences.getBoolean("chBoxBus",false);
+        bln_cb_science = preferences.getBoolean("chBoxSc",false);
         CheckBox mSelectedSport=(CheckBox)findViewById(R.id.checkBox_sport);
         CheckBox mSelectedTech=(CheckBox)findViewById(R.id.checkBox_tech);
         CheckBox mSelectedFood=(CheckBox)findViewById(R.id.checkBox_business);
         CheckBox mSelectedMot=(CheckBox)findViewById(R.id.checkBox_science);
         mSelectedSport.setChecked(bln_cb_sport);
         mSelectedTech.setChecked(bln_cb_tech);
-        mSelectedFood.setChecked(bln_cb_food);
-        mSelectedMot.setChecked(bln_cb_mot);
+        mSelectedFood.setChecked(bln_cb_busin);
+        mSelectedMot.setChecked(bln_cb_science);
 
 
 
@@ -64,13 +64,13 @@ public class CategoriesSettings extends Settings {
         CheckBox mSelectedMot=(CheckBox)findViewById(R.id.checkBox_science);
         bln_cb_sport=mSelectedSport.isChecked();
         bln_cb_tech=mSelectedTech.isChecked();
-        bln_cb_food=mSelectedFood.isChecked();
-        bln_cb_mot=mSelectedMot.isChecked();
+        bln_cb_busin=mSelectedFood.isChecked();
+        bln_cb_science=mSelectedMot.isChecked();
 
         editor.putBoolean("chBoxSport", bln_cb_sport);
         editor.putBoolean("chBoxTech", bln_cb_tech);
-        editor.putBoolean("chBoxFood", bln_cb_food);
-        editor.putBoolean("chBoxMot", bln_cb_mot);
+        editor.putBoolean("chBoxBus", bln_cb_busin);
+        editor.putBoolean("chBoxSc", bln_cb_science);
 
         // Commit to storage synchronously
         editor.commit();
@@ -96,11 +96,11 @@ public class CategoriesSettings extends Settings {
     }
 
     public static boolean getPreferenceBusiness(){
-        return bln_cb_food; //TODO: CHANGE NAME
+        return bln_cb_busin; //TODO: CHANGE NAME
     }
 
     public static boolean getPreferenceScience(){
-        return bln_cb_mot; //TODO:CHANGE NAME
+        return bln_cb_science; //TODO:CHANGE NAME
     }
 
 
