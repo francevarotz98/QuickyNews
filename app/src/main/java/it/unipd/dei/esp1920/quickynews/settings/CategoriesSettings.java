@@ -96,11 +96,11 @@ public class CategoriesSettings extends Settings {
     }
 
     public static boolean getPreferenceBusiness(){
-        return bln_cb_busin; //TODO: CHANGE NAME
+        return bln_cb_busin;
     }
 
     public static boolean getPreferenceScience(){
-        return bln_cb_science; //TODO:CHANGE NAME
+        return bln_cb_science;
     }
 
 
