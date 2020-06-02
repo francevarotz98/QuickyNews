@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d(TAG,"onCreate()");
 
+
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         flagFragment=preferences.getInt("flagFragmentVal", 0);
         Log.d(TAG,"flagFragmentVal onCreate(): " + flagFragment);

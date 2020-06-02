@@ -32,10 +32,11 @@ public class CategoriesSettings extends Settings {
 
        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
 
-        bln_cb_sport = preferences.getBoolean("chBoxSport",false);
-        bln_cb_tech = preferences.getBoolean("chBoxTech",false);
-        bln_cb_busin = preferences.getBoolean("chBoxBus",false);
-        bln_cb_science = preferences.getBoolean("chBoxSc",false);
+        bln_cb_sport = preferences.getBoolean("chBoxSport",bln_cb_sport);
+        bln_cb_tech = preferences.getBoolean("chBoxTech",bln_cb_tech);
+        bln_cb_busin = preferences.getBoolean("chBoxBus",bln_cb_busin);
+        bln_cb_science = preferences.getBoolean("chBoxSc",bln_cb_science);
+
         CheckBox mSelectedSport=(CheckBox)findViewById(R.id.checkBox_sport);
         CheckBox mSelectedTech=(CheckBox)findViewById(R.id.checkBox_tech);
         CheckBox mSelectedFood=(CheckBox)findViewById(R.id.checkBox_business);
