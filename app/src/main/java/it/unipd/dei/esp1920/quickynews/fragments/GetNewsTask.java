@@ -361,17 +361,48 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
 
     private ArrayList<View> fetchAlJazeera(String url) throws IOException {
         Log.d(TAG, "fetchAlJazeera()");
+
+        ArrayList<View> returned = new ArrayList<>();
         Document doc = Jsoup.connect(url).get();
-        String title = "";
-        String content = "";
-        return null;
+
+        // titolo
+        Element title = doc.getElementsByClass("post-title").tagName("h1").first();
+        TextView textView = new TextView(weakContext.get());
+        textView.setTypeface(null, Typeface.BOLD);
+        textView.setText(title.text() + '\n');
+        returned.add(textView);
+
+        // descrizione
+        String description = title.parent().getElementsByClass("article-heading-des").first().text();
+        textView = new TextView(weakContext.get());
+        textView.setTypeface(null, Typeface.BOLD);
+        textView.setText(description + '\n');
+        returned.add(textView);
+
+        // contenuto
+        Elements articleBody = doc.getElementById("main-article-block").getElementsByClass("article-p-wrapper").tagName("div").first().children();
+        for(Element paragraph : articleBody) {
+            if(paragraph.tagName().equals("p")) {
+                textView = new TextView(weakContext.get());
+                textView.setText(paragraph.text());
+                returned.add(textView);
+            }
+            else if(paragraph.tagName().equals("h2")) {
+                textView = new TextView(weakContext.get());
+                textView.setTypeface(null, Typeface.BOLD);
+                textView.setText('\n' + paragraph.text() + '\n');
+                returned.add(textView);
+            }
+        }
+        return returned;
     }
 
     private ArrayList<View> fetchBbcSport(String url) throws IOException {
         Log.d(TAG, "fetchBbcSport()");
+
+        ArrayList<View> returned = new ArrayList<>();
         Document doc = Jsoup.connect(url).get();
-        String title = "";
-        String content = "";
-        return null;
+
+        return returned;
     }
 }

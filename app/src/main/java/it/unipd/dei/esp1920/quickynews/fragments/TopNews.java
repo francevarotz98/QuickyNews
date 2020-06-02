@@ -133,25 +133,31 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
 
                         Source source;
 
+                        String cnnLiveLastTitle = "";
+
                         // looping through all the articles
                         for (int i = 0; i < jsonArticles.length(); i++) {
                             JSONObject jsonArticle = jsonArticles.getJSONObject(i);
-
                             JSONObject jsonSource = jsonArticle.getJSONObject("source");
 
                             source = new Source(jsonSource.getString("id"), jsonSource.getString("name"));
 
-                            String description = jsonArticle.getString("description");
+                            String url = jsonArticle.getString("url");
+                            if(url.length()>=17 && url.substring(0,17).equals("http://cnn.it/go2")) continue;
 
+                            String title = jsonArticle.getString("title");
+                            if(source.getId().equals("cnn") && url.split("/")[4].equals("live-news")) {
+                                if(title.equals(cnnLiveLastTitle)) continue;
+                                cnnLiveLastTitle = title;
+                            }
+
+                            String description = jsonArticle.getString("description");
                             if(description.equals("null") || description.equals("")) continue;
 
                             String date = jsonArticle.getString("publishedAt");
-
                             Date articleDate = new Date();
-
                             if(date.substring(date.length()-1).equals("Z"))
                                 date = date.substring(0, date.length()-1) + "+00:00";
-
                             try {
                                 articleDate = FORMATTER1.parse(date.trim());
                             } catch (ParseException e) {
@@ -185,9 +191,9 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             Article article = new Article(
                                     source,
                                     jsonArticle.getString("author"),
-                                    jsonArticle.getString("title"),
+                                    title,
                                     description,
-                                    jsonArticle.getString("url"),
+                                    url,
                                     jsonArticle.getString("urlToImage"),
                                     date,
                                     jsonArticle.getString("content")
@@ -198,7 +204,6 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                                 newsList.add(article);
                                 //Log.d(TAG,"Added to db article with title = "+article.getTitle());
                                 myRepository.insertArticle(article);
-
                             }
                         }
                         if(!wasEmpty) {
@@ -263,6 +268,8 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             else
                                 date = jsonArticle.getString("published_date");
 
+                            if(date.equals("null")) continue;
+
                             String description = jsonArticle.getString("abstract");
 
                             // serve per poter stampare correttamente le virgolette e gli apostrofi
@@ -295,7 +302,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             );
 
                             // controllo che il link dell'immagine non sia nullo e che la descrizione non sia uguale al titolo, poi aggiungo l'articolo alla lista
-                            if(!(urlToImage == null || article.getDescription().contains(article.getTitle()) || date.equals("null"))){
+                            if(!(urlToImage == null || article.getDescription().contains(article.getTitle()))){
                                 newsList.add(article);
                                // Log.d(TAG,"Added to db article with title = "+article.getTitle());
                                 myRepository.insertArticle(article);
