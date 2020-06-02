@@ -1,12 +1,16 @@
 package it.unipd.dei.esp1920.quickynews.news;
 
 
+import android.view.View;
+
+import androidx.annotation.ArrayRes;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -28,6 +32,7 @@ public class Article implements Comparable<Article> {
     private String content;
     // private String category;
     private boolean isFavorite;
+    private ArrayList<View> pageHTML;
 
     //for POJOs
     public Article() {
@@ -41,6 +46,7 @@ public class Article implements Comparable<Article> {
         this.content = content;
         // this.category = category;
         this.isFavorite=false;
+        pageHTML=null;
     }
 
 
@@ -52,6 +58,7 @@ public class Article implements Comparable<Article> {
         this.url = url;
         this.urlToImage = urlToImage;
         this.isFavorite=false;
+        this.pageHTML=new ArrayList<>();
         if(publishedAt.equals("null")) {
             try {
                 this.publishedAt = FORMATTER1.parse("0000-00-00T00:00:00+00:00");
@@ -150,6 +157,13 @@ public class Article implements Comparable<Article> {
         this.isFavorite=isFavorite;
     }
 
+    public ArrayList<View> getPageHTML(){
+        return pageHTML;
+    }
+
+    public void setPageHTML(ArrayList<View> pageHTML){
+        this.pageHTML=pageHTML;
+    }
     /* public String getCategory() {
         return category;
     }
@@ -158,8 +172,13 @@ public class Article implements Comparable<Article> {
         this.category = category;
     } */
 
+
+
+
     @Override
     public int compareTo(Article o) {
         return this.publishedAt.compareTo(o.getPublishedAt());
     }
+
+
 }

@@ -1,7 +1,10 @@
 package it.unipd.dei.esp1920.quickynews.news;
 
+import android.view.View;
+
 import androidx.room.TypeConverter;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /*
@@ -31,5 +34,22 @@ public class Converters {
     public static String conversionSource(Source s){
         return s == null ? null : s.getName();
     }
+
+
+
+
+    @TypeConverter
+    public static ArrayList<View> fromString(String s){
+        return s == null ? null : new ArrayList<View>(); //TODO: CAPIRE CHE ERRORI POSSA CAUSARE RESTITUENDO UN OGGETTO "VUOTO"...
+    }
+
+    @TypeConverter
+    public static String conversionSource(ArrayList<View> s){
+        String toReturn="";
+        for(View v : s)
+            toReturn+=v.toString();
+        return toReturn;
+    }
+
 
 }

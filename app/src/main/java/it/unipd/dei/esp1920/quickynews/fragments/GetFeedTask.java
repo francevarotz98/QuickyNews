@@ -12,7 +12,7 @@ import it.unipd.dei.esp1920.quickynews.fetch.GuardianXmlParser;
 import it.unipd.dei.esp1920.quickynews.fetch.Item;
 import it.unipd.dei.esp1920.quickynews.fetch.NewYorkTimesXmlParser;
 
-class GetFeedTask extends AsyncTask<String, Void, LinkedList<Item>> {
+public class GetFeedTask extends AsyncTask<String, Void, LinkedList<Item>> {
 
     private final static String TAG="GetFeedTask";
 

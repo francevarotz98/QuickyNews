@@ -20,12 +20,17 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
+import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
+import it.unipd.dei.esp1920.quickynews.news.MyRepository;
+
 public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
     private final static String TAG="GetNewsTask";
 
     private GetNewsTask.AsyncResponse delegate;
     private WeakReference<Context> weakContext;
     private static final ViewGroup.LayoutParams LAYOUT_PARAMS = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    private MyRepository myRepository= TopNews.getRepository();
+    private String url;
 
     public interface AsyncResponse {
         void processFinish(ArrayList<View> output);
@@ -39,7 +44,7 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
     @Override
     protected ArrayList<View> doInBackground(String... params) {
         Log.d(TAG, "doInBackground()");
-        String url = params[0];
+        this.url = params[0];
         String source_id = params[1];
         try {
             ArrayList<View> returned;
@@ -66,6 +71,7 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
     @Override
     protected void onPostExecute(ArrayList<View> result) {
         delegate.processFinish(result);
+        //myRepository.setPageHTML(this.url,result);
     }
 
     private ArrayList<View> fetchNewYorkTimes(String url) throws IOException {

@@ -1,9 +1,11 @@
 package it.unipd.dei.esp1920.quickynews.news;
 
 import android.app.Application;
+import android.view.View;
 
 import androidx.lifecycle.LiveData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyRepository
@@ -41,6 +43,14 @@ public class MyRepository
 
     public void setFavorite(String url, boolean isFavorite){
         MyRoomDatabase.databaseWriteExecutor.execute( () -> mArticleDao.setFavoriteArticle(url, isFavorite));
+    }
+
+    public boolean isFavoriteArticle(String url){
+        return mArticleDao.isFavoriteArticle(url);
+    }
+
+    public void setPageHTML(String url, ArrayList<View> pageHTML){
+        MyRoomDatabase.databaseWriteExecutor.execute( () -> mArticleDao.setPageHTML(url, pageHTML));
     }
     /*
     public String titleArticle(){

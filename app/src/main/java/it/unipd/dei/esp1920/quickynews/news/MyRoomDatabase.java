@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {Article.class},version = 1,exportSchema = false)
-@TypeConverters({Converters.class}) //in order to manage Source and Date types
+@TypeConverters({Converters.class}) //in order to manage Source, Date and ArrayList types
 public abstract class MyRoomDatabase extends RoomDatabase
 {
     abstract ArticleDao articleDao();
