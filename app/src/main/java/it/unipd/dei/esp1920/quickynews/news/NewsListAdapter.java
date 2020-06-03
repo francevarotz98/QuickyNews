@@ -63,19 +63,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
         //mInflater = LayoutInflater.from(c);
     }
 
-    /*TODO: al costruttore aggiungere un parametro, ad
-    *    esempio String fragment, oppure int fragment,
-    *   al quale gli passo il valore del fragment
-    *   nel quale costruisco l'oggetto NewsListAdapter.
-    *   Perchè mi serve? Così nel metodo onLongClick so
-    *   se l'utente stia invocando il metodo onLongClick()
-    *   nel fragment TopNews, e quindi voglia presumibilmente
-    *   salvare la notizia, o nel fragment Saved, e il metodo
-    *   sarà quindi invocato, presumibilmente, perchè l'utente
-    *   voglia eliminare la notizia (quindi cambiare la scritta
-    *   del toast che esce con, per esempio, 'Do you want to delete this news?').
-    *
-    * */
 
     public NewsListAdapter(/* Context context, */ NewsApiResponse newsListContainer) {
         // mInflater = LayoutInflater.from(context);
@@ -149,7 +136,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                         Log.d(TAG,"onClick() of onLongClick()");
                         Log.d(TAG,"Title of Article long-pressed  = "+mCurrent.getTitle());
                         boolean wasFavorite=myRepository.isFavoriteArticle(mCurrent.getUrl());
-                        if(items[item]=="Yes"){ //yes
+                        if(items[item]=="Yes"){ //Yes
                             myRepository.setFavorite(mCurrent.getUrl(),true);
                             if(!wasFavorite){ //cioè siamo nel fragment TopNews
                                 Toast toast= Toast.makeText(v.getContext(),"You have saved your news.\n Now you can find it on Saved.",Toast.LENGTH_LONG);

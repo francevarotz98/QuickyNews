@@ -66,6 +66,10 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
             e.printStackTrace();
             return null;
         }
+        catch (NullPointerException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

@@ -17,6 +17,9 @@ public interface ArticleDao {
     @Query("SELECT * FROM article_table ORDER BY publishedAt DESC")
     List<Article>/*LiveData<List<Article>>*/ getAllArticle();
 
+    @Query("SELECT * FROM article_table WHERE url = :url")
+    Article getArticle(String url);
+
     @Insert(onConflict = OnConflictStrategy.IGNORE) //((replace perchè se ci dovesse essere un aggiornamento ==> news aggiornata))
     void insertArticle(Article a);                 // NO: uso IGNORE sennò mi cambia il valore dell'attributo isFavorite.
 
@@ -42,7 +45,7 @@ public interface ArticleDao {
     @Query("SELECT pageHTML FROM article_table WHERE url = :url")
     ArrayList<View> getPageHTML(String url);
 
-    ----> USA METODO getPageHTML() di Article
+    -----> USA METODO getPageHTML() di Article  <-----
     */
 
     @Query("UPDATE article_table SET pageHTML = :pageHTML WHERE url = :url")

@@ -32,6 +32,7 @@ public class ForYou extends Fragment {
         Log.d(TAG,"onCreateView");
         View view = inflater.inflate(R.layout.fragment_home,container,false);
         myRepository = TopNews.getRepository();
+
         Log.d(TAG,"pref_sport="+CategoriesSettings.getPreferenceSport());
         Log.d(TAG,"pref_Tech="+CategoriesSettings.getPreferenceTech());
         Log.d(TAG,"pref_Science="+CategoriesSettings.getPreferenceScience());

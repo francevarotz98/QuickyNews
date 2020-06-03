@@ -17,7 +17,6 @@ public class CategoriesSettings extends Settings {
     private static boolean bln_cb_sport,bln_cb_tech, bln_cb_busin, bln_cb_science; //variabili per salvare lo stato delle categorie
 
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,17 +78,16 @@ public class CategoriesSettings extends Settings {
 
 
     public static boolean getPreferenceSport(){
-
-        //bln_cb_sport=testSport();
         return bln_cb_sport;
     }
 
-    public boolean testSport(){
+    /*
+    private boolean testSport(){
         SharedPreferences pref= getPreferences(MODE_PRIVATE);
         bln_cb_sport = pref.getBoolean("chBoxSport",false);
         return bln_cb_sport;
-
     }
+    */
 
 
     public static boolean getPreferenceTech(){

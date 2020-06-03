@@ -36,8 +36,6 @@ public class Converters {
     }
 
 
-
-
     @TypeConverter
     public static ArrayList<View> fromString(String s){
         return s == null ? null : new ArrayList<View>(); //TODO: CAPIRE CHE ERRORI POSSA CAUSARE RESTITUENDO UN OGGETTO "VUOTO"...
@@ -45,10 +43,14 @@ public class Converters {
 
     @TypeConverter
     public static String conversionSource(ArrayList<View> s){
+        if(s!=null){
         String toReturn="";
         for(View v : s)
             toReturn+=v.toString();
         return toReturn;
+        }
+        else
+            return "";
     }
 
 

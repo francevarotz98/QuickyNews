@@ -28,6 +28,10 @@ public class MyRepository
         return mAllArticle;
     }
 
+    public Article getArticle(String url){
+        return mArticleDao.getArticle(url);
+    }
+
 
     public void insertArticle(Article n){
         MyRoomDatabase.databaseWriteExecutor.execute(() -> mArticleDao.insertArticle(n));
