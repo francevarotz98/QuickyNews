@@ -138,7 +138,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                         boolean wasFavorite=myRepository.isFavoriteArticle(mCurrent.getUrl());
                         if(items[item]=="Yes"){ //Yes
                             myRepository.setFavorite(mCurrent.getUrl(),true);
-                            if(!wasFavorite){ //cioè siamo nel fragment TopNews
+                            if(!wasFavorite){
                                 Toast toast= Toast.makeText(v.getContext(),"You have saved your news.\n Now you can find it on Saved.",Toast.LENGTH_LONG);
                                 //toast.setGravity(0,0,0);
                                 toast.show();
@@ -148,7 +148,10 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                                     public void processFinish(ArrayList<View> output) {
                                         Log.d(TAG,"processFinish() di onClick()");
                                         myRepository.setPageHTML(mCurrent.getUrl(),output);
-                                        Log.d(TAG,"***mCurrent.getPageHTML()="+output);//mCurrent.getPageHTML());
+                                        //mCurrent.setPageHTML(output); //<<--------
+                                        Log.d(TAG,"***mCurrent.getPageHTML()="+mCurrent.getPageHTML());//mCurrent.getPageHTML());
+                                        Log.d(TAG,"***mCurrent.getSource().getId()="+mCurrent.getSource().getId());
+
                                     }
                                 }).execute(mCurrent.getUrl(),mCurrent.getSource().getId());
 
@@ -167,7 +170,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                         else //no
                             myRepository.setFavorite(mCurrent.getUrl(),false);
 
-                        Log.d(TAG,"All favorites  = "+myRepository.getFavoritesArticle());
+                        Log.d(TAG,"All favorites  = "+myRepository.getFavoritesArticle().size());
 
                     }//{[\m]onClick}
                 });

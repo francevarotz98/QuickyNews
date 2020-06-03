@@ -44,10 +44,10 @@ public class Converters {
     @TypeConverter
     public static String conversionSource(ArrayList<View> s){
         if(s!=null){
-        String toReturn="";
+        StringBuilder toReturn= new StringBuilder();
         for(View v : s)
-            toReturn+=v.toString();
-        return toReturn;
+            toReturn.append(v.toString());
+        return toReturn.toString();
         }
         else
             return "";

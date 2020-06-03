@@ -17,7 +17,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+
+        android:usesCleartextTraffic="true"> <!---TODO N.B.: pongo a true questo valore in quanto,anche se mi viene intercettato il contenuto delle news non mi importa -->
+
 
         <activity
             android:name=".MainActivity"

@@ -1,5 +1,6 @@
 package it.unipd.dei.esp1920.quickynews;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
 import it.unipd.dei.esp1920.quickynews.fragments.GetNewsTask;
 import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
+import it.unipd.dei.esp1920.quickynews.news.Article;
 import it.unipd.dei.esp1920.quickynews.news.MyRepository;
 
 public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask.AsyncResponse {
@@ -26,7 +28,7 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
     private LinearLayout linearLayout;
     private MyRepository myRepository;
     private static final ViewGroup.LayoutParams MM_LAYOUT_PARAMS = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
+    //private Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +41,7 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
         linearLayout = new LinearLayout(this);
         linearLayout.setLayoutParams(MM_LAYOUT_PARAMS);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        if(NetConnectionReceiver.isConnected(getApplicationContext())) {
+        if(NetConnectionReceiver.isConnected(this)) {
             if (getIntent() != null) {
                 String url = getIntent().getStringExtra("url");
                 String source_id = getIntent().getStringExtra("source_id");
@@ -65,10 +67,23 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
         else{ //mobile phone not connected
 
             if(getIntent()!=null) {
+                Log.d(TAG,"------------DEBUG---------");
                 String url = getIntent().getStringExtra("url");
-                myRepository.getArticle(url);
-
-                //da finire 
+                Article article = myRepository.getArticle(url);
+                ArrayList<View> pageHTML = article.getPageHTML();
+                Log.d(TAG,"article title= "+article.getTitle());
+                Log.d(TAG,"article pageHTML= "+pageHTML);
+                while (!pageHTML.isEmpty()) {
+                    View v = pageHTML.remove(0);
+                    if (v.getParent() != null) {
+                        ((ViewGroup) v.getParent()).removeView(v);
+                    }
+                    linearLayout.addView(v);
+                }
+                scrollView.addView(linearLayout);
+                setContentView(scrollView);
+                Log.d(TAG,"------------END DEBUG---------");
+                //da finire
             }
 
         }
@@ -93,6 +108,13 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
             setContentView(scrollView);
         }
     }
+
+
+
+
+
+
+
 
 
 }

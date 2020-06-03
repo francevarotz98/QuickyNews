@@ -48,6 +48,9 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
         String source_id = params[1];
         try {
             ArrayList<View> returned;
+
+            Log.d(TAG,"DEBUGGING: source_id="+source_id);
+
             switch(source_id) {
                 case "nytimes": returned = fetchNewYorkTimes(url);
                 break;

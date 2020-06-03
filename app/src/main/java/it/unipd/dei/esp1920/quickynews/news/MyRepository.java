@@ -56,6 +56,19 @@ public class MyRepository
     public void setPageHTML(String url, ArrayList<View> pageHTML){
         MyRoomDatabase.databaseWriteExecutor.execute( () -> mArticleDao.setPageHTML(url, pageHTML));
     }
+
+    /*
+    public ArrayList<View> getPageHTML(String url){
+
+        ArrayList<View> toReturn = new ArrayList<>();
+        MyRoomDatabase.databaseWriteExecutor.execute( (ArrayList<View> test) -> {return  mArticleDao.getPageHTML(url);});
+        return toReturn;
+
+    }
+    */  //TODO: CAPIRE COME IMPLEMENTARE STO METODO....
+
+
+
     /*
     public String titleArticle(){
         return mArticleDao.titleArticle();
