@@ -3,17 +3,22 @@ package it.unipd.dei.esp1920.quickynews.news;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,6 +50,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
         final TextView mDate;
         final NewsListAdapter mAdapter;
         final View mView;
+        final ImageView mImageView;
 
         ArticleViewHolder(View itemView, NewsListAdapter adapter) {
             super(itemView);
@@ -53,6 +59,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
             mTitle = itemView.findViewById(R.id.item_title);
             mDescription = itemView.findViewById(R.id.item_description);
             mDate = itemView.findViewById(R.id.item_date);
+            mImageView=itemView.findViewById(R.id.item_img);
             mAdapter = adapter;
         }
     }
@@ -81,6 +88,9 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
         holder.mSource.setText(mCurrent.getSource().getName());
         holder.mTitle.setText(mCurrent.getTitle());
         holder.mDescription.setText(mCurrent.getDescription());
+        if (mCurrent != null) {
+            new DownloadImageTask(holder.mImageView).execute(mCurrent.getUrlToImage());
+        }
         Date date = new Date();
         String now = formatter.format(date);
         try {
@@ -195,5 +205,27 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
         return mNewsListContainer.getArticles().size();
     }
 
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap bmp = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                bmp = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return bmp;
+        }
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
+    }
 
 }
