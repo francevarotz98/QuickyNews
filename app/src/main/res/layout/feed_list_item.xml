@@ -1,53 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="6dp"
     android:paddingTop="0dp"
     android:paddingBottom="0dp">
 
-    <ImageView
-        android:id="@+id/item_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
 
-    <TextView
-        android:id="@+id/item_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="15sp"/>
-
-    <TextView
-        android:id="@+id/item_description"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginTop="4dp"
-        android:textSize="14sp"
-        android:layout_marginBottom="4dp"/>
-
-    <RelativeLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:textColor="@color/blue"
-            android:id="@+id/item_source"
+        <ImageView
+            android:id="@+id/item_img"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:layout_marginEnd="6dp"/>
+            android:layout_height="95dp" />
 
-        <TextView
-            android:layout_toEndOf="@id/item_source"
-            android:id="@+id/item_date"
+        <RelativeLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"/>
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/item_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/item_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp"
+                android:layout_below="@+id/item_title"/>
+
+            <TextView
+                android:id="@+id/item_source"
+                android:textColor="@color/blue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_marginEnd="6dp"
+                android:layout_below="@id/item_description"/>
+
+            <TextView
+                android:id="@+id/item_date"
+                android:layout_below="@id/item_description"
+                android:layout_toEndOf="@id/item_source"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:gravity="end"/>
+
+        </RelativeLayout>
+
 
     <!-- linea orizzontale tra un articolo e l'altro -->
     <View
@@ -57,4 +62,4 @@
         android:background="#ffffff"/>
 
 
-</LinearLayout>
+</TableLayout>

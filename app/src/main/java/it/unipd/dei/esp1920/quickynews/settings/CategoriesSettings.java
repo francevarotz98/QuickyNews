@@ -73,7 +73,7 @@ public class CategoriesSettings extends Settings {
         editor.putBoolean("chBoxSc", bln_cb_science);
 
         // Commit to storage synchronously
-        editor.commit();
+        editor.apply();
     }
 
 
