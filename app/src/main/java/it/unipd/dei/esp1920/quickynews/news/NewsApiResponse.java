@@ -3,20 +3,10 @@ package it.unipd.dei.esp1920.quickynews.news;
 import java.util.List;
 
 public class NewsApiResponse {
-    private String status;
     private List<Article> articles;
 
-    public NewsApiResponse(String status, List<Article> articles) {
-        this.status = status;
+    public NewsApiResponse(List<Article> articles) {
         this.articles = articles;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public List<Article> getArticles() {

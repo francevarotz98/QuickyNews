@@ -1,15 +1,12 @@
-package it.unipd.dei.esp1920.quickynews.fragments;
+package it.unipd.dei.esp1920.quickynews.news;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.MediaController;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,11 +16,12 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
 import it.unipd.dei.esp1920.quickynews.news.MyRepository;
 
-public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
+public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
     private final static String TAG="GetNewsTask";
 
     private GetNewsTask.AsyncResponse delegate;
@@ -33,7 +31,7 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
     private String url;
 
     public interface AsyncResponse {
-        void processFinish(ArrayList<View> output);
+        void processFinish(ArrayList<String> output);
     }
 
     public GetNewsTask(Context context, AsyncResponse delegate){
@@ -42,58 +40,55 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
     }
 
     @Override
-    protected ArrayList<View> doInBackground(String... params) {
+    protected ArrayList<String> doInBackground(String... params) {
         Log.d(TAG, "doInBackground()");
         this.url = params[0];
         String source_id = params[1];
         try {
-            ArrayList<View> returned;
+            ArrayList<String> returned;
 
             Log.d(TAG,"DEBUGGING: source_id="+source_id);
 
             switch(source_id) {
-                case "nytimes": returned = fetchNewYorkTimes(url);
+                case "nytimes":
+                case "nytimes-science":
+                case "nytimes-business":
+                    returned = fetchNewYorkTimes(url);
                 break;
                 case "bbc-news": returned = fetchBbc(url);
                 break;
                 case "cnn": returned = fetchCnn(url);
                 break;
-                case "al-jazeera-english": returned = fetchAlJazeera(url); // TODO: Ancora da implementare
+                case "al-jazeera-english": returned = fetchAlJazeera(url);
                 break;
-                case "bbc-sport": returned = fetchBbcSport(url); // TODO: Ancora da implementare
+                case "bbc-sport": returned = fetchBbcSport(url);
+                break;
+                case "techcrunch": returned = fetchTechcrunch(url);
                 break;
                 default: returned = null;
             }
             return returned;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        catch (NullPointerException e){
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
             return null;
         }
     }
 
     @Override
-    protected void onPostExecute(ArrayList<View> result) {
+    protected void onPostExecute(ArrayList<String> result) {
         delegate.processFinish(result);
        // myRepository.setPageHTML(this.url,result);
     }
 
-    private ArrayList<View> fetchNewYorkTimes(String url) throws IOException {
+    private ArrayList<String> fetchNewYorkTimes(String url) throws IOException {
         Log.d(TAG, "fetchNewYokTimes()");
 
-        ArrayList<View> returned = new ArrayList<>();
+        ArrayList<String> returned = new ArrayList<>();
         Document doc = Jsoup.connect(url).get();
 
         // article's title
         String text = doc.select("[data-test-id=headline]").first().text() + '\n';
-        TextView textView = new TextView(weakContext.get());
-        textView.setLayoutParams(LAYOUT_PARAMS);
-        textView.setTypeface(null, Typeface.BOLD);
-        textView.setText(text);
-        returned.add(textView);
+        returned.add("BOLDDLOB" + text);
 
         // article's description
         Element d = doc.getElementById("article-summary");
@@ -106,10 +101,7 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
         else {
             text = doc.getElementsByClass("css-h99hf").first().text() + '\n';
         }
-        textView = new TextView(weakContext.get());
-        textView.setTypeface(null, Typeface.BOLD);
-        textView.setText(text);
-        returned.add(textView);
+        returned.add("BOLDDLOB" + text);
 
         // article's content
         Elements c = doc.select("[class=css-1fanzo5 StoryBodyCompanionColumn]");
@@ -118,32 +110,27 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
             for(Element child : children) {
                 if(child.tagName().equals("p")) {
                     text = child.text() + '\n';
-                    textView = new TextView(weakContext.get());
-                    textView.setText(text);
-                    returned.add(textView);
+                    returned.add(text);
                 }
                 else if(child.tagName().equals("h2") || child.tagName().equals("h3")) {
                     text = child.text() + '\n';
-                    textView = new TextView(weakContext.get());
-                    textView.setTypeface(null, Typeface.BOLD);
-                    textView.setText(text);
-                    returned.add(textView);
+                    returned.add("BOLDDLOB" + text);
                 }
                 else if(child.tagName().equals("ul")) {
                     text = '\n' + child.text() + '\n';
-                    textView = new TextView(weakContext.get());
-                    textView.setText(text);
-                    returned.add(textView);
+                    returned.add(text);
                 }
             }
         }
         return returned;
     }
 
-    private ArrayList<View> fetchBbc(String url) throws IOException {
+    private ArrayList<String> fetchBbc(String url) throws IOException {
         Log.d(TAG, "fetchBbc()");
 
-        ArrayList<View> returned = new ArrayList<>();
+        if(url.split("/")[3].equals("sport")) return fetchBbcSport(url);
+
+        ArrayList<String> returned = new ArrayList<>();
         Document doc = Jsoup.connect(url).get();
 
         // vari tipi di articolo
@@ -158,9 +145,7 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
         if(t_article != null) {
             // titolo
             text = t_article.text() + '\n';
-            textView.setTypeface(null, Typeface.BOLD);
-            textView.setText(text);
-            returned.add(textView);
+            returned.add("BOLDDLOB" + text);
 
             // descrizione + contenuto
             Element dc = doc.getElementsByClass("story-body__inner").first();
@@ -169,16 +154,11 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
             for (Element element : dc_children) {
                 if (element.className().equals("story-body__introduction") || element.tagName().equals("h2")) {
                     text = element.text() + '\n';
-                    textView = new TextView(weakContext.get());
-                    textView.setTypeface(null, Typeface.BOLD);
-                    textView.setText(text);
-                    returned.add(textView);
+                    returned.add("BOLDDLOB" + text);
                 }
                 else if (element.tagName().equals("p")) {
                     text = element.text() + '\n';
-                    textView = new TextView(weakContext.get());
-                    textView.setText(text);
-                    returned.add(textView);
+                    returned.add(text);
                 }
             }
         }
@@ -190,18 +170,13 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
                         switch(grandChild.className()) {
                             case "vxp-media__headline":
                                 text = grandChild.text() + '\n';
-                                textView = new TextView(weakContext.get());
-                                textView.setTypeface(null, Typeface.BOLD);
-                                textView.setText(text);
-                                returned.add(textView);
+                                returned.add("BOLDDLOB" + text);
                                 break;
                             case "vxp-media__summary":
                                 for (Element e : grandChild.children()) {
                                     if(e.tagName().equals("p")) {
                                         text = e.text() + '\n';
-                                        textView = new TextView(weakContext.get());
-                                        textView.setText(text);
-                                        returned.add(textView);
+                                        returned.add(text);
                                     }
                                 }
                                 break;
@@ -216,43 +191,36 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
             // titolo (di solito "Live reporting")
             Element header = t_live.getElementsByTag("header").first();
             text = header.getElementById("lx-commentary-title").text() + '\n';
-            textView.setTypeface(null, Typeface.BOLD);
-            textView.setText(text);
-            returned.add(textView);
+            returned.add("BOLDDLOB" + text);
+
             // descrizione (di solito "Edited by" + nomi dei reporter)
             text = header.getElementsByClass("lx-commentary__meta").first().getElementsByClass("lx-commentary__meta-reporter gel-long-primer").first().text() + '\n';
-            textView = new TextView(weakContext.get());
-            textView.setText(text);
-            returned.add(textView);
+            returned.add(text);
+
             // lista di tutti gli aggiornamenti live
             Elements updates = t_live.getElementsByClass("lx-commentary__stream").first().getElementsByTag("ol").first().getElementsByTag("li");
             for(Element update : updates) {
                 Elements articles = update.getElementsByTag("article");
+
                 for(Element article : articles) {
                     // titolo dell'aggiornamento
                     Elements spans = article.getElementsByTag("header").first().getElementsByTag("h3").first().getElementsByTag("span");
                     for(Element span : spans) {
                         text = span.text() + '\n';
-                        textView = new TextView(weakContext.get());
-                        textView.setTypeface(null, Typeface.BOLD);
-                        textView.setText(text);
-                        returned.add(textView);
+                        returned.add("BOLDDLOB" + text);
                     }
+
                     // contenuto dell'aggiornamento
                     Element articleContent = article.getElementsByClass("gel-body-copy").first().getElementsByClass("lx-stream-post-body").first();
                     for (Element e : articleContent.children()) {
                         if(e.tagName().equals("p")) {
                             text = e.text() + '\n';
-                            textView = new TextView(weakContext.get());
-                            textView.setText(text);
-                            returned.add(textView);
+                            returned.add(text);
                         } else if(e.tagName().equals("ul") || e.tagName().equals("ol")) {
                             for(Element li : e.children()) {
                                 if(li.tagName().equals("li")) {
                                     text = li.text() + '\n';
-                                    textView = new TextView(weakContext.get());
-                                    textView.setText(text);
-                                    returned.add(textView);
+                                    returned.add(text);
                                 }
                             }
                         }
@@ -263,7 +231,7 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
         return returned;
     }
 
-    private ArrayList<View> fetchCnn(String url) throws IOException {
+    private ArrayList<String> fetchCnn(String url) throws IOException {
         Log.d(TAG, "fetchCnn()");
 
         // se l'url indirizza a una pagina della CNN contenente un video
@@ -272,15 +240,11 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
         // se l'url contiene aggiornamenti live
         if(url.split("/")[4].equals("live-news")) return fetchCnnLive(Jsoup.connect(url).get());
 
-        ArrayList<View> returned = new ArrayList<>();
+        ArrayList<String> returned = new ArrayList<>();
         Document doc = Jsoup.connect(url).get();
 
         String text = doc.getElementsByClass("pg-headline").tagName("h1").first().text();
-        TextView textView = new TextView(weakContext.get());
-        textView.setLayoutParams(LAYOUT_PARAMS);
-        textView.setTypeface(null, Typeface.BOLD);
-        textView.setText(text + '\n');
-        returned.add(textView);
+        returned.add("BOLDDLOB" + text);
 
         String author = "";
         String date = "";
@@ -295,126 +259,187 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<View>> {
             author = articleBody.getElementsByClass("metadata__byline__author").tagName("span").first().text();
             date = articleBody.getElementsByClass("update-time").tagName("p").first().text();
         }
-        textView = new TextView(weakContext.get());
-        textView.setTypeface(null, Typeface.BOLD);
-        textView.setText(author + '\n' + date + '\n');
-        returned.add(textView);
+        returned.add("BOLDDLOB" + author + '\n' + date);
 
         Elements paragraphs = doc.getElementById("body-text").getElementsByClass("l-container").first().getElementsByClass("zn-body__paragraph");
         for(Element paragraph : paragraphs) {
-            textView = new TextView(weakContext.get());
-            if(paragraph.childrenSize() != 0 && paragraph.child(0).tagName().equals("h3")) textView.setTypeface(null, Typeface.BOLD);
-            textView.setText(paragraph.text() + '\n');
-            returned.add(textView);
+            text = paragraph.text();
+            if(paragraph.childrenSize() != 0 && paragraph.child(0).tagName().equals("h3")) text = "BOLDDLOB" + text;
+            returned.add(text);
         }
         return returned;
     }
 
-    private ArrayList<View> fetchCnnLive(Document doc) throws IOException {
+    private ArrayList<String> fetchCnnLive(Document doc) throws IOException {
         Log.d(TAG, "fetchCnnLive()");
 
-        ArrayList<View> returned = new ArrayList<>();
+        ArrayList<String> returned = new ArrayList<>();
 
         Element title = doc.getElementsByClass("Text-sc-1amvtpj-0-h1-h1").tagName("h1").first();
-        TextView textView = new TextView(weakContext.get());
-        textView.setLayoutParams(LAYOUT_PARAMS);
-        textView.setTypeface(null, Typeface.BOLD);
-        textView.setText(title.text() + '\n');
-        returned.add(textView);
+        returned.add("BOLDDLOB" + title.text());
 
         String author = title.parent().select("[data-type=byline-area]").tagName("p").first().text();
-        textView = new TextView(weakContext.get());
-        textView.setText(author + '\n');
-        returned.add(textView);
+        returned.add(author);
 
         // TODO Ho preso solamente l'ultimo aggiornamento pubblicato, ma se si vuole se ne possono prendere anche di più
         Elements lastUpdate_children = doc.selectFirst("[class=sc-cJSrbW poststyles__PostBox-sc-1egoi1-0 tzojb]").children();
         for(Element child : lastUpdate_children) {
             if(child.hasClass("render-stellar-contentstyles__Content-sc-9v7nwy-0")) {
                 for(Element grandChild : child.children()) {
-                    textView = new TextView(weakContext.get());
-                    textView.setText(grandChild.text() + '\n');
-                    returned.add(textView);
+                    returned.add(grandChild.text());
                 }
                 break;
             }
             else if(child.tagName().equals("header")) {
+                String text = "";
                 for(Element grandChild : child.children()) {
-                    textView = new TextView(weakContext.get());
-                    if(grandChild.tagName().equals("h2")) textView.setTypeface(null, Typeface.BOLD);
-                    textView.setText(grandChild.text());
-                    returned.add(textView);
+                    text = grandChild.text();
+                    if(grandChild.tagName().equals("h2")) text = "BOLDDLOB" + text;
+                    returned.add(text);
                 }
             }
         }
         return returned;
     }
 
-    private ArrayList<View> fetchCnnVideo(String url) throws IOException {
+    private ArrayList<String> fetchCnnVideo(String url) throws IOException {
         Log.d(TAG, "fetchCnnVideo()");
 
-        ArrayList<View> returned = new ArrayList<>();
+        ArrayList<String> returned = new ArrayList<>();
         Document doc = Jsoup.connect(url).get();
 
         Element videoDescription = doc.selectFirst("[id^=leaf-video-]");
 
         Element headline = videoDescription.selectFirst("[id^=js-leaf-video_headline-]");
-        TextView textView = new TextView(weakContext.get());
-        textView.setTypeface(null, Typeface.BOLD);
-        textView.setText(headline.text() + '\n');
-        returned.add(textView);
+        returned.add("BOLDDLOB" + headline.text());
 
         Element description = videoDescription.selectFirst("[id^=js-video_description-]");
-        textView = new TextView(weakContext.get());
-        textView.setText(description.text() + '\n');
-        returned.add(textView);
+        returned.add(description.text());
 
         return returned;
     }
 
-    private ArrayList<View> fetchAlJazeera(String url) throws IOException {
+    private ArrayList<String> fetchAlJazeera(String url) throws IOException {
         Log.d(TAG, "fetchAlJazeera()");
 
-        ArrayList<View> returned = new ArrayList<>();
+        ArrayList<String> returned = new ArrayList<>();
         Document doc = Jsoup.connect(url).get();
 
         // titolo
         Element title = doc.getElementsByClass("post-title").tagName("h1").first();
-        TextView textView = new TextView(weakContext.get());
-        textView.setTypeface(null, Typeface.BOLD);
-        textView.setText(title.text() + '\n');
-        returned.add(textView);
+        returned.add("BOLDDLOB" + title.text());
 
         // descrizione
         String description = title.parent().getElementsByClass("article-heading-des").first().text();
-        textView = new TextView(weakContext.get());
-        textView.setTypeface(null, Typeface.BOLD);
-        textView.setText(description + '\n');
-        returned.add(textView);
+        returned.add("BOLDDLOB" + description);
 
         // contenuto
         Elements articleBody = doc.getElementById("main-article-block").getElementsByClass("article-p-wrapper").tagName("div").first().children();
         for(Element paragraph : articleBody) {
             if(paragraph.tagName().equals("p")) {
-                textView = new TextView(weakContext.get());
-                textView.setText(paragraph.text());
-                returned.add(textView);
+                returned.add(paragraph.text());
             }
             else if(paragraph.tagName().equals("h2")) {
-                textView = new TextView(weakContext.get());
-                textView.setTypeface(null, Typeface.BOLD);
-                textView.setText('\n' + paragraph.text() + '\n');
-                returned.add(textView);
+                returned.add("BOLDDLOB" + '\n' + paragraph.text());
             }
         }
         return returned;
     }
 
-    private ArrayList<View> fetchBbcSport(String url) throws IOException {
+    private ArrayList<String> fetchBbcSport(String url) throws IOException {
         Log.d(TAG, "fetchBbcSport()");
 
-        ArrayList<View> returned = new ArrayList<>();
+        ArrayList<String> returned = new ArrayList<>();
         Document doc = Jsoup.connect(url).get();
+
+        Element article = doc.getElementById("responsive-story-page");
+        if(article != null) {
+            // titolo
+            String text = article.getElementsByClass("story-headline").tagName("h1").first().text();
+            returned.add("BOLDDLOB" + text);
+
+            // autore
+            text = article.getElementsByClass("gel-long-primer").tagName("p").first().text();
+            returned.add(text);
+
+            // contenuto
+            Elements paragraphs = article.getElementById("story-body").children();
+            for (Element paragraph : paragraphs) {
+                if((!paragraph.tagName().equals("p")) || (paragraph.className().equals("sp-media-asset__smp-message"))) continue;
+                text = paragraph.text();
+                if (paragraph.className().equals("sp-story-body__introduction"))
+                    text = "BOLDDLOB" + text;
+                returned.add(text);
+            }
+        }
+        else if (doc.getElementsByClass("qa-story-headline").tagName("h1").first() != null){
+            // titolo
+            String text = doc.getElementsByClass("qa-story-headline").tagName("h1").first().text();
+            returned.add("BOLDDLOB" + text);
+
+            // contenuto
+            Elements paragraphs = doc.getElementsByClass("qa-story-body").tagName("div").first().children();
+            for(Element paragraph : paragraphs) {
+                if(paragraph.tagName().equals("p") || paragraph.tagName().equals("div")) {
+                    text = paragraph.text();
+                    if (paragraph.className().equals("qa-introduction"))
+                        text = "BOLDDLOB" + text;
+                    returned.add(text);
+                }
+                else if(paragraph.tagName().equals("h3")) {
+                    returned.add("BOLDDLOB" + paragraph.text());
+                }
+            }
+        }
+        else {
+            Element bodyWrapper = doc.getElementById("orb-modules");
+
+            // titolo
+            String text = doc.getElementsByClass("gel-trafalgar-bold").tagName("h1").first().text();
+            returned.add("BOLDDLOB" + text);
+
+            // contenuto
+            Elements paragraphs = doc.getElementsByClass("gel-body-copy").tagName("div").first().child(0).children();
+            for(Element paragraph : paragraphs) {
+                if(paragraph.tagName().equals("p")) {
+                    returned.add(paragraph.text());
+                }
+            }
+        }
+        return returned;
+    }
+
+    private ArrayList<String> fetchTechcrunch(String url) throws IOException {
+        Log.d(TAG, "fetchTechcrunch()");
+
+        HashMap<String, String> cookies = new HashMap<>();
+        cookies.put("GUCS","Ab_BzpUS");
+        cookies.put("EuConsent","BO0iwqAO0iwqFAOABCITDKuAAAAt56__f_97_8_v2fdvduz_Ov_j_c__3XWcfPZvcELzhK9Meu_2wzd4u9wNRM5wckx87eJrEso5czISsG-RMod_zl__3zif9oxPowEc9rz3nZEw6vs2v-ZzBCGJ9I0g");
+        cookies.put("GUC","AQABAQFe2_hfoEIdAARW&s=AQAAALjWSdjz&g=Xtq0Sg");
+        cookies.put("A3","d=AQABBEC02l4CEE2iFzR8HFnqAEj3Oa5Cx48FEgABAQH4214pX-dVb2UB_iMAAAYsQVFBQkFRRmUyX2hmb0VJZEFBUlcmcz1BUUFBQUxqV1NkanomZz1YdHEwU2cHCDK02l7KNpEq&S=AQAAAt5Wooz1c53TiIYa6Yngvbw");
+        cookies.put("BX","2l49mp9fdld1i&b=3&s=sq");
+        cookies.put("A1","d=AQABBEC02l4CEE2iFzR8HFnqAEj3Oa5Cx48FEgABAQH4214pX-dVb2UB_iMAAAYsQVFBQkFRRmUyX2hmb0VJZEFBUlcmcz1BUUFBQUxqV1NkanomZz1YdHEwU2cHCDK02l7KNpEq&S=AQAAAt5Wooz1c53TiIYa6Yngvbw");
+        cookies.put("A1S","d=AQABBEC02l4CEE2iFzR8HFnqAEj3Oa5Cx48FEgABAQH4214pX-dVb2UB_iMAAAYsQVFBQkFRRmUyX2hmb0VJZEFBUlcmcz1BUUFBQUxqV1NkanomZz1YdHEwU2cHCDK02l7KNpEq&S=AQAAAt5Wooz1c53TiIYa6Yngvbw");
+
+        ArrayList<String> returned = new ArrayList<>();
+        Document doc = Jsoup.connect(url).cookies(cookies).get();
+
+        Element root = doc.getElementById("root");
+
+        // titolo
+        String text = root.getElementsByClass("article__title").tagName("h1").first().text();
+        returned.add("BOLDDLOB" + text);
+
+        // contenuto
+        Elements paragraphs = root.getElementsByClass("article-content").first().children();
+        for(Element paragraph : paragraphs) {
+            if(paragraph.tagName().equals("p")) {
+                returned.add(paragraph.text());
+            }
+            else if(paragraph.tagName().equals("h2")) {
+                returned.add("BOLDDLOB" + paragraph.text());
+            }
+        }
 
         return returned;
     }

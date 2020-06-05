@@ -29,8 +29,6 @@ import java.util.Locale;
 
 import it.unipd.dei.esp1920.quickynews.NewsDetailActivity;
 import it.unipd.dei.esp1920.quickynews.R;
-import it.unipd.dei.esp1920.quickynews.fragments.GetFeedTask;
-import it.unipd.dei.esp1920.quickynews.fragments.GetNewsTask;
 import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
 
 public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ArticleViewHolder> {
@@ -153,9 +151,9 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                                 //toast.setGravity(0,0,0);
                                 toast.show();
 
-                                new GetNewsTask(v.getContext(), new GetNewsTask.AsyncResponse() {
+                                /* new GetNewsTask(v.getContext(), new GetNewsTask.AsyncResponse() { // TODO Ho commentato questa parte solamente per poter testare l'applicazione
                                     @Override
-                                    public void processFinish(ArrayList<View> output) {
+                                    public void processFinish(ArrayList<String> output) {
                                         Log.d(TAG,"processFinish() di onClick()");
                                         myRepository.setPageHTML(mCurrent.getUrl(),output);
                                         //mCurrent.setPageHTML(output); //<<--------
@@ -163,7 +161,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                                         Log.d(TAG,"***mCurrent.getSource().getId()="+mCurrent.getSource().getId());
 
                                     }
-                                }).execute(mCurrent.getUrl(),mCurrent.getSource().getId());
+                                }).execute(mCurrent.getUrl(),mCurrent.getSource().getId()); */
 
                             }
 

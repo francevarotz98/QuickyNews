@@ -1,6 +1,7 @@
 package it.unipd.dei.esp1920.quickynews;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,9 +18,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
-import it.unipd.dei.esp1920.quickynews.fragments.GetNewsTask;
 import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
 import it.unipd.dei.esp1920.quickynews.news.Article;
+import it.unipd.dei.esp1920.quickynews.news.GetNewsTask;
 import it.unipd.dei.esp1920.quickynews.news.MyRepository;
 
 public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask.AsyncResponse {
@@ -90,19 +92,24 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
     }
 
     // viene invocato dopo che GetNewsTask è stato completato
-    public void processFinish(ArrayList<View> result) {
-        if(result==null){
+    public void processFinish(ArrayList<String> result) {
+        if(result==null) {
             Log.d(TAG,"ATTENTION ++++ Null result on processFinish()");
             //result: blank view
         }
         else {
             Log.d(TAG,"processFinish()");
+            TextView view;
+            String viewed;
             while (!result.isEmpty()) {
-                View v = result.remove(0);
-                if (v.getParent() != null) {
-                    ((ViewGroup) v.getParent()).removeView(v);
+                viewed = result.remove(0);
+                view = new TextView(this);
+                if(viewed.length() >= 8 && viewed.substring(0,8).equals("BOLDDLOB")) {
+                    view.setText(viewed.substring(8));
+                    view.setTypeface(null, Typeface.BOLD);
                 }
-                linearLayout.addView(v);
+                else view.setText(viewed);
+                linearLayout.addView(view);
             }
             scrollView.addView(linearLayout);
             setContentView(scrollView);

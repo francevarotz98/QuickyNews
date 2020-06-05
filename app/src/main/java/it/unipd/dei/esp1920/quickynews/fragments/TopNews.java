@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,15 +50,15 @@ import it.unipd.dei.esp1920.quickynews.news.Source;
 
 public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private final static String TAG="Top News";
+    private final static String TAG = "Top News";
+    private int fetchCount = 0;
+    private static int onCreateViewCount = 0;
 
-    // private LinkedList<Item> feedList = new LinkedList<>();
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private static MyRepository myRepository;
     private ArticleViewModel mArticleViewModel;
-    private List<Article> newsList = new LinkedList<>();
-    private String tmpStatus;
+    private List<Article> newsList;
     private Context context;
 
     @Override
@@ -70,6 +71,9 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG,"onCreateView()");
+
+        onCreateViewCount++;
+
         View v = inflater.inflate(R.layout.fragment_home,container,false);
         swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -78,10 +82,13 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         //mArticleViewModel =  new ViewModelProvider().get(ArticleViewModel.class);
         myRepository = new MyRepository(getActivity().getApplication());
 
-        if (NetConnectionReceiver.isConnected(context))
+        if(onCreateViewCount == 1) return v;
+        else if(NetConnectionReceiver.isConnected(context)) {
+            fetchCount = 0;
+            newsList = new LinkedList<>();
             fetchNews();
-        else
-            fetchNewsWithoutInternet();
+        }
+        else fetchNewsWithoutInternet();
 
         return v;
     }
@@ -89,8 +96,6 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
     }
 
     @Override
@@ -100,33 +105,19 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         super.onAttach(context);
     }
 
-    /* @Override
-    public void processFinish(LinkedList<Item> output) {
-        recyclerView.setAdapter(new FeedListAdapter(getContext(), output));
-        recyclerView.getAdapter().notifyDataSetChanged();
-    } */
-
     private void fetchNews() {
         Log.d(TAG, "fetchNews()");
         final SimpleDateFormat FORMATTER1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
         final SimpleDateFormat FORMATTER2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ", Locale.US);
         final SimpleDateFormat FORMATTER3 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ", Locale.US);
 
-        newsList = new LinkedList<>();
-
         StringRequest stringRequest1 = new StringRequest(Request.Method.GET, "https://newsapi.org/v2/top-headlines?" +
-                "sources=bbc-sport,cnn,bbc-news,al-jazeera-english&pageSize=100&language=en&sortBy=date&apiKey=e8e11922f51241959ab4a38de91061e5",
+                "sources=bbc-sport,cnn,bbc-news,al-jazeera-english,techcrunch&pageSize=100&language=en&sortBy=date&apiKey=e8e11922f51241959ab4a38de91061e5",
                 response -> {
                     try {
                         Log.d(TAG, "onResponse() for NewsApi");
-                        boolean wasEmpty = true;
-                        if(!newsList.isEmpty())
-                            wasEmpty = false;
 
                         JSONObject obj = new JSONObject(response);
-
-                        String status = obj.getString("status");
-                        tmpStatus=status;
 
                         JSONArray jsonArticles = obj.getJSONArray("articles");
 
@@ -140,6 +131,9 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             JSONObject jsonSource = jsonArticle.getJSONObject("source");
 
                             source = new Source(jsonSource.getString("id"), jsonSource.getString("name"));
+
+                            String urlToImage = jsonArticle.getString("urlToImage");
+                            if(urlToImage.equals("null")) continue;
 
                             String url = jsonArticle.getString("url");
                             if(url.length()>=17 && url.substring(0,17).equals("http://cnn.it/go2")) continue;
@@ -182,7 +176,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                                 Date fetchDate = FORMATTER1.parse(now);
                                 long millis = Math.abs(fetchDate.getTime() - articleDate.getTime());
                                 int hours = (int) (millis / 1000)  / 3600;
-                                if(hours > 19) continue;
+                                if(hours > 19) break;
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
@@ -193,22 +187,22 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                                     title,
                                     description,
                                     url,
-                                    jsonArticle.getString("urlToImage"),
+                                    urlToImage,
                                     date,
                                     jsonArticle.getString("content")
                                     );
 
-                            if(!(article.getUrlToImage().equals("null") ||
-                                     article.getDescription().contains(article.getTitle()) || date.equals("null"))){
+                            if(!(article.getDescription().contains(article.getTitle()) || date.equals("null"))) {
                                 newsList.add(article);
                                 //Log.d(TAG,"Added to db article with title = "+article.getTitle());
                                 myRepository.insertArticle(article);
                             }
                         }
-                        if(!wasEmpty) {
+                        Log.d(TAG,"fetchCount = " + fetchCount);
+                        fetchCount++;
+                        if(fetchCount == 4) {
                             insertionSort(newsList);
-                            //Log.d(TAG,"entro nell'if, status = "+status);
-                            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(status, newsList)));
+                            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(newsList)));
                             swipeRefreshLayout.setRefreshing(false);
                         }
                     } catch (JSONException e) {
@@ -229,13 +223,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                     try {
                         Log.d(TAG, "onResponse() for NYTimes");
 
-                        boolean wasEmpty = true;
-                        if(!newsList.isEmpty())
-                            wasEmpty = false;
-
                         JSONObject obj = new JSONObject(response);
-
-                        String status = obj.getString("status");
 
                         JSONArray jsonArticles = obj.getJSONArray("results");
 
@@ -307,10 +295,214 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                                 myRepository.insertArticle(article);
                             }
                         }
-                        // se la lista conteneva già articoli presi da NewsApi allora devo ordinare la lista in base alle date degli articoli
-                        if(!wasEmpty) {
+                        Log.d(TAG,"fetchCount = " + fetchCount);
+                        fetchCount++;
+                        if(fetchCount == 4) {
                             insertionSort(newsList);
-                            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(status, newsList)));
+                            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(newsList)));
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // displaying the error in a toast if occurs
+                        Log.d(TAG,"onErrorResponse()");
+                        Toast.makeText(context, "NYTimes server error", Toast.LENGTH_SHORT).show();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
+
+        StringRequest stringRequest3 = new StringRequest(Request.Method.GET,
+                "https://api.nytimes.com/svc/topstories/v2/science.json?api-key=7xa69Ge3sdFW8B0HOHaT03AMtEu72b21",
+                response -> {
+                    try {
+                        Log.d(TAG, "onResponse() for NYTimesScience");
+
+                        JSONObject obj = new JSONObject(response);
+
+                        JSONArray jsonArticles = obj.getJSONArray("results");
+
+                        Source source = new Source("nytimes-science", "The New York Times");
+
+                        mainLoop: for (int i = 0; i < jsonArticles.length(); i++) {
+                            JSONObject jsonArticle = jsonArticles.getJSONObject(i);
+
+                            String url = jsonArticle.getString("url");
+                            String[] path = url.split("/");
+                            for(String p : path) {
+                                if(p.equals("briefing")) continue mainLoop;
+                            }
+
+                            JSONArray jsonMultimedias = jsonArticle.getJSONArray("multimedia");
+                            JSONObject jsonMultimedia;
+                            String urlToImage = null;
+                            if(jsonMultimedias.length() != 0) {
+                                jsonMultimedia = jsonMultimedias.getJSONObject(0);
+                                urlToImage = jsonMultimedia.getString("url");
+                            }
+
+                            // serve per decidere se l'articolo contiene aggiornamenti live,
+                            // così da sapere quale data controllare ("updated_date" o "published_date")
+                            String title = jsonArticle.getString("title");
+                            String date;
+                            if(title.contains("Live") && (title.contains("Updates") || title.contains("Live")))
+                                date = jsonArticle.getString("updated_date");
+                            else
+                                date = jsonArticle.getString("published_date");
+
+                            if(date.equals("null")) continue;
+
+                            String description = jsonArticle.getString("abstract");
+
+                            // serve per poter stampare correttamente le virgolette e gli apostrofi
+                            title = new String(title.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+                            description = new String(description.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+
+                            // serve per decidere se l'articolo è stato pubblicato più di 1 giorno fa
+                            Date today = new Date();
+                            String now = FORMATTER1.format(today);
+                            try {
+                                Date articleDate = FORMATTER1.parse(date);
+                                Date fetchDate = FORMATTER1.parse(now);
+                                long millis = Math.abs(fetchDate.getTime() - articleDate.getTime());
+                                int hours = (int) (millis / 1000)  / 3600;
+                                if(hours > 19) continue;
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+                            // creo l'oggetto articolo
+                            Article article = new Article(
+                                    source,
+                                    jsonArticle.getString("byline"),
+                                    title,
+                                    description,
+                                    url,
+                                    urlToImage,
+                                    date,
+                                    "No content"
+                            );
+
+                            // controllo che il link dell'immagine non sia nullo e che la descrizione non sia uguale al titolo, poi aggiungo l'articolo alla lista
+                            if(!(urlToImage == null || article.getDescription().contains(article.getTitle()))) {
+                                newsList.add(article);
+                                // Log.d(TAG,"Added to db article with title = "+article.getTitle());
+                                myRepository.insertArticle(article);
+                            }
+                        }
+                        Log.d(TAG,"fetchCount = " + fetchCount);
+                        fetchCount++;
+                        if(fetchCount == 4) {
+                            insertionSort(newsList);
+                            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(newsList)));
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // displaying the error in a toast if occurs
+                        Log.d(TAG,"onErrorResponse()");
+                        Toast.makeText(context, "NYTimes server error", Toast.LENGTH_SHORT).show();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
+
+        StringRequest stringRequest4 = new StringRequest(Request.Method.GET,
+                "https://api.nytimes.com/svc/topstories/v2/business.json?api-key=7xa69Ge3sdFW8B0HOHaT03AMtEu72b21",
+                response -> {
+                    try {
+                        Log.d(TAG, "onResponse() for NYTimesBusiness");
+
+                        JSONObject obj = new JSONObject(response);
+
+                        JSONArray jsonArticles = obj.getJSONArray("results");
+
+                        Source source = new Source("nytimes-business", "The New York Times - Business");
+
+                        mainLoop: for (int i = 0; i < jsonArticles.length(); i++) {
+                            JSONObject jsonArticle = jsonArticles.getJSONObject(i);
+
+                            String url = jsonArticle.getString("url");
+                            String[] path = url.split("/");
+                            for(String p : path) {
+                                if(p.equals("briefing")) continue mainLoop;
+                            }
+
+                            JSONArray jsonMultimedias;
+                            try {
+                                jsonMultimedias = jsonArticle.getJSONArray("multimedia");
+                            } catch (org.json.JSONException e) {
+                                continue;
+                            }
+                            JSONObject jsonMultimedia;
+                            String urlToImage = null;
+                            if(jsonMultimedias.length() != 0) {
+                                jsonMultimedia = jsonMultimedias.getJSONObject(0);
+                                urlToImage = jsonMultimedia.getString("url");
+                            }
+
+                            // serve per decidere se l'articolo contiene aggiornamenti live,
+                            // così da sapere quale data controllare ("updated_date" o "published_date")
+                            String title = jsonArticle.getString("title");
+                            String date;
+                            if(title.contains("Live") && (title.contains("Updates") || title.contains("Live")))
+                                date = jsonArticle.getString("updated_date");
+                            else
+                                date = jsonArticle.getString("published_date");
+
+                            if(date.equals("null")) continue;
+
+                            String description = jsonArticle.getString("abstract");
+
+                            // serve per poter stampare correttamente le virgolette e gli apostrofi
+                            title = new String(title.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+                            description = new String(description.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+
+                            // serve per decidere se l'articolo è stato pubblicato più di 1 giorno fa
+                            Date today = new Date();
+                            String now = FORMATTER1.format(today);
+                            try {
+                                Date articleDate = FORMATTER1.parse(date);
+                                Date fetchDate = FORMATTER1.parse(now);
+                                long millis = Math.abs(fetchDate.getTime() - articleDate.getTime());
+                                int hours = (int) (millis / 1000)  / 3600;
+                                if(hours > 19) continue;
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+                            // creo l'oggetto articolo
+                            Article article = new Article(
+                                    source,
+                                    jsonArticle.getString("byline"),
+                                    title,
+                                    description,
+                                    url,
+                                    urlToImage,
+                                    date,
+                                    "No content"
+                            );
+
+                            // controllo che il link dell'immagine non sia nullo e che la descrizione non sia uguale al titolo, poi aggiungo l'articolo alla lista
+                            if(!(urlToImage == null || article.getDescription().contains(article.getTitle()))) {
+                                newsList.add(article);
+                                // Log.d(TAG,"Added to db article with title = "+article.getTitle());
+                                myRepository.insertArticle(article);
+                            }
+                        }
+                        Log.d(TAG,"fetchCount = " + fetchCount);
+                        fetchCount++;
+                        if(fetchCount == 4) {
+                            insertionSort(newsList);
+                            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(newsList)));
                             swipeRefreshLayout.setRefreshing(false);
                         }
                     } catch (JSONException e) {
@@ -330,9 +522,11 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         // creo la coda di richieste
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 
-        // aggiungo le due richieste alla coda
+        // aggiungo le richieste alla coda
         requestQueue.add(stringRequest1);
         requestQueue.add(stringRequest2);
+        requestQueue.add(stringRequest3);
+        requestQueue.add(stringRequest4);
         newsList.clear();
     }
 
@@ -351,21 +545,27 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
             insertionSort(newsList);
 
         */
-        recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(tmpStatus, newsList)));
-        tmpStatus="";
-
+        recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(newsList)));
     }
 
     private static void insertionSort(List<Article> v) {
+        Log.d(TAG, "insertionSort()");
         for (int i = 1; i < v.size(); i++) {
             Article temp = v.get(i);
 
             int j;
 
-            for (j = i; j > 0 && temp.getPublishedAt().compareTo(v.get(j-1).getPublishedAt()) >= 0; j--) {
+            int toRemove = -1;
+
+            for (j = i; j > 0 && (temp.getPublishedAt().compareTo(v.get(j-1).getPublishedAt()) > 0 || temp.getTitle().equals(v.get(j-1).getTitle())); j--) {
                 v.set(j,v.get(j-1));
+                if(temp.getTitle().equals(v.get(j-1).getTitle())) toRemove = j;
             }
             v.set(j,temp);
+            if(toRemove != -1) {
+                v.remove(toRemove);
+                i--;
+            }
         }
     }
 
@@ -374,6 +574,8 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         Log.d(TAG, "onRefresh()");
         if(NetConnectionReceiver.isConnected(context)) {
             swipeRefreshLayout.setRefreshing(true);
+            fetchCount = 0;
+            newsList = new LinkedList<>();
             fetchNews();
         }
         else {
