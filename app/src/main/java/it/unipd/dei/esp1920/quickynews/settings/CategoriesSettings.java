@@ -29,7 +29,7 @@ public class CategoriesSettings extends Settings {
         getSupportActionBar().setTitle("Choose categories");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-       SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("cat",MODE_PRIVATE);
 
         bln_cb_sport = preferences.getBoolean("chBoxSport",bln_cb_sport);
         bln_cb_tech = preferences.getBoolean("chBoxTech",bln_cb_tech);
@@ -55,7 +55,7 @@ public class CategoriesSettings extends Settings {
         super.onPause();
         Log.d(TAG, "onPause()");
 
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("cat",MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         //------SALVATAGGIO STATO
         CheckBox mSelectedSport=(CheckBox)findViewById(R.id.checkBox_sport);

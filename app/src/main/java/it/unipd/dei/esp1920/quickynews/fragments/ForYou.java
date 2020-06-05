@@ -1,5 +1,6 @@
 package it.unipd.dei.esp1920.quickynews.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,10 +20,12 @@ import it.unipd.dei.esp1920.quickynews.news.NewsApiResponse;
 import it.unipd.dei.esp1920.quickynews.news.NewsListAdapter;
 import it.unipd.dei.esp1920.quickynews.settings.CategoriesSettings;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class ForYou extends Fragment {
 
     private final static String TAG="ForYou";
-    private boolean bln_cb_sport,bln_cb_tech,bln_cb_food,bln_cb_mot,bln_cb_econ,bln_cb_pol;         //variabili per salvare lo stato delle categorie
+    private boolean bln_cb_sport,bln_cb_tech,bln_cb_busin,bln_cb_science;         //variabili per salvare lo stato delle categorie
     private MyRepository myRepository;
     private RecyclerView recyclerView;
 
@@ -33,10 +36,18 @@ public class ForYou extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home,container,false);
         myRepository = TopNews.getRepository();
 
-        Log.d(TAG,"pref_sport="+CategoriesSettings.getPreferenceSport());
-        Log.d(TAG,"pref_Tech="+CategoriesSettings.getPreferenceTech());
-        Log.d(TAG,"pref_Science="+CategoriesSettings.getPreferenceScience());
-        Log.d(TAG,"pref_Business="+CategoriesSettings.getPreferenceBusiness());
+
+        SharedPreferences preferences = getActivity().getSharedPreferences("cat",MODE_PRIVATE);
+
+        bln_cb_sport = preferences.getBoolean("chBoxSport",bln_cb_sport);
+        bln_cb_tech = preferences.getBoolean("chBoxTech",bln_cb_tech);
+        bln_cb_busin = preferences.getBoolean("chBoxBus",bln_cb_busin);
+        bln_cb_science = preferences.getBoolean("chBoxSc",bln_cb_science);
+
+        Log.d(TAG,"pref_sport="+bln_cb_sport);
+        Log.d(TAG,"pref_Tech="+bln_cb_tech);
+        Log.d(TAG,"pref_Science="+bln_cb_science);
+        Log.d(TAG,"pref_Business="+bln_cb_busin);
         /*
          * SOLUZIONE TEMPORANEA PER ERRORE NullPointerException per variabile
          * myRepository. Possibile soluzione: creare variabile myRepository
