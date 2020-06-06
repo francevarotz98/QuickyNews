@@ -76,7 +76,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
 
     @Override
     public NewsListAdapter.ArticleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_list_item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_list_item_new, parent, false);
         return new ArticleViewHolder(itemView, this);
     }
 
