@@ -61,7 +61,7 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
                 break;
                 case "al-jazeera-english": returned = fetchAlJazeera(url);
                 break;
-                case "bbc-sport": returned = fetchBbcSport(url);
+                case "bbc-sport": returned = fetchBbc(url);
                 break;
                 case "techcrunch": returned = fetchTechcrunch(url);
                 break;
@@ -98,8 +98,24 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
         else if(doc.selectFirst("[class=css-nxfrgc evys1bk0]") != null) {
             text = doc.selectFirst("[class=css-nxfrgc evys1bk0]").text() +'\n';
         }
-        else {
+        else if (!doc.getElementsByClass("css-h99hf").isEmpty()) {
             text = doc.getElementsByClass("css-h99hf").first().text() + '\n';
+        }
+        else {
+            text = doc.getElementById("interactive-leadin").text() + '\n';
+            returned.add("BOLDDLOB" + text);
+            Elements paragraphs = doc.getElementsByClass("g-story").first().children();
+            for(Element paragraph : paragraphs) {
+                if(paragraph.tagName().equals("p")) {
+                    returned.add(paragraph.text());
+                }
+                else if(paragraph.className().equals("g-asset g-table")) {
+                    for(Element paragraph_child : paragraph.children()) {
+                        if(paragraph_child.tagName().equals("h3") || paragraph_child.tagName().equals("h4")) returned.add("BOLDDLOB" + '\n' + paragraph_child.text());
+                    }
+                }
+            }
+            return returned;
         }
         returned.add("BOLDDLOB" + text);
 
@@ -238,7 +254,7 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
         if(url.substring(0,25).equals("https://us.cnn.com/videos")) return fetchCnnVideo(url);
 
         // se l'url contiene aggiornamenti live
-        if(url.split("/")[4].equals("live-news")) return fetchCnnLive(Jsoup.connect(url).get());
+        if(url.split("/")[4].equals("live-news")) return fetchCnnLive(url);
 
         ArrayList<String> returned = new ArrayList<>();
         Document doc = Jsoup.connect(url).get();
@@ -270,10 +286,11 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
         return returned;
     }
 
-    private ArrayList<String> fetchCnnLive(Document doc) throws IOException {
+    private ArrayList<String> fetchCnnLive(String url) throws IOException {
         Log.d(TAG, "fetchCnnLive()");
 
         ArrayList<String> returned = new ArrayList<>();
+        Document doc = Jsoup.connect(url).get();
 
         Element title = doc.getElementsByClass("Text-sc-1amvtpj-0-h1-h1").tagName("h1").first();
         returned.add("BOLDDLOB" + title.text());
@@ -282,7 +299,8 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
         returned.add(author);
 
         // TODO Ho preso solamente l'ultimo aggiornamento pubblicato, ma se si vuole se ne possono prendere anche di più
-        Elements lastUpdate_children = doc.selectFirst("[class=sc-cJSrbW poststyles__PostBox-sc-1egoi1-0 tzojb]").children();
+        Element updates = doc.getElementById("posts");
+        Elements lastUpdate_children = updates.getElementsByClass("sc-jqCOkK").tagName("article").first().children();
         for(Element child : lastUpdate_children) {
             if(child.hasClass("render-stellar-contentstyles__Content-sc-9v7nwy-0")) {
                 for(Element grandChild : child.children()) {
