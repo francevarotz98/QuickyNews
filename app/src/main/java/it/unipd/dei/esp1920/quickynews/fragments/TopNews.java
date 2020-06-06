@@ -536,6 +536,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
 
     private void fetchNewsWithoutInternet(){
         Log.d(TAG,"fetchNewsWithoutInternet()");
+        newsList = new LinkedList<>();
         List<Article>/*LiveData<List<Article>>*/ a= myRepository.getAllArticle();
         Log.d(TAG,"num of saved news = "+myRepository.countArticle());
         Log.d(TAG,"All favorites  = "+myRepository.getFavoritesArticle().size());
