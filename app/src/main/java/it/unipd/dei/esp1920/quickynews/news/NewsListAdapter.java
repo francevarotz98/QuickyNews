@@ -155,11 +155,14 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                                     @Override
                                     public void processFinish(ArrayList<String> output) {
                                         Log.d(TAG,"processFinish() di onClick()");
+                                        Log.d(TAG,"output = "+output);
                                         String page="";
                                         if(output!=null) {
                                             for(String word : output)
                                                 page+=word;
 
+
+                                            Log.d(TAG,"page = "+page);
                                             myRepository.setPageHTML(mCurrent.getUrl(), page);
                                         }
                                         //mCurrent.setPageHTML(output); //<<--------

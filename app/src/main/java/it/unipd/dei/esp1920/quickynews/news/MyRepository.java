@@ -1,6 +1,7 @@
 package it.unipd.dei.esp1920.quickynews.news;
 
 import android.app.Application;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,7 @@ public class MyRepository
 
     public void setPageHTML(String url, String pageHTML){
         MyRoomDatabase.databaseWriteExecutor.execute( () -> mArticleDao.setPageHTML(url, pageHTML));
+        Log.d("MyRepository","DEBUG: pageHTML = "+pageHTML); //TODO: cancellare alla fine
     }
 
     public String getPageHTML(String url){

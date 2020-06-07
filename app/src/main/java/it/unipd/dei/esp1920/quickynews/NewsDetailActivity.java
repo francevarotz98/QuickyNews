@@ -68,20 +68,27 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
         }
 
         else{ //mobile phone not connected
-
+            String pageHTML="";
             if(getIntent()!=null) {
                 Log.d(TAG,"------------DEBUG---------");
                 String url = getIntent().getStringExtra("url");
                 Article article = myRepository.getArticle(url);
-                String pageHTML = article.getPageHTML();
+                pageHTML = article.getPageHTML();
                 Log.d(TAG,"article title= "+article.getTitle());
-                Log.d(TAG,"article pageHTML= "+pageHTML);
+                //Log.d(TAG,"article pageHTML= "+pageHTML);
 
 
                 //linearLayout.setText(v);
                 }
+
+                /*
                 scrollView.addView(linearLayout);
                 setContentView(scrollView);
+                */
+                setContentView(R.layout.news_detail_offline);
+                TextView t = findViewById(R.id.pageHTML);
+                t.setText(pageHTML);
+                t.setTextSize(23);
                 Log.d(TAG,"------------END DEBUG---------");
                 //da finire
             }
