@@ -41,11 +41,11 @@ public interface ArticleDao {
 
 
     @Query("SELECT pageHTML FROM article_table WHERE url = :url")
-    List<String> getPageHTML(String url);
+    String getPageHTML(String url);
 
 
     @Query("UPDATE article_table SET pageHTML = :pageHTML WHERE url = :url")
-    void setPageHTML(String url,List<String> pageHTML);
+    void setPageHTML(String url,String pageHTML);
 
 
     @Query("SELECT * FROM article_table WHERE ( " +

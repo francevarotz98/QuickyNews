@@ -73,13 +73,12 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
                 Log.d(TAG,"------------DEBUG---------");
                 String url = getIntent().getStringExtra("url");
                 Article article = myRepository.getArticle(url);
-                List<String> pageHTML = article.getPageHTML();
+                String pageHTML = article.getPageHTML();
                 Log.d(TAG,"article title= "+article.getTitle());
                 Log.d(TAG,"article pageHTML= "+pageHTML);
-                while (!pageHTML.isEmpty()) {
-                    String v = pageHTML.remove(0);
 
-                    //linearLayout.setText(v);
+
+                //linearLayout.setText(v);
                 }
                 scrollView.addView(linearLayout);
                 setContentView(scrollView);
@@ -87,7 +86,7 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
                 //da finire
             }
 
-        }
+
     }
 
     // viene invocato dopo che GetNewsTask è stato completato

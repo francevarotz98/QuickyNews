@@ -151,17 +151,23 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                                 //toast.setGravity(0,0,0);
                                 toast.show();
 
-                                /* new GetNewsTask(v.getContext(), new GetNewsTask.AsyncResponse() { // TODO Ho commentato questa parte solamente per poter testare l'applicazione
+                                 new GetNewsTask(v.getContext(), new GetNewsTask.AsyncResponse() { // TODO Ho commentato questa parte solamente per poter testare l'applicazione
                                     @Override
                                     public void processFinish(ArrayList<String> output) {
                                         Log.d(TAG,"processFinish() di onClick()");
-                                        myRepository.setPageHTML(mCurrent.getUrl(),output);
+                                        String page="";
+                                        if(output!=null) {
+                                            for(String word : output)
+                                                page+=word;
+
+                                            myRepository.setPageHTML(mCurrent.getUrl(), page);
+                                        }
                                         //mCurrent.setPageHTML(output); //<<--------
-                                        Log.d(TAG,"***mCurrent.getPageHTML()="+mCurrent.getPageHTML());//mCurrent.getPageHTML());
+                                        Log.d(TAG,"***mCurrent.getPageHTML()="+myRepository.getPageHTML(mCurrent.getUrl()));//mCurrent.getPageHTML());
                                         Log.d(TAG,"***mCurrent.getSource().getId()="+mCurrent.getSource().getId());
 
                                     }
-                                }).execute(mCurrent.getUrl(),mCurrent.getSource().getId()); */
+                                }).execute(mCurrent.getUrl(),mCurrent.getSource().getId());
 
                             }
 

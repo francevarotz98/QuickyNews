@@ -50,11 +50,11 @@ public class MyRepository
         return mArticleDao.isFavoriteArticle(url);
     }
 
-    public void setPageHTML(String url, ArrayList<String> pageHTML){
+    public void setPageHTML(String url, String pageHTML){
         MyRoomDatabase.databaseWriteExecutor.execute( () -> mArticleDao.setPageHTML(url, pageHTML));
     }
 
-    public List<String> getPageHTML(String url){
+    public String getPageHTML(String url){
         return  mArticleDao.getPageHTML(url);
     }
      //TODO: CAPIRE COME IMPLEMENTARE STO METODO....
@@ -62,7 +62,7 @@ public class MyRepository
 
 
 
-    //TODO: implementare metodi DELETE?
+    //TODO: implementare metodo DELETE
 
 
 

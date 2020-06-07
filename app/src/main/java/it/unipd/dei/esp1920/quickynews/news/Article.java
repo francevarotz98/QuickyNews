@@ -34,7 +34,7 @@ public class Article implements Comparable<Article> {
     private String content;
     private String category;
     private boolean isFavorite;
-    private List<String> pageHTML;
+    private String pageHTML;
 
     //for POJOs
     public Article() {
@@ -48,7 +48,7 @@ public class Article implements Comparable<Article> {
         this.content = null;
         this.category = null;
         this.isFavorite=false;
-        pageHTML=null;
+        pageHTML="";
     }
 
 
@@ -60,7 +60,7 @@ public class Article implements Comparable<Article> {
         this.url = url;
         this.urlToImage = urlToImage;
         this.isFavorite=false;
-        this.pageHTML=new LinkedList<>();
+        this.pageHTML="";
         this.category=null;
 
         if(publishedAt.equals("null")) {
@@ -161,11 +161,11 @@ public class Article implements Comparable<Article> {
         this.isFavorite=isFavorite;
     }
 
-    public List<String> getPageHTML(){
+    public String getPageHTML(){
         return pageHTML;
     }
 
-    public void setPageHTML(List<String> pageHTML){
+    public void setPageHTML(String pageHTML){
         this.pageHTML=pageHTML;
     }
 
@@ -176,7 +176,6 @@ public class Article implements Comparable<Article> {
     public void setCategory(String category) {
         this.category = category;
     }
-
 
 
 
