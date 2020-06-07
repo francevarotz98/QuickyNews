@@ -48,20 +48,16 @@ public interface ArticleDao {
     void setPageHTML(String url,String pageHTML);
 
 
-    @Query("SELECT * FROM article_table WHERE ( " +
-            "category = 'sport'  ) ")
+    @Query("SELECT * FROM article_table WHERE category = 'sport' ORDER BY publishedAt DESC")
     List<Article> getSportArticle();
 
-    @Query("SELECT * FROM article_table WHERE ( " +
-            " category = 'technology') ")
+    @Query("SELECT * FROM article_table WHERE category = 'technology' ORDER BY publishedAt DESC ")
     List<Article> getTechnologyArticle();
 
-    @Query("SELECT * FROM article_table WHERE ( " +
-            "category = 'business') ")
+    @Query("SELECT * FROM article_table WHERE category = 'business' ORDER BY publishedAt DESC ")
     List<Article> getBusinessArticle();
 
-    @Query("SELECT * FROM article_table WHERE ( " +
-            "category = 'science') ")
+    @Query("SELECT * FROM article_table WHERE category = 'science' ORDER BY publishedAt DESC")
     List<Article> getScienceArticle();
 
 
