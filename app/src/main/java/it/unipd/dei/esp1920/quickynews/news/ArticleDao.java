@@ -49,17 +49,27 @@ public interface ArticleDao {
 
 
     @Query("SELECT * FROM article_table WHERE ( " +
-            "category = 'sport' OR category = 'technology' OR category = 'business' OR category = 'science' ) ")
-    List<Article> getArticleCategories();
+            "category = 'sport'  ) ")
+    List<Article> getSportArticle();
+
+    @Query("SELECT * FROM article_table WHERE ( " +
+            " category = 'technology') ")
+    List<Article> getTechnologyArticle();
+
+    @Query("SELECT * FROM article_table WHERE ( " +
+            "category = 'business') ")
+    List<Article> getBusinessArticle();
+
+    @Query("SELECT * FROM article_table WHERE ( " +
+            "category = 'science') ")
+    List<Article> getScienceArticle();
 
 
     @Query("UPDATE article_table SET category = :category WHERE url = :url")
     void setArticleCategory(String url, String category);
 
-    /*
-    @Query("SELECT title FROM article_table LIMIT 1") //query di debug
-    String titleArticle();
-    */
+
+
 
 
 }

@@ -50,21 +50,28 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
             Log.d(TAG,"DEBUGGING: source_id="+source_id);
 
             switch(source_id) {
+                case "nytimes-business":
                 case "nytimes":
                 case "nytimes-science":
-                case "nytimes-business":
                     returned = fetchNewYorkTimes(url);
-                break;
-                case "bbc-news": returned = fetchBbc(url);
-                break;
-                case "cnn": returned = fetchCnn(url);
-                break;
-                case "al-jazeera-english": returned = fetchAlJazeera(url);
-                break;
-                case "bbc-sport": returned = fetchBbc(url);
-                break;
-                case "techcrunch": returned = fetchTechcrunch(url);
-                break;
+                    break;
+                case "bbc-news":
+                    returned = fetchBbc(url);
+                    break;
+                case "cnn":
+                    returned = fetchCnn(url);
+                    break;
+                case "al-jazeera-english":
+                    returned = fetchAlJazeera(url);
+                    break;
+                case "bbc-sport":
+                    returned = fetchBbc(url);
+                    myRepository.setArticleCategory(url,"sport");
+                    break;
+                case "techcrunch":
+                    returned = fetchTechcrunch(url);
+                    myRepository.setArticleCategory(url,"business");
+                    break;
                 default: returned = null;
             }
             return returned;

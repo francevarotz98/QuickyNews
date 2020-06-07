@@ -395,6 +395,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                                 newsList.add(article);
                                 // Log.d(TAG,"Added to db article with title = "+article.getTitle());
                                 myRepository.insertArticle(article);
+                                myRepository.setArticleCategory(article.getUrl(),"science");
                             }
                         }
                         Log.d(TAG,"fetchCount = " + fetchCount);
@@ -499,6 +500,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                                 newsList.add(article);
                                 // Log.d(TAG,"Added to db article with title = "+article.getTitle());
                                 myRepository.insertArticle(article);
+                                myRepository.setArticleCategory(article.getUrl(),"business");
                             }
                         }
                         Log.d(TAG,"fetchCount = " + fetchCount);

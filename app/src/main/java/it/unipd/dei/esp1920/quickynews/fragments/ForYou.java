@@ -44,10 +44,15 @@ public class ForYou extends Fragment {
         bln_cb_busin = preferences.getBoolean("chBoxBus",bln_cb_busin);
         bln_cb_science = preferences.getBoolean("chBoxSc",bln_cb_science);
 
+        /*
+
         Log.d(TAG,"pref_sport="+bln_cb_sport);
         Log.d(TAG,"pref_Tech="+bln_cb_tech);
         Log.d(TAG,"pref_Science="+bln_cb_science);
         Log.d(TAG,"pref_Business="+bln_cb_busin);
+
+        */
+
         /*
          * SOLUZIONE TEMPORANEA PER ERRORE NullPointerException per variabile
          * myRepository. Possibile soluzione: creare variabile myRepository
@@ -60,7 +65,10 @@ public class ForYou extends Fragment {
         else {
             recyclerView = view.findViewById(R.id.recyclerView);
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(myRepository.getFavoritesArticle())));
+            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(myRepository.getScienceArticle())));
+            //recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(myRepository.getBusinessArticle())));
+            Log.d(TAG,"myRepository.getScienceArticle() = "+myRepository.getScienceArticle());
+            Log.d(TAG,"myRepository.getScienceArticle() = "+myRepository.getBusinessArticle());
         }
 
         return view;

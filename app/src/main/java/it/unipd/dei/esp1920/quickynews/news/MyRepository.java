@@ -56,6 +56,29 @@ public class MyRepository
         return  mArticleDao.getPageHTML(url);
     }
 
+    public void setArticleCategory(String url,String category){
+        MyRoomDatabase.databaseWriteExecutor.execute( ()-> mArticleDao.setArticleCategory(url,category));
+    }
+
+    public List<Article> getSportArticle(){
+        return mArticleDao.getSportArticle();
+    }
+
+    public List<Article> getTechnologyArticle(){
+        return mArticleDao.getTechnologyArticle();
+    }
+
+    public List<Article> getBusinessArticle(){
+        return mArticleDao.getBusinessArticle();
+    }
+
+    public List<Article> getScienceArticle(){
+        return mArticleDao.getScienceArticle();
+    }
+
+
+
+
 
 
     //TODO: implementare metodo DELETE
