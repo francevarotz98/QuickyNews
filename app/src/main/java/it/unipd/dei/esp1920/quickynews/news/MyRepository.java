@@ -1,9 +1,6 @@
 package it.unipd.dei.esp1920.quickynews.news;
 
 import android.app.Application;
-import android.view.View;
-
-import androidx.lifecycle.LiveData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +21,7 @@ public class MyRepository
         numArticle = mArticleDao.countArticle();
     }
 
-    public List<Article>/*LiveData<List<Article>>*/ getAllArticle(){
+    public List<Article> getAllArticle(){
         return mAllArticle;
     }
 
@@ -53,27 +50,17 @@ public class MyRepository
         return mArticleDao.isFavoriteArticle(url);
     }
 
-    public void setPageHTML(String url, ArrayList<View> pageHTML){
+    public void setPageHTML(String url, ArrayList<String> pageHTML){
         MyRoomDatabase.databaseWriteExecutor.execute( () -> mArticleDao.setPageHTML(url, pageHTML));
     }
 
-    /*
-    public ArrayList<View> getPageHTML(String url){
-
-        ArrayList<View> toReturn = new ArrayList<>();
-        MyRoomDatabase.databaseWriteExecutor.execute( (ArrayList<View> test) -> {return  mArticleDao.getPageHTML(url);});
-        return toReturn;
-
+    public List<String> getPageHTML(String url){
+        return  mArticleDao.getPageHTML(url);
     }
-    */  //TODO: CAPIRE COME IMPLEMENTARE STO METODO....
+     //TODO: CAPIRE COME IMPLEMENTARE STO METODO....
 
 
 
-    /*
-    public String titleArticle(){
-        return mArticleDao.titleArticle();
-    }
-    */
 
     //TODO: implementare metodi DELETE?
 

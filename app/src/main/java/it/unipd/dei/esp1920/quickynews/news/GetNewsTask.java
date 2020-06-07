@@ -54,6 +54,7 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
                 case "nytimes-science":
                 case "nytimes-business":
                     returned = fetchNewYorkTimes(url);
+                  //  myRepository.
                 break;
                 case "bbc-news": returned = fetchBbc(url);
                 break;
@@ -77,6 +78,7 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
     @Override
     protected void onPostExecute(ArrayList<String> result) {
         delegate.processFinish(result);
+       // myRepository.setPageHTML(this.url,result);
        // myRepository.setPageHTML(this.url,result);
     }
 

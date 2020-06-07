@@ -16,6 +16,7 @@ import android.widget.VideoView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
 import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
@@ -72,15 +73,13 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
                 Log.d(TAG,"------------DEBUG---------");
                 String url = getIntent().getStringExtra("url");
                 Article article = myRepository.getArticle(url);
-                ArrayList<View> pageHTML = article.getPageHTML();
+                List<String> pageHTML = article.getPageHTML();
                 Log.d(TAG,"article title= "+article.getTitle());
                 Log.d(TAG,"article pageHTML= "+pageHTML);
                 while (!pageHTML.isEmpty()) {
-                    View v = pageHTML.remove(0);
-                    if (v.getParent() != null) {
-                        ((ViewGroup) v.getParent()).removeView(v);
-                    }
-                    linearLayout.addView(v);
+                    String v = pageHTML.remove(0);
+
+                    //linearLayout.setText(v);
                 }
                 scrollView.addView(linearLayout);
                 setContentView(scrollView);

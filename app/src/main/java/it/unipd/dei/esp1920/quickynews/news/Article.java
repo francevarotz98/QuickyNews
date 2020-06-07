@@ -12,6 +12,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
 @Entity(tableName = "article_table")
@@ -30,9 +32,9 @@ public class Article implements Comparable<Article> {
     private String urlToImage;
     private Date publishedAt;
     private String content;
-    // private String category;
+    private String category;
     private boolean isFavorite;
-    private ArrayList<View> pageHTML;
+    private List<String> pageHTML;
 
     //for POJOs
     public Article() {
@@ -43,8 +45,8 @@ public class Article implements Comparable<Article> {
         this.url = null;
         this.urlToImage = null;
         this.publishedAt = null;
-        this.content = content;
-        // this.category = category;
+        this.content = null;
+        this.category = null;
         this.isFavorite=false;
         pageHTML=null;
     }
@@ -58,7 +60,9 @@ public class Article implements Comparable<Article> {
         this.url = url;
         this.urlToImage = urlToImage;
         this.isFavorite=false;
-        this.pageHTML=new ArrayList<>();
+        this.pageHTML=new LinkedList<>();
+        this.category=null;
+
         if(publishedAt.equals("null")) {
             try {
                 this.publishedAt = FORMATTER1.parse("0000-00-00T00:00:00+00:00");
@@ -157,20 +161,21 @@ public class Article implements Comparable<Article> {
         this.isFavorite=isFavorite;
     }
 
-    public ArrayList<View> getPageHTML(){
+    public List<String> getPageHTML(){
         return pageHTML;
     }
 
-    public void setPageHTML(ArrayList<View> pageHTML){
+    public void setPageHTML(List<String> pageHTML){
         this.pageHTML=pageHTML;
     }
-    /* public String getCategory() {
+
+    public String getCategory() {
         return category;
     }
 
     public void setCategory(String category) {
         this.category = category;
-    } */
+    }
 
 
 

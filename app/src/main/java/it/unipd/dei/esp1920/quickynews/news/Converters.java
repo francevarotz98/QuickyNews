@@ -6,6 +6,7 @@ import androidx.room.TypeConverter;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /*
 * We need this class to convert some specific types
@@ -37,16 +38,20 @@ public class Converters {
 
 
     @TypeConverter
-    public static ArrayList<View> fromString(String s){
-        return s == null ? null : new ArrayList<View>(); //TODO: CAPIRE CHE ERRORI POSSA CAUSARE RESTITUENDO UN OGGETTO "VUOTO"...
+    public static List<String> fromString(String s){
+        List<String> returned = new ArrayList<>();
+        //return a == null ? null : new ArrayList<String>().add(s); //TODO: CAPIRE CHE ERRORI POSSA CAUSARE RESTITUENDO UN OGGETTO "VUOTO"...
+        if(s!=null)
+            returned.add(s);
+        return returned;
     }
 
     @TypeConverter
-    public static String conversionSource(ArrayList<View> s){
+    public static String conversionSource(List<String> s){
         if(s!=null){
         StringBuilder toReturn= new StringBuilder();
-        for(View v : s)
-            toReturn.append(v.toString());
+        for(String v : s)
+            toReturn.append(v);
         return toReturn.toString();
         }
         else

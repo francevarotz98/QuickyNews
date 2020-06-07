@@ -1,8 +1,7 @@
 package it.unipd.dei.esp1920.quickynews.news;
 
-import android.view.View;
 
-import androidx.lifecycle.LiveData;
+
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -15,7 +14,7 @@ import java.util.List;
 public interface ArticleDao {
 
     @Query("SELECT * FROM article_table ORDER BY publishedAt DESC")
-    List<Article>/*LiveData<List<Article>>*/ getAllArticle();
+    List<Article> getAllArticle();
 
     @Query("SELECT * FROM article_table WHERE url = :url")
     Article getArticle(String url);
@@ -41,27 +40,26 @@ public interface ArticleDao {
     void setFavoriteArticle(String url, boolean isFavorite);
 
 
-    /*
     @Query("SELECT pageHTML FROM article_table WHERE url = :url")
-    ArrayList<View> getPageHTML(String url);
+    List<String> getPageHTML(String url);
 
-    -----> USA METODO getPageHTML() di Article  ....meow <-----  TODO:CAPIRE COME ROOM POSSA RITORNARE STO TIPO....
-    */
 
     @Query("UPDATE article_table SET pageHTML = :pageHTML WHERE url = :url")
-    void setPageHTML(String url,ArrayList<View> pageHTML);
+    void setPageHTML(String url,List<String> pageHTML);
 
-    /*
-    @Query("SELECT * FROM article_table WHERE ")
-    void List<Article> getArticlesCategories();
-    */
+
+    @Query("SELECT * FROM article_table WHERE ( " +
+            "category = 'sport' OR category = 'technology' OR category = 'business' OR category = 'science' ) ")
+    List<Article> getArticleCategories();
+
+
+    @Query("UPDATE article_table SET category = :category WHERE url = :url")
+    void setArticleCategory(String url, String category);
 
     /*
     @Query("SELECT title FROM article_table LIMIT 1") //query di debug
     String titleArticle();
     */
-    //TODO: update method? Is it necessary?
-
 
 
 }
