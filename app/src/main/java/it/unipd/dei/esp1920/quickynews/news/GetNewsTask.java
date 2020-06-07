@@ -66,11 +66,9 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
                     break;
                 case "bbc-sport":
                     returned = fetchBbc(url);
-                    myRepository.setArticleCategory(url,"sport");
                     break;
                 case "techcrunch":
                     returned = fetchTechcrunch(url);
-                    myRepository.setArticleCategory(url,"business");
                     break;
                 default: returned = null;
             }

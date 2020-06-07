@@ -199,6 +199,10 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                                 newsList.add(article);
                                 //Log.d(TAG,"Added to db article with title = "+article.getTitle());
                                 myRepository.insertArticle(article);
+                                if(source.getId().equals("techcrunch"))
+                                    myRepository.setArticleCategory(url,"technology");
+                                else if(source.getId().equals("bbc-sport"))
+                                    myRepository.setArticleCategory(url,"sport");
                             }
                         }
                         Log.d(TAG,"fetchCount = " + fetchCount);
@@ -547,10 +551,6 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
             newsList.add(article);
         }
 
-       /* if(!newsList.isEmpty())
-            insertionSort(newsList);
-
-        */
         recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(newsList)));
     }
 

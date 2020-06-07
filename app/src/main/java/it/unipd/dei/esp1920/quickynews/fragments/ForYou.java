@@ -14,7 +14,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import it.unipd.dei.esp1920.quickynews.R;
+import it.unipd.dei.esp1920.quickynews.news.Article;
 import it.unipd.dei.esp1920.quickynews.news.MyRepository;
 import it.unipd.dei.esp1920.quickynews.news.NewsApiResponse;
 import it.unipd.dei.esp1920.quickynews.news.NewsListAdapter;
@@ -28,6 +32,7 @@ public class ForYou extends Fragment {
     private boolean bln_cb_sport,bln_cb_tech,bln_cb_busin,bln_cb_science;         //variabili per salvare lo stato delle categorie
     private MyRepository myRepository;
     private RecyclerView recyclerView;
+    private List<Article> newsList;
 
     @Nullable
     @Override
@@ -35,7 +40,7 @@ public class ForYou extends Fragment {
         Log.d(TAG,"onCreateView");
         View view = inflater.inflate(R.layout.fragment_home,container,false);
         myRepository = TopNews.getRepository();
-
+        newsList = new LinkedList<>();
 
         SharedPreferences preferences = getActivity().getSharedPreferences("cat",MODE_PRIVATE);
 
@@ -43,6 +48,29 @@ public class ForYou extends Fragment {
         bln_cb_tech = preferences.getBoolean("chBoxTech",bln_cb_tech);
         bln_cb_busin = preferences.getBoolean("chBoxBus",bln_cb_busin);
         bln_cb_science = preferences.getBoolean("chBoxSc",bln_cb_science);
+
+        if(myRepository==null)
+        Toast.makeText(view.getContext(),"Please, click on Top News(bottom left) then come back",Toast.LENGTH_LONG).show();
+        else {
+            if (bln_cb_sport) {
+                for (Article article : myRepository.getSportArticle())
+                    newsList.add(article);
+            }
+
+            if (bln_cb_tech) {
+                for (Article article : myRepository.getTechnologyArticle())
+                    newsList.add(article);
+            }
+
+            if (bln_cb_busin) {
+                for (Article article : myRepository.getBusinessArticle())
+                    newsList.add(article);
+            }
+
+            if (bln_cb_science) {
+                for (Article article : myRepository.getScienceArticle())
+                    newsList.add(article);
+            }
 
         /*
 
@@ -53,22 +81,22 @@ public class ForYou extends Fragment {
 
         */
 
-        /*
-         * SOLUZIONE TEMPORANEA PER ERRORE NullPointerException per variabile
-         * myRepository. Possibile soluzione: creare variabile myRepository
-         * nel metodo onCreate di MainActivity e NON nel fragment TopNews.
-         *
-         * */
+            /*
+             * SOLUZIONE TEMPORANEA PER ERRORE NullPointerException per variabile
+             * myRepository. Possibile soluzione: creare variabile myRepository
+             * nel metodo onCreate di MainActivity e NON nel fragment TopNews.
+             *
+             * */
 
-        if(myRepository==null)
-            Toast.makeText(view.getContext(),"Please, click on Top News(bottom left) then come back",Toast.LENGTH_LONG).show();
-        else {
+
             recyclerView = view.findViewById(R.id.recyclerView);
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(myRepository.getScienceArticle())));
+            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(newsList)));
             //recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(myRepository.getBusinessArticle())));
-            Log.d(TAG,"myRepository.getScienceArticle() = "+myRepository.getScienceArticle());
-            Log.d(TAG,"myRepository.getScienceArticle() = "+myRepository.getBusinessArticle());
+            Log.d(TAG, "myRepository.getScienceArticle() = " + myRepository.getScienceArticle());
+            Log.d(TAG, "myRepository.getBusinessArticle() = " + myRepository.getBusinessArticle());
+            Log.d(TAG, "myRepository.getTechnologyArticle() = " + myRepository.getTechnologyArticle());
+            Log.d(TAG, "myRepository.getSportArticle() = " + myRepository.getSportArticle());
         }
 
         return view;

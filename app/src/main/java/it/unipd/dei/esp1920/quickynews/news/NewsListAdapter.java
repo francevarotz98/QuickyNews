@@ -151,7 +151,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                                 //toast.setGravity(0,0,0);
                                 toast.show();
 
-                                 new GetNewsTask(v.getContext(), new GetNewsTask.AsyncResponse() { // TODO Ho commentato questa parte solamente per poter testare l'applicazione
+                                 new GetNewsTask(v.getContext(), new GetNewsTask.AsyncResponse() {
                                     @Override
                                     public void processFinish(ArrayList<String> output) {
                                         Log.d(TAG,"processFinish() di onClick()");
