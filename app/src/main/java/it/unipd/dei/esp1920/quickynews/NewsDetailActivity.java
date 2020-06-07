@@ -69,26 +69,48 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
 
         else{ //mobile phone not connected
             String pageHTML="";
-            if(getIntent()!=null) {
+            if(getIntent()!=null){
                 Log.d(TAG,"------------DEBUG---------");
                 String url = getIntent().getStringExtra("url");
                 Article article = myRepository.getArticle(url);
                 pageHTML = article.getPageHTML();
                 Log.d(TAG,"article title= "+article.getTitle());
-                //Log.d(TAG,"article pageHTML= "+pageHTML);
+            }
 
-
-                //linearLayout.setText(v);
+            setContentView(R.layout.news_detail_offline);
+            TextView t = null ;
+            int start=0;
+            int end=8;
+            while(end<pageHTML.length()){
+                t =  findViewById(R.id.pageHTML);
+                if(pageHTML.length() >= 8 && pageHTML.substring(start,end).equals("BOLDDLOB")) {
+                    t.setText(pageHTML.substring(start,end));
+                    t.setTypeface(null, Typeface.BOLD);
+                    Log.d(TAG,"IF :pageHTML.substring(start,end+8) = "+pageHTML.substring(start,end));
+                    start+=8;
+                    end+=8;
                 }
+                else{
+                    t.setTypeface(null,Typeface.NORMAL);
+                    t.setText(pageHTML.substring(start,end));
+                    Log.d(TAG,"ELSE: pageHTML.substring(start,end+8) = "+pageHTML.substring(start,end));
+                    start+=8;
+                    end+=8;
+                    }
 
-                /*
-                scrollView.addView(linearLayout);
-                setContentView(scrollView);
-                */
-                setContentView(R.layout.news_detail_offline);
-                TextView t = findViewById(R.id.pageHTML);
-                t.setText(pageHTML);
-                t.setTextSize(23);
+                }
+                try {
+                    t.setText(pageHTML);
+                    t.setTextSize(18);
+                }
+                catch(NullPointerException e){
+                    e.printStackTrace();
+                    // mi serve questo try catch per quando non ho internet
+                    // e tento di entrare nella pag HTML di una news NON presente
+                    // nel db
+                }
+                /*TODO: finire parsing fatto bene*/
+
                 Log.d(TAG,"------------END DEBUG---------");
                 //da finire
             }

@@ -155,7 +155,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                                     @Override
                                     public void processFinish(ArrayList<String> output) {
                                         Log.d(TAG,"processFinish() di onClick()");
-                                        Log.d(TAG,"output = "+output);
+
                                         String page="";
                                         if(output!=null) {
                                             for(String word : output)
@@ -165,9 +165,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                                             Log.d(TAG,"page = "+page);
                                             myRepository.setPageHTML(mCurrent.getUrl(), page);
                                         }
-                                        //mCurrent.setPageHTML(output); //<<--------
-                                        Log.d(TAG,"***mCurrent.getPageHTML()="+myRepository.getPageHTML(mCurrent.getUrl()));//mCurrent.getPageHTML());
-                                        Log.d(TAG,"***mCurrent.getSource().getId()="+mCurrent.getSource().getId());
 
                                     }
                                 }).execute(mCurrent.getUrl(),mCurrent.getSource().getId());
@@ -178,7 +175,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                                 Toast toast= Toast.makeText(v.getContext(),"Keep calm.\n You still have your news on Saved.",Toast.LENGTH_LONG);
                                 //t.setGravity(Gravity.CENTER_HORIZONTAL,15,10);
                                 toast.show();
-                                Log.d(TAG,"***mCurrent.getPageHTML() nell'else="+mCurrent.getPageHTML());
                             }
 
 

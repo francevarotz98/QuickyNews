@@ -1,18 +1,15 @@
 package it.unipd.dei.esp1920.quickynews.news;
 
 import android.app.Application;
-import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MyRepository
 {
-
     private  ArticleDao mArticleDao;
     private List<Article>/*LiveData<List<Article>>*/ mAllArticle;
     private int numArticle;
-    //private String mTitle;
+
 
     public MyRepository(Application app) {
         MyRoomDatabase db = MyRoomDatabase.getDatabase(app);
@@ -53,14 +50,11 @@ public class MyRepository
 
     public void setPageHTML(String url, String pageHTML){
         MyRoomDatabase.databaseWriteExecutor.execute( () -> mArticleDao.setPageHTML(url, pageHTML));
-        Log.d("MyRepository","DEBUG: pageHTML = "+pageHTML); //TODO: cancellare alla fine
     }
 
     public String getPageHTML(String url){
         return  mArticleDao.getPageHTML(url);
     }
-     //TODO: CAPIRE COME IMPLEMENTARE STO METODO....
-
 
 
 

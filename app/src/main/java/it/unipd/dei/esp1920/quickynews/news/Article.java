@@ -168,7 +168,6 @@ public class Article implements Comparable<Article> {
 
     public void setPageHTML(String pageHTML){
         this.pageHTML=pageHTML;
-        Log.d("Article"," ^^^pageHTML"+ pageHTML);
     }
 
     public String getCategory() {
