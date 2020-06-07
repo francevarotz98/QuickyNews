@@ -22,14 +22,14 @@ import it.unipd.dei.esp1920.quickynews.news.Article;
 import it.unipd.dei.esp1920.quickynews.news.MyRepository;
 import it.unipd.dei.esp1920.quickynews.news.NewsApiResponse;
 import it.unipd.dei.esp1920.quickynews.news.NewsListAdapter;
-import it.unipd.dei.esp1920.quickynews.settings.CategoriesSettings;
+//import it.unipd.dei.esp1920.quickynews.settings.CategoriesSettings;
 
 import static android.content.Context.MODE_PRIVATE;
 
 public class ForYou extends Fragment {
 
     private final static String TAG="ForYou";
-    private boolean bln_cb_sport,bln_cb_tech,bln_cb_busin,bln_cb_science;         //variabili per salvare lo stato delle categorie
+    private boolean bln_cb_sport,bln_cb_tech,bln_cb_busin,bln_cb_science;    //variabili per salvare lo stato delle categorie
     private MyRepository myRepository;
     private RecyclerView recyclerView;
     private List<Article> newsList;
@@ -72,31 +72,10 @@ public class ForYou extends Fragment {
                     newsList.add(article);
             }
 
-        /*
-
-        Log.d(TAG,"pref_sport="+bln_cb_sport);
-        Log.d(TAG,"pref_Tech="+bln_cb_tech);
-        Log.d(TAG,"pref_Science="+bln_cb_science);
-        Log.d(TAG,"pref_Business="+bln_cb_busin);
-
-        */
-
-            /*
-             * SOLUZIONE TEMPORANEA PER ERRORE NullPointerException per variabile
-             * myRepository. Possibile soluzione: creare variabile myRepository
-             * nel metodo onCreate di MainActivity e NON nel fragment TopNews.
-             *
-             * */
-
-
             recyclerView = view.findViewById(R.id.recyclerView);
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
             recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(newsList)));
-            //recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(myRepository.getBusinessArticle())));
-            Log.d(TAG, "myRepository.getScienceArticle() = " + myRepository.getScienceArticle());
-            Log.d(TAG, "myRepository.getBusinessArticle() = " + myRepository.getBusinessArticle());
-            Log.d(TAG, "myRepository.getTechnologyArticle() = " + myRepository.getTechnologyArticle());
-            Log.d(TAG, "myRepository.getSportArticle() = " + myRepository.getSportArticle());
+
         }
 
         return view;

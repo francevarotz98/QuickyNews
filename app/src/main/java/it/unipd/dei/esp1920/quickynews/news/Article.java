@@ -1,20 +1,13 @@
 package it.unipd.dei.esp1920.quickynews.news;
 
 
-import android.util.Log;
-import android.view.View;
-
-import androidx.annotation.ArrayRes;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
 
 @Entity(tableName = "article_table")
@@ -36,6 +29,7 @@ public class Article implements Comparable<Article> {
     private String category;
     private boolean isFavorite;
     private String pageHTML;
+    private String id;
 
     //for POJOs
     public Article() {
@@ -50,6 +44,7 @@ public class Article implements Comparable<Article> {
         this.category = null;
         this.isFavorite=false;
         pageHTML="";
+        this.id="";
     }
 
 
@@ -84,7 +79,7 @@ public class Article implements Comparable<Article> {
             }
         }
         this.content = content;
-        // this.category = category;
+
     }
 
     public Source getSource() {
@@ -178,6 +173,13 @@ public class Article implements Comparable<Article> {
         this.category = category;
     }
 
+    public String getId(){
+        return id;
+    }
+
+    public void setId(String id){
+        this.id=id;
+    }
 
 
     @Override

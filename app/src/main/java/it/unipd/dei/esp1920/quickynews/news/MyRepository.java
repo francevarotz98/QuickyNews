@@ -76,6 +76,14 @@ public class MyRepository
         return mArticleDao.getScienceArticle();
     }
 
+    public String getId(String url){
+        return mArticleDao.getId(url);
+    }
+
+    public void setId(String url, String id){
+        MyRoomDatabase.databaseWriteExecutor.execute( ()-> mArticleDao.setId(url,id));
+    }
+
 
 
 

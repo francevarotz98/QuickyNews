@@ -203,6 +203,8 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                                     myRepository.setArticleCategory(url,"technology");
                                 else if(source.getId().equals("bbc-sport"))
                                     myRepository.setArticleCategory(url,"sport");
+
+                                myRepository.setId(article.getUrl(),article.getSource().getId());
                             }
                         }
                         Log.d(TAG,"fetchCount = " + fetchCount);
@@ -400,6 +402,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                                 // Log.d(TAG,"Added to db article with title = "+article.getTitle());
                                 myRepository.insertArticle(article);
                                 myRepository.setArticleCategory(article.getUrl(),"science");
+                                myRepository.setId(article.getUrl(),article.getSource().getId());
                             }
                         }
                         Log.d(TAG,"fetchCount = " + fetchCount);
@@ -505,6 +508,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                                 // Log.d(TAG,"Added to db article with title = "+article.getTitle());
                                 myRepository.insertArticle(article);
                                 myRepository.setArticleCategory(article.getUrl(),"business");
+                                myRepository.setId(article.getUrl(),article.getSource().getId());
                             }
                         }
                         Log.d(TAG,"fetchCount = " + fetchCount);

@@ -122,7 +122,14 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                 Context context = v.getContext();
                 Intent intent = new Intent(context, NewsDetailActivity.class);
                 intent.putExtra("url", mCurrent.getUrl());
-                intent.putExtra("source_id", mCurrent.getSource().getId());
+                if(mCurrent.getSource().getId()!=null)
+                    intent.putExtra("source_id", mCurrent.getSource().getId());
+                else{
+                    intent.putExtra("source_id",myRepository.getId(mCurrent.getUrl())); //provo a vedere se ho la news nel db
+                }
+                Log.d(TAG,"mCurrent.getUrl() ="+mCurrent.getUrl());
+                Log.d(TAG,"mCurrent.getSource.getid ="+mCurrent.getSource().getId());
+                Log.d(TAG,"myRep.getId(url) ="+myRepository.getId(mCurrent.getUrl()));
                 context.startActivity(intent);
             }
         });
@@ -146,6 +153,8 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                         boolean wasFavorite=myRepository.isFavoriteArticle(mCurrent.getUrl());
                         if(items[item]=="Yes"){ //Yes
                             myRepository.setFavorite(mCurrent.getUrl(),true);
+                            Log.d(TAG,"^^^^^ mCurrent.getid() ="+mCurrent.getSource().getId());
+                            myRepository.setId(mCurrent.getUrl(),mCurrent.getSource().getId());
                             if(!wasFavorite){
                                 Toast toast= Toast.makeText(v.getContext(),"You have saved your news.\n Now you can find it on Saved.",Toast.LENGTH_LONG);
                                 //toast.setGravity(0,0,0);
@@ -160,9 +169,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                                         if(output!=null) {
                                             for(String word : output)
                                                 page+=word;
-
-
-                                            Log.d(TAG,"page = "+page);
                                             myRepository.setPageHTML(mCurrent.getUrl(), page);
                                         }
 
@@ -182,7 +188,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                         }
                         else //no
                             myRepository.setFavorite(mCurrent.getUrl(),false);
-
                         Log.d(TAG,"All favorites  = "+myRepository.getFavoritesArticle().size());
 
                     }//{[\m]onClick}

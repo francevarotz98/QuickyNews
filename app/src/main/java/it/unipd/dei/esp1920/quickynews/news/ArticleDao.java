@@ -51,11 +51,14 @@ public interface ArticleDao {
     @Query("SELECT * FROM article_table WHERE category = 'sport' ORDER BY publishedAt DESC")
     List<Article> getSportArticle();
 
+
     @Query("SELECT * FROM article_table WHERE category = 'technology' ORDER BY publishedAt DESC ")
     List<Article> getTechnologyArticle();
 
+
     @Query("SELECT * FROM article_table WHERE category = 'business' ORDER BY publishedAt DESC ")
     List<Article> getBusinessArticle();
+
 
     @Query("SELECT * FROM article_table WHERE category = 'science' ORDER BY publishedAt DESC")
     List<Article> getScienceArticle();
@@ -65,11 +68,12 @@ public interface ArticleDao {
     void setArticleCategory(String url, String category);
 
 
+    @Query("UPDATE article_table SET id = :id WHERE url = :url")
+    public void setId(String url, String id);
+
+    @Query("SELECT id FROM article_table WHERE url = :url")
+    public String getId(String url);
 
 
 
 }
-
-
-
-
