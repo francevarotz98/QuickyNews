@@ -12,7 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import it.unipd.dei.esp1920.quickynews.R;
 import it.unipd.dei.esp1920.quickynews.storage.AvailableSpace;
 
-public class SeekBarDialog extends Settings {
+public class SeekBarDownload extends Settings {
 
     private SeekBar  mSeekBar;
     private long totSpace,minSpace,maxSpace;            //serve per settare il testo agli estremi della seekbar
@@ -21,13 +21,13 @@ public class SeekBarDialog extends Settings {
     private String str_et;
     private Toolbar mToolbar;
     private int mFontSize,fontSize;
-    private static final String TAG="SeekBarDialog";
+    private static final String TAG="SeekBarDownload";
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_seekbar_settings);
+        setContentView(R.layout.settings_seekbar_);
 
 
 

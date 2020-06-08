@@ -76,7 +76,7 @@ public class Settings extends AppCompatActivity {
         mSeekbarBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(Settings.this, SeekBarDialog.class);
+                Intent myIntent = new Intent(Settings.this, SeekBarDownload.class);
                 Settings.this.startActivity(myIntent);
             }
         });
