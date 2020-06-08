@@ -125,7 +125,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
         //Log.d(TAG,"onBindViewHolder()");
 
         Article mCurrent = mNewsListContainer.getArticles().get(position);
-        Log.d(TAG,"NAME= "+ mCurrent.getSource().getName());
+        //Log.d(TAG,"NAME= "+ mCurrent.getSource().getName());
         if(mCurrent.getSource().getName()=="The New York Times - Business")
             holder.mSource.setText("TNYT-Business");
         else
@@ -198,7 +198,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                         boolean wasFavorite=myRepository.isFavoriteArticle(mCurrent.getUrl());
                         if(items[item]=="Yes"){ //Yes
                             myRepository.setFavorite(mCurrent.getUrl(),true);
-                            //Log.d(TAG,"^^^^^ mCurrent.getid() ="+mCurrent.getSource().getId());
+                            Log.d(TAG,"^^^^^ mCurrent.getid() ="+mCurrent.getSource().getId());
                             myRepository.setId(mCurrent.getUrl(),mCurrent.getSource().getId());
                             if(!wasFavorite){
                                 Toast toast= Toast.makeText(v.getContext(),"You have saved your news.\n Now you can find it on Saved.",Toast.LENGTH_LONG);

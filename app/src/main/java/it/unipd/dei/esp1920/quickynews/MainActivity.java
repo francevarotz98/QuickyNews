@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             botNav.setSelectedItemId(R.id.nav_for_you);
         }
 
-        //TODO: NEL CASO DEL PRIMO ACCESSO METTEREI UN IF/SWITCH CHE MI PORTA ALLE SETTINGS
+
     }
 
     @Override

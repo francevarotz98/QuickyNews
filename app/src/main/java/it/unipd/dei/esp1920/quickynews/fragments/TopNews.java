@@ -81,13 +81,16 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         myRepository = new MyRepository(getActivity().getApplication());
 
 
+        /*
         for(Article article : myRepository.getAllArticle()){
             //if(Integer.parseInt(article.getStringPublishedAt())>20){
-                Log.d(TAG,"data article = "+article.getStringPublishedAt());
+                //Log.d(TAG,"data article = "+article.getStringPublishedAt());
+
                 //myRepository.deleteArticle(article.getUrl());
 
             //}
         }
+        */
 
 
 

@@ -66,13 +66,7 @@ public class Saved extends Fragment {
         else {
             recyclerView = view.findViewById(R.id.recyclerView_saved);
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-            List<Article> a = new LinkedList<>();
-            for(Article art : myRepository.getFavoritesArticle())
-            {
-                Log.d(TAG,"source="+myRepository.getArticle(art.getUrl()).getSource().getId());
-                a.add(art);
-            }
-            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(a)));
+            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(myRepository.getFavoritesArticle())));
         }
 
         return view;

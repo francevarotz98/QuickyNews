@@ -67,28 +67,23 @@ public class ForYou extends Fragment implements SwipeRefreshLayout.OnRefreshList
             bln_cb_science = preferences.getBoolean("chBoxSc",bln_cb_science);
 
             if (bln_cb_sport)
-                for (Article article : myRepository.getSportArticle()) {
+                for (Article article : myRepository.getSportArticle())
                     newsList.add(article);
-                    //textCategory.setText("Sport");
-                }
 
             if (bln_cb_tech)
-                for (Article article : myRepository.getTechnologyArticle()) {
+                for (Article article : myRepository.getTechnologyArticle())
                     newsList.add(article);
-                    //textCategory.setText("Technology");
-                }
+
 
             if (bln_cb_busin)
-                for (Article article : myRepository.getBusinessArticle()) {
+                for (Article article : myRepository.getBusinessArticle())
                     newsList.add(article);
-                    //textCategory.setText("Business");
-                }
+
 
             if (bln_cb_science)
-                for (Article article : myRepository.getScienceArticle()) {
+                for (Article article : myRepository.getScienceArticle())
                     newsList.add(article);
-                    //textCategory.setText("Science");
-                }
+
 
             Log.d(TAG,"post getFavoritesArticle() newsList size = "+newsList.size());
 
@@ -143,8 +138,6 @@ public class ForYou extends Fragment implements SwipeRefreshLayout.OnRefreshList
         swipeRefreshLayout.setRefreshing(false);
 
     }
-
-
 
 
     @Override

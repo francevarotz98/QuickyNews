@@ -44,7 +44,6 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
         super.onCreate(savedInstanceState);
         Log.d(TAG,"onCreate()");
 
-
         SharedPreferences preferences2 = getSharedPreferences("fontSizeKey",MODE_PRIVATE);
         fontSize = preferences2.getInt("seekBarFontValue", 40);
         if(fontSize<20) {
@@ -62,7 +61,8 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
         else{
             mFontSize=32;
         }
-        /*myRepository = TopNews.getRepository();
+        myRepository = TopNews.getRepository();
+        /*
         scrollView = new ScrollView(this);
         scrollView.setLayoutParams(MM_LAYOUT_PARAMS);
 
@@ -104,76 +104,27 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
         else { //mobile phone not connected
             String pageHTML = "";
             if (getIntent() != null) {
+                //String pageHTML = "";
                 setContentView(R.layout.news_detail_offline);
                 TextView t = findViewById(R.id.pageHTML);
                 Log.d(TAG, "------------DEBUG---------");
                 String url = getIntent().getStringExtra("url");
                 try {
                     pageHTML = myRepository.getPageHTML(url);
+                    Log.d(TAG,"article="+myRepository.getArticle(url).getTitle());
+                    Log.d(TAG,"pageHTML="+pageHTML);
                     t.setText(pageHTML);
                     t.setTextSize(mFontSize);
-                } catch (NullPointerException e) {
+                }
+                catch(NullPointerException e) {
                     e.printStackTrace();
                     t.setText(R.string.not_connected);
                     t.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     t.setTextSize(mFontSize);
-                    //pageHTML = myRepository.getPageHTML(url);
-                    //pageHTML = article.getPageHTML();
-                    //Log.d(TAG,"article title= "+article.getTitle());
+
                 }
 
-                /*setContentView(R.layout.news_detail_offline);
-                TextView t = findViewById(R.id.pageHTML);*/
-            /*
-            int start=0;
-            int end=8;
-            boolean isBold=false;
-            while(end<=pageHTML.length()){
-                if(pageHTML.substring(start,end).equals("BOLDDLOB") || (isBold==true)) {
-                    t.setTypeface(null, Typeface.BOLD);
-                    isBold=true;
-                    if(pageHTML.substring(start,end).equals("BOLDDLOB")) {
-                        start += 8; //salto BOLDDLOB
-                        end += 8;
-                        t.append(pageHTML.substring(start, end));
-                        Log.d(TAG, "IF :pageHTML.substring(start,end) = " + pageHTML.substring(start, end));
-                    }
-                    else {
-                        t.append(pageHTML.substring(start, end));
-                        Log.d(TAG, "IF dopo :pageHTML.substring(start,end) = " + pageHTML.substring(start, end));
-                        start += 8;
-                        end += 8;
-                    }
-                }
 
-                else{
-                    isBold=false;
-                    t.setTypeface(null,Typeface.NORMAL);
-                    t.append(pageHTML.substring(start,end));
-                    Log.d(TAG,"ELSE: pageHTML.substring(start,end) = "+pageHTML.substring(start,end));
-                    start+=8;
-                    end+=8;
-                }
-
-                t.setTextSize(16);
-                }
-            */
-
-
- /*           try {
-                    t.setText(pageHTML);
-                    t.setTextSize(16);
-                }
-                catch(NullPointerException e){
-                    e.printStackTrace();
-                    // mi serve questo try catch per quando non ho internet
-                    // e tento di entrare nella pag HTML di una news NON presente
-                    // nel db
-                }*/
-
-
-
-                /*TODO: finire parsing fatto bene*/
 
                 Log.d(TAG, "------------END DEBUG---------");
                 //da finire

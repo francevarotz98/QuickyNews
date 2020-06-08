@@ -20,7 +20,7 @@ public abstract class MyRoomDatabase extends RoomDatabase
     abstract ArticleDao articleDao();
 
     private static volatile MyRoomDatabase INSTANCE; //create one and only one instance of MyRoomDatabase because of that volatile
-    private static final int NUMBER_OF_THREADS = 4; //TODO: capire quanti usarne effettivamente
+    private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS); //singleton creation (singleton is useful
     // when exactly one object is needed)
     static MyRoomDatabase getDatabase(final Context context)
