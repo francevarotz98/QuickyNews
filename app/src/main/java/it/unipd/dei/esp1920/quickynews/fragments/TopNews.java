@@ -51,7 +51,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     private final static String TAG = "Top News";
     private int fetchCount = 0;
     private static int onCreateViewCount = 0;
-
+    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private static MyRepository myRepository;
@@ -80,16 +80,16 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
         myRepository = new MyRepository(getActivity().getApplication());
 
-        /*
-        for(Article article : myRepository.getAllArticle()){
-            if(Integer.parseInt(article.getStringPublishedAt())>20){
-                Log.d(TAG,"data article = "+Integer.parseInt(article.getStringPublishedAt()));
-                myRepository.deleteArticle(article.getUrl());
 
-            }
+        for(Article article : myRepository.getAllArticle()){
+            //if(Integer.parseInt(article.getStringPublishedAt())>20){
+                Log.d(TAG,"data article = "+article.getStringPublishedAt());
+                //myRepository.deleteArticle(article.getUrl());
+
+            //}
         }
 
-        */
+
 
         if(onCreateViewCount == 1) return v;
         else if(NetConnectionReceiver.isConnected(context)) {

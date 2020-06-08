@@ -39,7 +39,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
 
     private final NewsApiResponse mNewsListContainer;
     private LayoutInflater mInflater;
-    // private Context mContext;
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
     private MyRepository myRepository = TopNews.getRepository();
     private List<Article> mListArticle;
@@ -172,6 +171,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                                         if(output!=null) {
                                             for(String word : output)
                                                 page+=word;
+                                            Log.d(TAG,"+++page="+page);
                                             myRepository.setPageHTML(mCurrent.getUrl(), page);
                                         }
 

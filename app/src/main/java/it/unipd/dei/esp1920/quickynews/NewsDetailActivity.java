@@ -39,8 +39,8 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
         super.onCreate(savedInstanceState);
         Log.d(TAG,"onCreate()");
 
-        /*myRepository = TopNews.getRepository();
-        scrollView = new ScrollView(this);
+        myRepository = TopNews.getRepository();
+        /*scrollView = new ScrollView(this);
         scrollView.setLayoutParams(MM_LAYOUT_PARAMS);
 
         linearLayout = new LinearLayout(this);
@@ -83,7 +83,11 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
             if(getIntent()!=null){
                 Log.d(TAG,"------------DEBUG---------");
                 String url = getIntent().getStringExtra("url");
+                Log.d(TAG,"url="+url);
                 pageHTML = myRepository.getPageHTML(url);
+                Log.d(TAG,"myrep="+myRepository);
+                Log.d(TAG,"probabi="+myRepository.getPageHTML(url));
+
                 //pageHTML = article.getPageHTML();
                 //Log.d(TAG,"article title= "+article.getTitle());
             }
