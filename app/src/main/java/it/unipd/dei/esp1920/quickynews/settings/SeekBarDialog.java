@@ -27,7 +27,7 @@ public class SeekBarDialog extends Settings {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_seekbar_settings);
+        setContentView(R.layout.settings_seekbar_);
 
 
 
