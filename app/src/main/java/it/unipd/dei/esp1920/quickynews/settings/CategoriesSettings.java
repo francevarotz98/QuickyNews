@@ -12,6 +12,7 @@ import it.unipd.dei.esp1920.quickynews.R;
 
 public class CategoriesSettings extends Settings {
 
+    private int fontSize,mFontSize;
     private final String TAG="Categories1";
     private Toolbar mToolbar;
     private static boolean bln_cb_sport,bln_cb_tech, bln_cb_busin, bln_cb_science; //variabili per salvare lo stato delle categorie
@@ -45,11 +46,30 @@ public class CategoriesSettings extends Settings {
         mSelectedFood.setChecked(bln_cb_busin);
         mSelectedMot.setChecked(bln_cb_science);
 
-
-
-
+        //--------------------------------------------  //per settare la dim del font
+        SharedPreferences preferences2 = getSharedPreferences("fontSizeKey",MODE_PRIVATE);
+        fontSize = preferences2.getInt("seekBarFontValue", 0);
+        if(fontSize<20) {
+            mFontSize=10;
+        }
+        else if(fontSize<40) {
+            mFontSize=15;
+        }
+        else if(fontSize<60) {
+            mFontSize=20;
+        }
+        else if(fontSize<80) {
+            mFontSize=25;
+        }
+        else{
+            mFontSize=30;
+        }
+        mSelectedSport.setTextSize(mFontSize);
+        mSelectedTech.setTextSize(mFontSize);
+        mSelectedFood.setTextSize(mFontSize);
+        mSelectedMot.setTextSize(mFontSize);
     }
-
+    //-------------------------------------------- fino a qua c'è il setting delle dim  del testo
     @Override
     protected void onPause() {
         super.onPause();

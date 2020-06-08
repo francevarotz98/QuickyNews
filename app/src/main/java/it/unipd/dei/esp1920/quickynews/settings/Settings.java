@@ -19,6 +19,8 @@ public class Settings extends AppCompatActivity {
     private Button mSeekbarBtn;
     private Toolbar mToolbar;
     private Button mCategories;
+    private Button mFontSize;
+    private int mFontSizeI,int_sb;
 
     private static final String TAG="Settings";
 
@@ -37,7 +39,31 @@ public class Settings extends AppCompatActivity {
 
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
 
+
+        SharedPreferences preferences2 = getSharedPreferences("fontSizeKey",MODE_PRIVATE);
+        int_sb = preferences.getInt("seekBarFontValue", 0);
+
+        if(int_sb<20) {
+            mFontSizeI=10;
+        }
+        else if(int_sb<40) {
+            mFontSizeI=15;
+        }
+        else if(int_sb<60) {
+            mFontSizeI=20;
+        }
+        else if(int_sb<80) {
+            mFontSizeI=25;
+        }
+        else{
+            mFontSizeI=30;
+        }
+
+
+
+
         mCategories=(Button)findViewById(R.id.btn_choose_categories);
+
         mCategories.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,6 +77,15 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(Settings.this, SeekBarDialog.class);
+                Settings.this.startActivity(myIntent);
+            }
+        });
+
+        mFontSize=(Button)findViewById(R.id.btn_choose_font_size);
+        mFontSize.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(Settings.this, FontSize.class);
                 Settings.this.startActivity(myIntent);
             }
         });

@@ -22,7 +22,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/size"
-            android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/tV_progression_percentage"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +33,6 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textAlignment="center"
-            android:textSize="20dp"
             android:typeface="monospace"
             app:layout_constraintLeft_toRightOf="@+id/textView2"
             app:layout_constraintRight_toRightOf="parent"
@@ -55,7 +53,7 @@
             android:layout_height="match_parent"
             android:text="@string/minSpace"
             android:typeface="monospace"
-            android:textAlignment="viewStart" />            <!--non sono sicuro di questo viewStart però funzia-->
+            android:textAlignment="viewStart" />
 
         <TextView
             android:id="@+id/tV_maxSpace"

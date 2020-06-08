@@ -50,6 +50,10 @@
             android:parentActivityName=".settings.Settings">
 
         </activity>
+        <activity android:name=".settings.FontSize"
+            android:parentActivityName=".settings.Settings">
+
+        </activity>
 
         <receiver
             android:name=".connections.NetConnectionReceiver"

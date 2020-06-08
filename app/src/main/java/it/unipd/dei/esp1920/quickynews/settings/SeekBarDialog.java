@@ -17,9 +17,10 @@ public class SeekBarDialog extends Settings {
     private SeekBar  mSeekBar;
     private long totSpace,minSpace,maxSpace;            //serve per settare il testo agli estremi della seekbar
     private int mBChosen,int_sb;                               //mBytes scelti dall'utente
-    private TextView mTextView,mTextViewMin,mTextViewMax;
+    private TextView mTextView,mTextViewMin,mTextViewMax,mTextView2;
     private String str_et;
     private Toolbar mToolbar;
+    private int mFontSize,fontSize;
     private static final String TAG="SeekBarDialog";
 
 
@@ -45,6 +46,37 @@ public class SeekBarDialog extends Settings {
         mSeekBar = (SeekBar) findViewById(R.id.sk_seekBar);
         mSeekBar.setProgress(int_sb);
 
+
+
+
+        //--------------------------------------------  //per settare la dim del font
+        SharedPreferences preferences2 = getSharedPreferences("fontSizeKey",MODE_PRIVATE);
+        fontSize = preferences2.getInt("seekBarFontValue", 0);
+        if(fontSize<20) {
+            mFontSize=10;
+        }
+        else if(fontSize<40) {
+            mFontSize=15;
+        }
+        else if(fontSize<60) {
+            mFontSize=20;
+        }
+        else if(fontSize<80) {
+            mFontSize=25;
+        }
+        else{
+            mFontSize=30;
+        }
+        mTextView2 = (TextView) findViewById(R.id.textView2);
+        mTextView2.setTextSize(mFontSize);
+        mTextView.setTextSize(mFontSize);
+
+    //-------------------------------------------- fino a qua c'è il setting delle dim  del testo
+
+
+
+
+
         totSpace = AvailableSpace.getTotalDiskSpace();    //spazio totale
 
         minSpace=(totSpace/100*1)/(1000000);    //min =1% del tot
@@ -54,6 +86,12 @@ public class SeekBarDialog extends Settings {
         mTextViewMax=(TextView)findViewById(R.id.tV_maxSpace);
         mTextViewMax.setText("Max: " + maxSpace +"Mb");                    //serve solo all'aspetto grafico
         mTextViewMin.setText("Min: " + minSpace+ "Mb");                    //serve solo all'aspetto grafico
+
+        //cast per dim-- il tmp è il 20% minore della dim
+        double tmp=mFontSize-0.2*mFontSize;
+        float tmp2 = (float)tmp;
+        mTextViewMax.setTextSize(tmp2);
+        mTextViewMin.setTextSize(tmp2);
 
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -99,6 +137,6 @@ public class SeekBarDialog extends Settings {
         str_et = mTextView.getText().toString();
         editor.putString("editTextValue", str_et);
 
-        editor.commit();
+        editor.apply();
     }
 }
