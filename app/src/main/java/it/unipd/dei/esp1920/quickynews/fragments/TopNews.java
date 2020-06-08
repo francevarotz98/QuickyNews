@@ -195,9 +195,12 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             if(!(article.getDescription().contains(article.getTitle()) || date.equals("null"))) {
                                 newsList.add(article);
                                 //Log.d(TAG,"333 Added to db article with source = "+article.getSource().getId());
-                                if(myRepository.getArticle(article.getUrl())!=null)
-                                    myRepository.setFavorite(article.getUrl(),true);
-                                myRepository.insertArticle(article);
+                                if(myRepository.getArticle(article.getUrl())!=null && myRepository.isFavoriteArticle(article.getUrl())) {
+                                    myRepository.insertArticle(article);
+                                    myRepository.setFavorite(article.getUrl(), true);
+                                }
+                                else
+                                    myRepository.insertArticle(article);
 
                                 if(source.getId().equals("techcrunch"))
                                     myRepository.setArticleCategory(url,"technology");
@@ -301,9 +304,12 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             if(!(urlToImage == null || article.getDescription().contains(article.getTitle()))){
                                 newsList.add(article);
                                 //Log.d(TAG,"222 Added to db article with source = "+article.getSource().getId());
-                                if(myRepository.getArticle(article.getUrl())!=null)
-                                    myRepository.setFavorite(article.getUrl(),true);
-                                myRepository.insertArticle(article);
+                                if(myRepository.getArticle(article.getUrl())!=null && myRepository.isFavoriteArticle(article.getUrl())) {
+                                    myRepository.insertArticle(article);
+                                    myRepository.setFavorite(article.getUrl(), true);
+                                }
+                                else
+                                    myRepository.insertArticle(article);
                             }
                         }
                         Log.d(TAG,"fetchCount = " + fetchCount);
@@ -402,9 +408,12 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             if(!(urlToImage == null || article.getDescription().contains(article.getTitle()))) {
                                 newsList.add(article);
                                 Log.d(TAG,"science Added to db article with source id = "+article.getSource().getId());
-                                if(myRepository.getArticle(article.getUrl())!=null)
-                                    myRepository.setFavorite(article.getUrl(),true);
-                                myRepository.insertArticle(article);
+                                if(myRepository.getArticle(article.getUrl())!=null && myRepository.isFavoriteArticle(article.getUrl())) {
+                                    myRepository.insertArticle(article);
+                                    myRepository.setFavorite(article.getUrl(), true);
+                                }
+                                else
+                                    myRepository.insertArticle(article);
                                 myRepository.setArticleCategory(article.getUrl(),"science");
                                 myRepository.setId(article.getUrl(),article.getSource().getId());
 
@@ -511,9 +520,13 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             if(!(urlToImage == null || article.getDescription().contains(article.getTitle()))) {
                                 newsList.add(article);
                                 Log.d(TAG,"111 Added to db article with title = "+article.getSource().getId());
-                                if(myRepository.getArticle(article.getUrl())!=null)
-                                    myRepository.setFavorite(article.getUrl(),true);
-                                myRepository.insertArticle(article);
+
+                                if(myRepository.getArticle(article.getUrl())!=null && myRepository.isFavoriteArticle(article.getUrl())) {
+                                    myRepository.insertArticle(article);
+                                    myRepository.setFavorite(article.getUrl(), true);
+                                }
+                                else
+                                    myRepository.insertArticle(article);
                                 myRepository.setArticleCategory(article.getUrl(),"business");
                                 myRepository.setId(article.getUrl(),article.getSource().getId());
                             }
