@@ -63,6 +63,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     public void onCreate(Bundle bundle){
         super.onCreate(bundle);
         Log.d(TAG,"onCreate()");
+
     }
 
     @Nullable
@@ -78,6 +79,17 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
         myRepository = new MyRepository(getActivity().getApplication());
+
+        /*
+        for(Article article : myRepository.getAllArticle()){
+            if(Integer.parseInt(article.getStringPublishedAt())>20){
+                Log.d(TAG,"data article = "+Integer.parseInt(article.getStringPublishedAt()));
+                myRepository.deleteArticle(article.getUrl());
+
+            }
+        }
+
+        */
 
         if(onCreateViewCount == 1) return v;
         else if(NetConnectionReceiver.isConnected(context)) {
@@ -407,7 +419,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             // controllo che il link dell'immagine non sia nullo e che la descrizione non sia uguale al titolo, poi aggiungo l'articolo alla lista
                             if(!(urlToImage == null || article.getDescription().contains(article.getTitle()))) {
                                 newsList.add(article);
-                                Log.d(TAG,"science Added to db article with source id = "+article.getSource().getId());
+                              //  Log.d(TAG,"science Added to db article with source id = "+article.getSource().getId());
                                 if(myRepository.getArticle(article.getUrl())!=null && myRepository.isFavoriteArticle(article.getUrl())) {
                                     myRepository.insertArticle(article);
                                     myRepository.setFavorite(article.getUrl(), true);
@@ -504,9 +516,12 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                                 e.printStackTrace();
                             }
 
+                            //cambio nome del source per problemi con layout (nome di prima troppo lungo)
+                            Source newSource = new Source("nytimes-business", "The NYT-Business");
+
                             // creo l'oggetto articolo
                             Article article = new Article(
-                                    source,
+                                    newSource,
                                     jsonArticle.getString("byline"),
                                     title,
                                     description,
@@ -516,10 +531,12 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                                     "No content"
                             );
 
+                            //Log.d(TAG,"qui, source="+article.getSource().getName());
+
                             // controllo che il link dell'immagine non sia nullo e che la descrizione non sia uguale al titolo, poi aggiungo l'articolo alla lista
                             if(!(urlToImage == null || article.getDescription().contains(article.getTitle()))) {
                                 newsList.add(article);
-                                Log.d(TAG,"111 Added to db article with title = "+article.getSource().getId());
+
 
                                 if(myRepository.getArticle(article.getUrl())!=null && myRepository.isFavoriteArticle(article.getUrl())) {
                                     myRepository.insertArticle(article);

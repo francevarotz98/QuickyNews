@@ -22,7 +22,7 @@ public class CategoriesSettings extends Settings {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate()");
-        setContentView(R.layout.categories_settings);
+        setContentView(R.layout.settings_categories);
 
         //TOOLBAR
         mToolbar=findViewById(R.id.toolBar);

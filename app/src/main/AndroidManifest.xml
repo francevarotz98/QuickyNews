@@ -42,7 +42,7 @@
             android:name=".NewsDetailActivity"
             android:parentActivityName=".MainActivity">
         </activity>
-        <activity android:name=".settings.SeekBarDialog"
+        <activity android:name=".settings.SeekBarDownload"
             android:parentActivityName=".settings.Settings">
 
         </activity>

@@ -84,6 +84,9 @@ public class MyRepository
         MyRoomDatabase.databaseWriteExecutor.execute( ()-> mArticleDao.setId(url,id));
     }
 
+    public void deleteArticle(String url) {
+        MyRoomDatabase.databaseWriteExecutor.execute( ()-> mArticleDao.deleteArticle(url));
+    }
 
 
 
