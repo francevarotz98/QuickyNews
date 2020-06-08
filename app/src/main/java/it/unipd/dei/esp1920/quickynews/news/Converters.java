@@ -27,8 +27,21 @@ public class Converters {
     }
 
     @TypeConverter
-    public static Source fromSource(String s){
-        return s == null ? null : new Source(s,s); //TODO: CAPIRE CHE ERRORI POSSA CAUSARE ...
+    public static Source fromSource(String name){
+        if(name.equals("TechCrunch"))
+            return new Source("techcrunch",name);
+        else if(name.equals("CNN"))
+            return new Source("cnn",name);
+        else if(name.equals("The New York Times"))
+            return new Source("nytimes",name);
+        else if(name.equals("The NYT-Business"))
+            return new Source("nytimes-business",name);
+        else if(name.equals("BBC News"))
+            return new Source("bbc-news",name);
+        else if(name.equals("BBC Sport"))
+            return new Source("bbc-sport",name);
+        else
+            return new Source(name,name) ;
     }
 
     @TypeConverter

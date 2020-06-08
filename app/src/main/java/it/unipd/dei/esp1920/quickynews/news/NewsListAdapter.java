@@ -122,13 +122,13 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
 
     @Override
     public void onBindViewHolder(NewsListAdapter.ArticleViewHolder holder, int position) {
-        //Log.d(TAG,"onBindViewHolder()");
+
 
         Article mCurrent = mNewsListContainer.getArticles().get(position);
-        //Log.d(TAG,"NAME= "+ mCurrent.getSource().getName());
-        if(mCurrent.getSource().getName()=="The New York Times - Business")
+        //Log.d(TAG,"NAME= "+ mCurrent.getSource());
+        /*if(mCurrent.getSource().getName()=="The New York Times - Business")
             holder.mSource.setText("TNYT-Business");
-        else
+        else*/
             holder.mSource.setText(mCurrent.getSource().getName());
         holder.mTitle.setText(mCurrent.getTitle());
         holder.mDescription.setText(mCurrent.getDescription());
@@ -198,23 +198,24 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                         boolean wasFavorite=myRepository.isFavoriteArticle(mCurrent.getUrl());
                         if(items[item]=="Yes"){ //Yes
                             myRepository.setFavorite(mCurrent.getUrl(),true);
-                            Log.d(TAG,"^^^^^ mCurrent.getid() ="+mCurrent.getSource().getId());
                             myRepository.setId(mCurrent.getUrl(),mCurrent.getSource().getId());
                             if(!wasFavorite){
                                 Toast toast= Toast.makeText(v.getContext(),"You have saved your news.\n Now you can find it on Saved.",Toast.LENGTH_LONG);
                                 //toast.setGravity(0,0,0);
                                 toast.show();
-
+                                Log.d(TAG,"source id="+mCurrent.getSource().getId());
+                                Log.d(TAG,"source name="+mCurrent.getSource().getName());
                                  new GetNewsTask(v.getContext(), new GetNewsTask.AsyncResponse() {
                                     @Override
                                     public void processFinish(ArrayList<String> output) {
                                         Log.d(TAG,"processFinish() di onClick()");
-
+                                        if(output==null)
+                                            Log.d(TAG,"+++ATTENZIONE: output="+output);
                                         String page="";
                                         if(output!=null) {
                                             for(String word : output)
                                                 page+=word;
-                                            Log.d(TAG,"+++page="+page);
+                                            //Log.d(TAG,"+++page="+page);
                                             myRepository.setPageHTML(mCurrent.getUrl(), page);
                                         }
 
