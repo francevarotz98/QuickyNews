@@ -84,7 +84,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
 
     @Override
     public void onBindViewHolder(NewsListAdapter.ArticleViewHolder holder, int position) {
-        Log.d(TAG,"onBindViewHolder()");
+        //Log.d(TAG,"onBindViewHolder()");
 
         Article mCurrent = mNewsListContainer.getArticles().get(position);
         holder.mSource.setText(mCurrent.getSource().getName());
@@ -124,6 +124,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                 Context context = v.getContext();
                 Intent intent = new Intent(context, NewsDetailActivity.class);
                 intent.putExtra("url", mCurrent.getUrl());
+
                 if(mCurrent.getSource().getId()!=null)
                     intent.putExtra("source_id", mCurrent.getSource().getId());
                 else{
