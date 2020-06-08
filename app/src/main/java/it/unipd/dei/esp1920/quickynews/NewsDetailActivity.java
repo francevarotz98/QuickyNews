@@ -62,8 +62,8 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
         else{
             mFontSize=32;
         }
-        /*myRepository = TopNews.getRepository();
-        scrollView = new ScrollView(this);
+        myRepository = TopNews.getRepository();
+        /*scrollView = new ScrollView(this);
         scrollView.setLayoutParams(MM_LAYOUT_PARAMS);
 
         linearLayout = new LinearLayout(this);
