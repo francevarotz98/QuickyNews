@@ -32,6 +32,24 @@ public class CategoriesSettings extends Settings {
 
         SharedPreferences preferences = getSharedPreferences("cat",MODE_PRIVATE);
 
+        SharedPreferences preferences2 = getSharedPreferences("fontSizeKey",MODE_PRIVATE);
+        fontSize = preferences2.getInt("seekBarFontValue", 40);
+        if(fontSize<20) {
+            mFontSize=12;
+        }
+        else if(fontSize<40) {
+            mFontSize=17;
+        }
+        else if(fontSize<60) {
+            mFontSize=22;
+        }
+        else if(fontSize<80) {
+            mFontSize=27;
+        }
+        else{
+            mFontSize=32;
+        }
+
         bln_cb_sport = preferences.getBoolean("chBoxSport",bln_cb_sport);
         bln_cb_tech = preferences.getBoolean("chBoxTech",bln_cb_tech);
         bln_cb_busin = preferences.getBoolean("chBoxBus",bln_cb_busin);
@@ -41,33 +59,17 @@ public class CategoriesSettings extends Settings {
         CheckBox mSelectedTech=(CheckBox)findViewById(R.id.checkBox_tech);
         CheckBox mSelectedFood=(CheckBox)findViewById(R.id.checkBox_business);
         CheckBox mSelectedMot=(CheckBox)findViewById(R.id.checkBox_science);
+        mSelectedSport.setTextSize(mFontSize);
+        mSelectedTech.setTextSize(mFontSize);
+        mSelectedFood.setTextSize(mFontSize);
+        mSelectedMot.setTextSize(mFontSize);
         mSelectedSport.setChecked(bln_cb_sport);
         mSelectedTech.setChecked(bln_cb_tech);
         mSelectedFood.setChecked(bln_cb_busin);
         mSelectedMot.setChecked(bln_cb_science);
 
         //--------------------------------------------  //per settare la dim del font
-        SharedPreferences preferences2 = getSharedPreferences("fontSizeKey",MODE_PRIVATE);
-        fontSize = preferences2.getInt("seekBarFontValue", 0);
-        if(fontSize<20) {
-            mFontSize=10;
-        }
-        else if(fontSize<40) {
-            mFontSize=15;
-        }
-        else if(fontSize<60) {
-            mFontSize=20;
-        }
-        else if(fontSize<80) {
-            mFontSize=25;
-        }
-        else{
-            mFontSize=30;
-        }
-        mSelectedSport.setTextSize(mFontSize);
-        mSelectedTech.setTextSize(mFontSize);
-        mSelectedFood.setTextSize(mFontSize);
-        mSelectedMot.setTextSize(mFontSize);
+        Log.d("KEY", "fontSize= "+ fontSize);
     }
     //-------------------------------------------- fino a qua c'è il setting delle dim  del testo
     @Override

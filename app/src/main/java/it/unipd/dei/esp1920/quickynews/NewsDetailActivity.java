@@ -1,6 +1,8 @@
 package it.unipd.dei.esp1920.quickynews;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,15 +35,35 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
     private ScrollView scrollView;
     private LinearLayout linearLayout;
     private MyRepository myRepository;
+    private int fontSize,mFontSize;
     private static final ViewGroup.LayoutParams MM_LAYOUT_PARAMS = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     //private Context context;
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG,"onCreate()");
 
-        myRepository = TopNews.getRepository();
-        /*scrollView = new ScrollView(this);
+
+        SharedPreferences preferences2 = getSharedPreferences("fontSizeKey",MODE_PRIVATE);
+        fontSize = preferences2.getInt("seekBarFontValue", 40);
+        if(fontSize<20) {
+            mFontSize=12;
+        }
+        else if(fontSize<40) {
+            mFontSize=17;
+        }
+        else if(fontSize<60) {
+            mFontSize=22;
+        }
+        else if(fontSize<80) {
+            mFontSize=27;
+        }
+        else{
+            mFontSize=32;
+        }
+        /*myRepository = TopNews.getRepository();
+        scrollView = new ScrollView(this);
         scrollView.setLayoutParams(MM_LAYOUT_PARAMS);
 
         linearLayout = new LinearLayout(this);
@@ -78,22 +101,29 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
             }
         }
 
-        else{ //mobile phone not connected
-            String pageHTML="";
-            if(getIntent()!=null){
-                Log.d(TAG,"------------DEBUG---------");
+        else { //mobile phone not connected
+            String pageHTML = "";
+            if (getIntent() != null) {
+                setContentView(R.layout.news_detail_offline);
+                TextView t = findViewById(R.id.pageHTML);
+                Log.d(TAG, "------------DEBUG---------");
                 String url = getIntent().getStringExtra("url");
-                Log.d(TAG,"url="+url);
-                pageHTML = myRepository.getPageHTML(url);
-                Log.d(TAG,"myrep="+myRepository);
-                Log.d(TAG,"probabi="+myRepository.getPageHTML(url));
+                try {
+                    pageHTML = myRepository.getPageHTML(url);
+                    t.setText(pageHTML);
+                    t.setTextSize(mFontSize);
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    t.setText(R.string.not_connected);
+                    t.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    t.setTextSize(mFontSize);
+                    //pageHTML = myRepository.getPageHTML(url);
+                    //pageHTML = article.getPageHTML();
+                    //Log.d(TAG,"article title= "+article.getTitle());
+                }
 
-                //pageHTML = article.getPageHTML();
-                //Log.d(TAG,"article title= "+article.getTitle());
-            }
-
-            setContentView(R.layout.news_detail_offline);
-            TextView t = findViewById(R.id.pageHTML);
+                /*setContentView(R.layout.news_detail_offline);
+                TextView t = findViewById(R.id.pageHTML);*/
             /*
             int start=0;
             int end=8;
@@ -130,7 +160,7 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
             */
 
 
-            try {
+ /*           try {
                     t.setText(pageHTML);
                     t.setTextSize(16);
                 }
@@ -139,17 +169,17 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
                     // mi serve questo try catch per quando non ho internet
                     // e tento di entrare nella pag HTML di una news NON presente
                     // nel db
-                }
+                }*/
 
 
 
                 /*TODO: finire parsing fatto bene*/
 
-                Log.d(TAG,"------------END DEBUG---------");
+                Log.d(TAG, "------------END DEBUG---------");
                 //da finire
             }
 
-
+        }
     }
 
     // viene invocato dopo che GetNewsTask è stato completato

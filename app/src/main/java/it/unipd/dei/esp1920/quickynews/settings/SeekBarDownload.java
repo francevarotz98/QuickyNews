@@ -47,11 +47,9 @@ public class SeekBarDownload extends Settings {
         mSeekBar.setProgress(int_sb);
 
 
-
-
         //--------------------------------------------  //per settare la dim del font
         SharedPreferences preferences2 = getSharedPreferences("fontSizeKey",MODE_PRIVATE);
-        fontSize = preferences2.getInt("seekBarFontValue", 0);
+        fontSize = preferences2.getInt("seekBarFontValue", 40);
         if(fontSize<20) {
             mFontSize=10;
         }

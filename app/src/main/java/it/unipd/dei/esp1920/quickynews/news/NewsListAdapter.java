@@ -3,6 +3,7 @@ package it.unipd.dei.esp1920.quickynews.news;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -33,9 +34,20 @@ import it.unipd.dei.esp1920.quickynews.NewsDetailActivity;
 import it.unipd.dei.esp1920.quickynews.R;
 import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ArticleViewHolder> {
 
     private static final String TAG = "NewsListAdapter";
+
+    private int fontSize,mFontSize;
+    private TextView mSource1;
+    private TextView mTitle1;
+    private TextView mDescription1;
+    private TextView mDate1;
+    private NewsListAdapter mAdapter1;
+    private View mView1;
+    private ImageView mImageView1;
 
     private final NewsApiResponse mNewsListContainer;
     private LayoutInflater mInflater;
@@ -63,7 +75,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
             mAdapter = adapter;
         }
     }
-
     public NewsListAdapter() {
         mNewsListContainer = null;
         //mInflater = LayoutInflater.from(c);
@@ -78,6 +89,34 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
     @Override
     public NewsListAdapter.ArticleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_list_item_new, parent, false);
+        SharedPreferences preferences2 = (parent.getContext()).getSharedPreferences("fontSizeKey",MODE_PRIVATE);
+        fontSize = preferences2.getInt("seekBarFontValue", 40);
+
+        mSource1= itemView.findViewById(R.id.item_source);
+        mTitle1 = itemView.findViewById(R.id.item_title);
+        mDescription1 = itemView.findViewById(R.id.item_description);
+        mDate1 = itemView.findViewById(R.id.item_date);
+
+        if(fontSize<20) {
+            mFontSize=12;
+        }
+        else if(fontSize<40) {
+            mFontSize=17;
+        }
+        else if(fontSize<60) {
+            mFontSize=22;
+        }
+        else if(fontSize<80) {
+            mFontSize=27;
+        }
+        else{
+            mFontSize=32;
+        }
+        mSource1.setTextSize(mFontSize);
+        mTitle1.setTextSize(mFontSize);
+        mDescription1.setTextSize(mFontSize);
+        mDate1.setTextSize(mFontSize);
+
         return new ArticleViewHolder(itemView, this);
     }
 
@@ -86,7 +125,11 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
         //Log.d(TAG,"onBindViewHolder()");
 
         Article mCurrent = mNewsListContainer.getArticles().get(position);
-        holder.mSource.setText(mCurrent.getSource().getName());
+        Log.d(TAG,"NAME= "+ mCurrent.getSource().getName());
+        if(mCurrent.getSource().getName()=="The New York Times - Business")
+            holder.mSource.setText("TNYT-Business");
+        else
+            holder.mSource.setText(mCurrent.getSource().getName());
         holder.mTitle.setText(mCurrent.getTitle());
         holder.mDescription.setText(mCurrent.getDescription());
         Picasso.get().load(mCurrent.getUrlToImage()).into(holder.mImageView);

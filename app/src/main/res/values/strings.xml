@@ -20,6 +20,7 @@
     <string name="textView_font_size">Font size:</string>
     <string name="font_size_very_small">Very Small</string>
     <string name="set_font_size">Font size</string>
+    <string name="not_connected">Not connected to internet</string>
     <string name="font_size_back_instruction">To save your settings just press \"back\" button</string>
 
 
