@@ -19,7 +19,7 @@ public interface ArticleDao {
     @Query("SELECT * FROM article_table WHERE url = :url")
     Article getArticle(String url);
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE) //((replace perchè se ci dovesse essere un aggiornamento ==> news aggiornata))
+    @Insert(onConflict = OnConflictStrategy.REPLACE) //((replace perchè se ci dovesse essere un aggiornamento ==> news aggiornata))
     void insertArticle(Article a);                 // NO: uso IGNORE sennò mi cambia il valore dell'attributo isFavorite.
 
     @Query("DELETE FROM article_table WHERE url= :u" )

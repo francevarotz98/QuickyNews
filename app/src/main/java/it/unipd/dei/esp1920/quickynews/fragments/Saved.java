@@ -22,9 +22,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import it.unipd.dei.esp1920.quickynews.R;
 import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
+import it.unipd.dei.esp1920.quickynews.news.Article;
 import it.unipd.dei.esp1920.quickynews.news.MyRepository;
 import it.unipd.dei.esp1920.quickynews.news.NewsApiResponse;
 import it.unipd.dei.esp1920.quickynews.news.NewsListAdapter;
@@ -34,7 +39,6 @@ public class Saved extends Fragment {
     private final static String TAG="Saved";
     private RecyclerView recyclerView;
     private MyRepository myRepository ;
-
 
     @Override
     public void onCreate(Bundle bundle){
@@ -47,7 +51,7 @@ public class Saved extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG,"onCreateView");
-        View view = inflater.inflate(R.layout.fragment_home,container,false);
+        View view = inflater.inflate(R.layout.fragment_saved,container,false);
         myRepository = TopNews.getRepository();
 
         /*
@@ -60,12 +64,21 @@ public class Saved extends Fragment {
         if(myRepository==null)
             Toast.makeText(view.getContext(),"Please, click on Top News(bottom left) then come back",Toast.LENGTH_LONG).show();
         else {
-            recyclerView = view.findViewById(R.id.recyclerView);
+            recyclerView = view.findViewById(R.id.recyclerView_saved);
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(myRepository.getFavoritesArticle())));
+            List<Article> a = new LinkedList<>();
+            for(Article art : myRepository.getFavoritesArticle())
+            {
+                Log.d(TAG,"source="+myRepository.getArticle(art.getUrl()).getSource().getName());
+                a.add(art);
+            }
+            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(a)));
         }
 
         return view;
     }
+
+
+
 
 }

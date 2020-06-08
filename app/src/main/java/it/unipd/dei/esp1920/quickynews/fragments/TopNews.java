@@ -37,8 +37,6 @@ import java.util.List;
 import java.util.Locale;
 
 
-import it.unipd.dei.esp1920.quickynews.news.ArticleDao;
-import it.unipd.dei.esp1920.quickynews.news.ArticleViewModel;
 import it.unipd.dei.esp1920.quickynews.R;
 import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
 import it.unipd.dei.esp1920.quickynews.news.Article;
@@ -57,7 +55,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private static MyRepository myRepository;
-    private ArticleViewModel mArticleViewModel;
+
     private List<Article> newsList;
     private Context context;
 
@@ -79,7 +77,6 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
-        //mArticleViewModel =  new ViewModelProvider().get(ArticleViewModel.class);
         myRepository = new MyRepository(getActivity().getApplication());
 
         if(onCreateViewCount == 1) return v;
@@ -197,8 +194,11 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
 
                             if(!(article.getDescription().contains(article.getTitle()) || date.equals("null"))) {
                                 newsList.add(article);
-                                //Log.d(TAG,"Added to db article with title = "+article.getTitle());
+                                //Log.d(TAG,"333 Added to db article with source = "+article.getSource().getId());
+                                if(myRepository.getArticle(article.getUrl())!=null)
+                                    myRepository.setFavorite(article.getUrl(),true);
                                 myRepository.insertArticle(article);
+
                                 if(source.getId().equals("techcrunch"))
                                     myRepository.setArticleCategory(url,"technology");
                                 else if(source.getId().equals("bbc-sport"))
@@ -300,7 +300,9 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             // controllo che il link dell'immagine non sia nullo e che la descrizione non sia uguale al titolo, poi aggiungo l'articolo alla lista
                             if(!(urlToImage == null || article.getDescription().contains(article.getTitle()))){
                                 newsList.add(article);
-                               // Log.d(TAG,"Added to db article with title = "+article.getTitle());
+                                //Log.d(TAG,"222 Added to db article with source = "+article.getSource().getId());
+                                if(myRepository.getArticle(article.getUrl())!=null)
+                                    myRepository.setFavorite(article.getUrl(),true);
                                 myRepository.insertArticle(article);
                             }
                         }
@@ -399,10 +401,13 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             // controllo che il link dell'immagine non sia nullo e che la descrizione non sia uguale al titolo, poi aggiungo l'articolo alla lista
                             if(!(urlToImage == null || article.getDescription().contains(article.getTitle()))) {
                                 newsList.add(article);
-                                // Log.d(TAG,"Added to db article with title = "+article.getTitle());
+                                Log.d(TAG,"science Added to db article with source id = "+article.getSource().getId());
+                                if(myRepository.getArticle(article.getUrl())!=null)
+                                    myRepository.setFavorite(article.getUrl(),true);
                                 myRepository.insertArticle(article);
                                 myRepository.setArticleCategory(article.getUrl(),"science");
                                 myRepository.setId(article.getUrl(),article.getSource().getId());
+
                             }
                         }
                         Log.d(TAG,"fetchCount = " + fetchCount);
@@ -505,7 +510,9 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             // controllo che il link dell'immagine non sia nullo e che la descrizione non sia uguale al titolo, poi aggiungo l'articolo alla lista
                             if(!(urlToImage == null || article.getDescription().contains(article.getTitle()))) {
                                 newsList.add(article);
-                                // Log.d(TAG,"Added to db article with title = "+article.getTitle());
+                                Log.d(TAG,"111 Added to db article with title = "+article.getSource().getId());
+                                if(myRepository.getArticle(article.getUrl())!=null)
+                                    myRepository.setFavorite(article.getUrl(),true);
                                 myRepository.insertArticle(article);
                                 myRepository.setArticleCategory(article.getUrl(),"business");
                                 myRepository.setId(article.getUrl(),article.getSource().getId());
@@ -556,6 +563,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         }
 
         recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(newsList)));
+
     }
 
     private static void insertionSort(List<Article> v) {

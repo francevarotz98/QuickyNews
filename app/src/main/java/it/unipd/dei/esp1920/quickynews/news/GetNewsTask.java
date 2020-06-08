@@ -254,9 +254,9 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
 
     private ArrayList<String> fetchCnn(String url) throws IOException {
         Log.d(TAG, "fetchCnn()");
-
+        Log.d(TAG,"+++url= "+url);
         // se l'url indirizza a una pagina della CNN contenente un video
-        if(url.substring(0,25).equals("https://us.cnn.com/videos")) return fetchCnnVideo(url);
+        if(url.substring(0,25).equals("https://us.cnn.com/videos")|| url.substring(0,24).equals("http://us.cnn.com/videos")) return fetchCnnVideo(url);
 
         // se l'url contiene aggiornamenti live
         if(url.split("/")[4].equals("live-news")) return fetchCnnLive(url);

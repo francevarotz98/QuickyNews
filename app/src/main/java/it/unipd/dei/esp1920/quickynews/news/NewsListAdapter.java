@@ -84,6 +84,8 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
 
     @Override
     public void onBindViewHolder(NewsListAdapter.ArticleViewHolder holder, int position) {
+        Log.d(TAG,"onBindViewHolder()");
+
         Article mCurrent = mNewsListContainer.getArticles().get(position);
         holder.mSource.setText(mCurrent.getSource().getName());
         holder.mTitle.setText(mCurrent.getTitle());
@@ -153,7 +155,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                         boolean wasFavorite=myRepository.isFavoriteArticle(mCurrent.getUrl());
                         if(items[item]=="Yes"){ //Yes
                             myRepository.setFavorite(mCurrent.getUrl(),true);
-                            Log.d(TAG,"^^^^^ mCurrent.getid() ="+mCurrent.getSource().getId());
+                            //Log.d(TAG,"^^^^^ mCurrent.getid() ="+mCurrent.getSource().getId());
                             myRepository.setId(mCurrent.getUrl(),mCurrent.getSource().getId());
                             if(!wasFavorite){
                                 Toast toast= Toast.makeText(v.getContext(),"You have saved your news.\n Now you can find it on Saved.",Toast.LENGTH_LONG);
@@ -235,5 +237,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
             bmImage.setImageBitmap(result);
         }
     }
+
+
 
 }
