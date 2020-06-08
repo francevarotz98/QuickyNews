@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.ScrollView;
@@ -37,20 +39,21 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
         super.onCreate(savedInstanceState);
         Log.d(TAG,"onCreate()");
 
-        myRepository = TopNews.getRepository();
+        /*myRepository = TopNews.getRepository();
         scrollView = new ScrollView(this);
         scrollView.setLayoutParams(MM_LAYOUT_PARAMS);
 
         linearLayout = new LinearLayout(this);
         linearLayout.setLayoutParams(MM_LAYOUT_PARAMS);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);*/
+
         if(NetConnectionReceiver.isConnected(this)) {
             if (getIntent() != null) {
                 String url = getIntent().getStringExtra("url");
-                String source_id = getIntent().getStringExtra("source_id");
+                // String source_id = getIntent().getStringExtra("source_id");
 
                 // se l'url non utilizza il protocollo https...
-                if (url.substring(0, 5).equals("http:"))
+                /*if (url.substring(0, 5).equals("http:"))
                     url = "https" + url.substring(4);
                 Log.d(TAG, "url = " + url);
 
@@ -63,7 +66,15 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
                     mc.setAnchorView(linearLayout);
                     vv.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 650));
                 }
-                new GetNewsTask(this, this).execute(url, source_id);
+                new GetNewsTask(this, this).execute(url, source_id);*/
+
+                WebView webView = new WebView(this);
+                webView.setWebViewClient(new WebViewClient());
+                webView.getSettings().setLoadsImagesAutomatically(true);
+                webView.getSettings().setJavaScriptEnabled(true);
+                webView.loadUrl(url);
+
+                setContentView(webView);
             }
         }
 

@@ -132,6 +132,9 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             String urlToImage = jsonArticle.getString("urlToImage");
                             if(urlToImage.equals("null")) continue;
 
+                            String description = jsonArticle.getString("description");
+                            if(description.equals("null") || description.equals("")) continue;
+
                             String url = jsonArticle.getString("url");
                             if(source.getId().equals("cnn")) {
                                 if (url.length() >= 17 && url.substring(0, 17).equals("http://cnn.it/go2")) continue;
@@ -143,9 +146,6 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                                 if(title.equals(cnnLiveLastTitle)) continue;
                                 cnnLiveLastTitle = title;
                             }
-
-                            String description = jsonArticle.getString("description");
-                            if(description.equals("null") || description.equals("")) continue;
 
                             String date = jsonArticle.getString("publishedAt");
                             Date articleDate = new Date();
