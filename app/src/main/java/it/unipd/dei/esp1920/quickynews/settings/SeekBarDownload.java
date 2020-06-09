@@ -17,7 +17,7 @@ public class SeekBarDownload extends Settings {
     private SeekBar  mSeekBar;
     private long totSpace,minSpace,maxSpace;            //serve per settare il testo agli estremi della seekbar
     private int mBChosen,int_sb;                               //mBytes scelti dall'utente
-    private TextView mTextView,mTextViewMin,mTextViewMax,mTextView2;
+    private TextView mTextView,mTextViewMin,mTextViewMax,mTextView2,mTextView3;
     private String str_et;
     private Toolbar mToolbar;
     private int mFontSize,fontSize;
@@ -39,7 +39,7 @@ public class SeekBarDownload extends Settings {
 
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         int_sb = preferences.getInt("seekBarValue", 0);
-        str_et = preferences.getString("editTextValue", null);
+        str_et = preferences.getString("editTextValue", " 0 Mb");
 
         mTextView = (TextView) findViewById(R.id.tV_progression_percentage);
         mTextView.setText(str_et);
@@ -72,7 +72,10 @@ public class SeekBarDownload extends Settings {
     //-------------------------------------------- fino a qua c'è il setting delle dim  del testo
 
 
-
+        mTextView3 = (TextView) findViewById(R.id.tV_back_font_inst);
+        double tmp=mFontSize-0.3*mFontSize;
+        float tmp2 = (float)tmp;
+        mTextView3.setTextSize(tmp2);
 
 
         totSpace = AvailableSpace.getTotalDiskSpace();    //spazio totale
@@ -86,8 +89,8 @@ public class SeekBarDownload extends Settings {
         mTextViewMin.setText("Min: " + minSpace+ "Mb");                    //serve solo all'aspetto grafico
 
         //cast per dim-- il tmp è il 20% minore della dim
-        double tmp=mFontSize-0.2*mFontSize;
-        float tmp2 = (float)tmp;
+        tmp=mFontSize-0.2*mFontSize;
+        tmp2 = (float)tmp;
         mTextViewMax.setTextSize(tmp2);
         mTextViewMin.setTextSize(tmp2);
 

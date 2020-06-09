@@ -35,7 +35,7 @@ public class FontSize extends Settings {
 
         SharedPreferences preferences = getSharedPreferences("fontSizeKey",MODE_PRIVATE);
         int_sb = preferences.getInt("seekBarFontValue", 40);
-        str_et = preferences.getString("editTextFontValue", null);
+        str_et = preferences.getString("editTextFontValue", "Normal");
 
 
 
