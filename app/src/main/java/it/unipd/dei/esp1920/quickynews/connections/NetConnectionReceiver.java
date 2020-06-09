@@ -47,6 +47,12 @@ public class NetConnectionReceiver extends BroadcastReceiver {
         }
     }
 
+    public static boolean isMetered(Context context) {
+        Log.d(TAG,"isMetered()");
+        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.isActiveNetworkMetered();
+    }
+
     public static boolean isConnected(Context context) {
         Log.d(TAG,"isConnected()");
         checkConnection(context);
