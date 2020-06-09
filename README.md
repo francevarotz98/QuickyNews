@@ -21,7 +21,16 @@ Project made by three students (Giovanni, Pietro e Francesco) of the University 
 
 This app is realized following the Android go guidelines (precisely Build for Billions). 
 The aim of this app is to always have news at your fingerprints, even if you are offline, how? Using <a href="https://developer.android.com/topic/libraries/architecture/room">Room.</a>
-But what would you have to do? Just clicking, let's see how.
+But what should you have to do to save a news? Just with one click, let's see how.
 
 ## Usage 
+
+*Connect your phone to internet
+
+*Click-long on a news you'd like to save and click on yes:
+
+<img class="shadowed" src="howto_save.png" width="297" >
+**If the news was saved a toast will appear saying that you can find the news on Saved; in the meanwhile its HTML page is downloading: if the download will be completed, another toast will apper saying:
+<img class="shadowed" src="howto_savedHTMLPage.jpg" width="297" >
+
 
