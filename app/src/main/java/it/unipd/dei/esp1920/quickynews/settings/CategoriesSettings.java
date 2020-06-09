@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -15,6 +16,7 @@ public class CategoriesSettings extends Settings {
     private int fontSize,mFontSize;
     private final String TAG="Categories1";
     private Toolbar mToolbar;
+    private TextView mTextView2;
     private static boolean bln_cb_sport,bln_cb_tech, bln_cb_busin, bln_cb_science; //variabili per salvare lo stato delle categorie
 
 
@@ -67,6 +69,11 @@ public class CategoriesSettings extends Settings {
         mSelectedTech.setChecked(bln_cb_tech);
         mSelectedFood.setChecked(bln_cb_busin);
         mSelectedMot.setChecked(bln_cb_science);
+
+        mTextView2 = (TextView) findViewById(R.id.tV_back_font_inst);
+        double tmp=mFontSize-0.3*mFontSize;
+        float tmp2 = (float)tmp;
+        mTextView2.setTextSize(tmp2);
 
         //--------------------------------------------  //per settare la dim del font
         Log.d("KEY", "fontSize= "+ fontSize);

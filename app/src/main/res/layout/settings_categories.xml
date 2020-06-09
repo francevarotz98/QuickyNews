@@ -55,6 +55,13 @@
             android:textSize="17dp"
             android:text="@string/chBox_science"
             android:typeface="monospace" />
+            <TextView
+                android:id="@+id/tV_back_font_inst"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:padding="7dp"
+                android:text="@string/font_size_back_instruction" />
 
         </LinearLayout>
     </ScrollView>
