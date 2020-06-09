@@ -25,12 +25,19 @@ But what should you have to do to save a news? Just with one click, let's see ho
 
 ## Usage 
 
-*Connect your phone to internet
+* Connect your phone to internet
 
-*Click-long on a news you'd like to save and click on yes:
+* Click-long on a news you'd like to save and click on yes:
 
 <img class="shadowed" src="howto_save.png" width="297" >
-**If the news was saved a toast will appear saying that you can find the news on Saved; in the meanwhile its HTML page is downloading: if the download will be completed, another toast will apper saying:
+
+** If the news was saved a toast will appear saying that you can find the news on Saved; in the meanwhile its HTML page is downloading: if the download will be completed, another toast will apper saying:
+
 <img class="shadowed" src="howto_savedHTMLPage.jpg" width="297" >
+
+** ok, now if you remove the connection to internet, you will be able to see something like this :
+
+<img class="shadowed" src="howto_savedHTMLPageOffline.jpg" width="297" >
+
 
 
