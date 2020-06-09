@@ -111,10 +111,10 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
         else{
             mFontSize=32;
         }
-        mSource1.setTextSize(mFontSize);
+        mSource1.setTextSize(mFontSize - 2);
         mTitle1.setTextSize(mFontSize);
         mDescription1.setTextSize(mFontSize);
-        mDate1.setTextSize(mFontSize);
+        mDate1.setTextSize(mFontSize - 2);
 
         return new ArticleViewHolder(itemView, this);
     }
