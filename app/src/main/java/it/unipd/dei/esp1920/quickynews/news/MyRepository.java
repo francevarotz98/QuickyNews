@@ -2,6 +2,7 @@ package it.unipd.dei.esp1920.quickynews.news;
 
 import android.app.Application;
 
+import java.util.Date;
 import java.util.List;
 
 public class MyRepository
@@ -88,6 +89,9 @@ public class MyRepository
         MyRoomDatabase.databaseWriteExecutor.execute( ()-> mArticleDao.deleteArticle(url));
     }
 
+    public void setDate(String url, Date date){
+        MyRoomDatabase.databaseWriteExecutor.execute( ()-> mArticleDao.setDate(url,date));
+    }
 
 
 

@@ -135,6 +135,7 @@ public class Article implements Comparable<Article> {
         return FORMATTER1.format(this.publishedAt);
     }
 
+    @NonNull
     public Date getPublishedAt() { return this.publishedAt; }  //it was getDatePublishedAt but it was changed because of room
 
     public void setPublishedAt(Date publishedAt) {

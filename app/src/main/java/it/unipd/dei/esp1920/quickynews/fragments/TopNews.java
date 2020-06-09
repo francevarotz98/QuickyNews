@@ -85,16 +85,55 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
         myRepository = new MyRepository(getActivity().getApplication());
 
-        /*
-        for(Article article : myRepository.getAllArticle()){
-            //if(Integer.parseInt(article.getStringPublishedAt())>20){
-                //Log.d(TAG,"data article = "+article.getStringPublishedAt());
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
+        String date_now = formatter.format(date);
+        int day_now =0;
+        int hour_now =0;
 
-                //myRepository.deleteArticle(article.getUrl());
+        try{
+            day_now =Integer.parseInt(date_now.substring(8,10));
+            hour_now = Integer.parseInt(date_now.substring(11,13));
 
-            //}
         }
-        */
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG,"+++date now ="+date_now);
+        Log.d(TAG,"+++day now ="+day_now);
+        Log.d(TAG,"+++hour_now ="+hour_now);
+
+        int day_article = 0 ;
+        int hour_article = 0 ;
+
+        for(Article article : myRepository.getAllArticle()){
+            String date_article = article.getStringPublishedAt();
+            try {
+                day_article = Integer.parseInt(date_article.substring(8, 10));
+                hour_article = Integer.parseInt(date_article.substring(11, 13));
+
+                if (day_now < day_article) {
+                    day_now = day_article + 1; //esempio: quando articolo è stato pubblicato
+                                                // il 31/07 e oggi è 1/08
+                }
+                if ((!myRepository.getArticle(article.getUrl()).getIsFavorite()) /*elimino dal db SOLO news non salvate dall'utente*/
+                        && ((day_now * 24 + hour_now) - (day_article * 24 + hour_article)) > 20) {
+
+                    Log.d(TAG, "eliminazione dal db dell'articolo " + article.getTitle());
+                    myRepository.deleteArticle(myRepository.getArticle(article.getUrl()).getUrl());
+                }
+
+
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+                Log.d(TAG,"data article = "+article.getStringPublishedAt());
+
+
+        }
+
+
 
         if(onCreateViewCount == 1) return v;
         else if(NetConnectionReceiver.isConnected(context)) {

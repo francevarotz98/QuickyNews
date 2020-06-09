@@ -197,8 +197,10 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                         Log.d(TAG,"Title of Article long-pressed  = "+mCurrent.getTitle());
                         boolean wasFavorite=myRepository.isFavoriteArticle(mCurrent.getUrl());
                         if(items[item]=="Yes"){ //Yes
+
                             myRepository.setFavorite(mCurrent.getUrl(),true);
-                            myRepository.setId(mCurrent.getUrl(),mCurrent.getSource().getId());
+                            myRepository.setId(mCurrent.getUrl(),mCurrent.getSource().getId()); //per poter accedere al sito web, quando sono online, anche da Saved
+                          //  myRepository.setDate(mCurrent.getUrl(),mCurrent.getPublishedAt()); //per problemi con Coronavirus updates The NYT
                             if(!wasFavorite){
                                 Toast toast= Toast.makeText(v.getContext(),"You have saved your news.\n Now you can find it on Saved.",Toast.LENGTH_LONG);
                                 //toast.setGravity(0,0,0);
@@ -215,7 +217,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                                         if(output!=null) {
                                             for(String word : output)
                                                 page+=word;
-                                            //Log.d(TAG,"+++page="+page);
+                                            Log.d(TAG,"+++page="+page);
                                             myRepository.setPageHTML(mCurrent.getUrl(), page);
                                         }
 

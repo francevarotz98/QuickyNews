@@ -7,7 +7,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Dao
@@ -16,7 +16,7 @@ public interface ArticleDao {
     @Query("SELECT * FROM article_table ORDER BY publishedAt DESC")
     List<Article> getAllArticle();
 
-    @Query("SELECT * FROM article_table WHERE url = :url")
+    @Query("SELECT * FROM article_table WHERE url = :url ")
     Article getArticle(String url);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE) //((replace perchè se ci dovesse essere un aggiornamento ==> news aggiornata))
@@ -73,6 +73,9 @@ public interface ArticleDao {
 
     @Query("SELECT id FROM article_table WHERE url = :url")
     public String getId(String url);
+
+    @Query("UPDATE article_table SET publishedAt = :publishedAt WHERE url = :url ")
+    public void setDate(String url, Date publishedAt);
 
 
 
