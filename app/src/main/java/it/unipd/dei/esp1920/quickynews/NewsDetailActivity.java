@@ -105,20 +105,22 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
             if (getIntent() != null) {
                 //String pageHTML = "";
                 setContentView(R.layout.news_detail_offline);
-                TextView t = findViewById(R.id.pageHTML);
+                TextView textViewPageHTML = findViewById(R.id.pageHTML);
+                TextView  textViewTitlePageHTML = findViewById(R.id.title_pageHTML);
                 String url = getIntent().getStringExtra("url");
                 try {
                     pageHTML = myRepository.getPageHTML(url);
                     Log.d(TAG,"article="+myRepository.getArticle(url).getTitle());
                     Log.d(TAG,"pageHTML="+pageHTML);
-                    t.setText(pageHTML);
-                    t.setTextSize(mFontSize);
+                    textViewTitlePageHTML.setText(myRepository.getArticle(url).getTitle());
+                    textViewPageHTML.setText(pageHTML);
+                    textViewPageHTML.setTextSize(mFontSize);
                 }
                 catch(NullPointerException e) {
                     e.printStackTrace();
-                    t.setText(R.string.not_connected);
-                    t.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                    t.setTextSize(mFontSize);
+                    textViewPageHTML.setText(R.string.not_connected);
+                    textViewPageHTML.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    textViewPageHTML.setTextSize(mFontSize);
 
                 }
 

@@ -5,7 +5,8 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="blue">#1a1aff</color>
     <color name="yellow">#ffeb00</color>
-    <color name="black">#5f5f5f</color> <!-- more or less black -->
+    <color name="gray">#5f5f5f</color>
+    <color name="black">#000000</color>
     <color name="col_frag_bg">#F5F5F5</color>
     <color name="col_btn_pressed">#f7f7f7</color>
 </resources>
