@@ -86,7 +86,7 @@ public class Saved extends Fragment {
              * eliminazione di notizie saved
              *
              * */
-            if (myRepository.getFavoritesArticle().size()==max_num_news){
+            if (myRepository.getFavoritesArticle().size()>=max_num_news){
                 /*
                  elimino il 20% (rispetto a max_num_news)
                  delle news in saved...quali? Quelle con data MENO recente.
@@ -95,6 +95,8 @@ public class Saved extends Fragment {
                  */
                 List<Article> favoriteArticles = new LinkedList<>();
                 favoriteArticles= myRepository.getFavoritesArticle();
+                Log.d(TAG,"number of saved news="+favoriteArticles.size());
+                Log.d(TAG,"max_num_news="+max_num_news);
 
 
                 for(int i=0;i<0.2*max_num_news;i++)

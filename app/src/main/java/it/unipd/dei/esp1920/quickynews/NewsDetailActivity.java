@@ -150,7 +150,7 @@ public class NewsDetailActivity extends AppCompatActivity /* implements GetNewsT
                 }
                 catch(NullPointerException e) {
                     e.printStackTrace();
-                    textViewPageHTML.setText(R.string.not_connected);
+                    textViewPageHTML.setText(R.string.not_saved);
                     textViewPageHTML.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     textViewPageHTML.setTextSize(mFontSize);
 

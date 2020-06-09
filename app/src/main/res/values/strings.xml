@@ -20,7 +20,7 @@
     <string name="textView_font_size">Font size:</string>
     <string name="font_size_very_small">Very Small</string>
     <string name="set_font_size">Font size</string>
-    <string name="not_connected">Not connected to internet</string>
+    <string name="not_saved">News not saved because of the number of saved news.\nTry to set the parameter of max number of saved news in settings and re-save it. </string>
     <string name="font_size_back_instruction">To save your settings just press \"back\" button</string>
 
 
