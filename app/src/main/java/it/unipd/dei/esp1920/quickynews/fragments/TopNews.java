@@ -2,6 +2,8 @@ package it.unipd.dei.esp1920.quickynews.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +25,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.ListPreloader;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
 import com.bumptech.glide.util.FixedPreloadSizeProvider;
 import com.bumptech.glide.util.ViewPreloadSizeProvider;
 
@@ -34,6 +39,7 @@ import org.json.JSONObject;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -76,8 +82,6 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         onCreateViewCount++;
 
         View v = inflater.inflate(R.layout.fragment_home,container,false);
-
-        // ListPreloader.PreloadSizeProvider sizeProvider = new FixedPreloadSizeProvider(imageWidthPixels, imageHeightPixels);
 
         swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -683,27 +687,24 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         Log.d(TAG,"onPause()");
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
         Log.d(TAG,"onStop()");
     }
 
     @Override
-    public void onDestroyView(){
+    public void onDestroyView() {
         super.onDestroyView();
         Log.d(TAG,"onDestroyView()");
     }
 
-    public static MyRepository getRepository(){
+    public static MyRepository getRepository() {
         return myRepository;
     }
-
-
-
 }

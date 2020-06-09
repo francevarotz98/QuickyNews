@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import it.unipd.dei.esp1920.quickynews.fragments.ForYou;
@@ -121,21 +122,18 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
-
     @Override
-    public void onStop()
-    {
+    public void onStop() {
         super.onStop();
         Log.d(TAG,"onStop()");
     }
+
     @Override
-    public void onDestroy()
-    {
+    public void onDestroy() {
         super.onDestroy();
         Log.d(TAG,"onDestroy()");
         this.unregisterReceiver(mNetConnectionReceiver);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

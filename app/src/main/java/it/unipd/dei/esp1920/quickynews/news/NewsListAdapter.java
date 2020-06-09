@@ -15,10 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,9 +45,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
     private TextView mTitle1;
     private TextView mDescription1;
     private TextView mDate1;
-    private NewsListAdapter mAdapter1;
-    private View mView1;
-    private ImageView mImageView1;
 
     private final NewsApiResponse mNewsListContainer;
     private LayoutInflater mInflater;
@@ -122,7 +122,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
     @Override
     public void onBindViewHolder(NewsListAdapter.ArticleViewHolder holder, int position) {
 
-
         Article mCurrent = mNewsListContainer.getArticles().get(position);
         //Log.d(TAG,"NAME= "+ mCurrent.getSource());
         /*if(mCurrent.getSource().getName()=="The New York Times - Business")
@@ -132,7 +131,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
         holder.mTitle.setText(mCurrent.getTitle());
         holder.mDescription.setText(mCurrent.getDescription());
         // Picasso.get().load(mCurrent.getUrlToImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(holder.mImageView);
-        Glide.with(mContext).load(mCurrent.getUrlToImage()).into(holder.mImageView);
+        Glide.with(mContext).load(mCurrent.getUrlToImage()).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).format(DecodeFormat.PREFER_RGB_565).placeholder(R.drawable.ic_baseline_photo_24).into(holder.mImageView);
         Date date = new Date();
         String now = formatter.format(date);
         try {
@@ -246,8 +245,12 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
             }
 
         });
+    }
 
-
+    @Override
+    public void onViewRecycled(@NonNull ArticleViewHolder holder) {
+        super.onViewRecycled(holder);
+        Glide.with(mContext).clear(holder.mImageView);
     }
 
     public void setArticle(List<Article> articles){
