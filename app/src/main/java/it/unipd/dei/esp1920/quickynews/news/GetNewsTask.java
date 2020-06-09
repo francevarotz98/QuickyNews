@@ -65,7 +65,7 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
                     returned = fetchAlJazeera(url);
                     break;
                 case "bbc-sport":
-                    returned = fetchBbc(url);
+                    returned = fetchBbcSport(url);
                     break;
                 case "techcrunch":
                     returned = fetchTechcrunch(url);
@@ -93,22 +93,22 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
 
         // article's title
         String text = doc.select("[data-test-id=headline]").first().text() + '\n';
-        returned.add("BOLDDLOB" + text);
+        returned.add(text + '\n');
 
         // article's description
         Element d = doc.getElementById("article-summary");
         if(d != null) {
-            text = d.text() + '\n';
+            text = d.text();
         }
         else if(doc.selectFirst("[class=css-nxfrgc evys1bk0]") != null) {
-            text = doc.selectFirst("[class=css-nxfrgc evys1bk0]").text() +'\n';
+            text = doc.selectFirst("[class=css-nxfrgc evys1bk0]").text();
         }
         else if (!doc.getElementsByClass("css-h99hf").isEmpty()) {
-            text = doc.getElementsByClass("css-h99hf").first().text() + '\n';
+            text = doc.getElementsByClass("css-h99hf").first().text();
         }
         else {
-            text = doc.getElementById("interactive-leadin").text() + '\n';
-            returned.add("BOLDDLOB" + text);
+            text = doc.getElementById("interactive-leadin").text();
+            returned.add(text + '\n');
             Elements paragraphs = doc.getElementsByClass("g-story").first().children();
             for(Element paragraph : paragraphs) {
                 if(paragraph.tagName().equals("p")) {
@@ -116,13 +116,13 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
                 }
                 else if(paragraph.className().equals("g-asset g-table")) {
                     for(Element paragraph_child : paragraph.children()) {
-                        if(paragraph_child.tagName().equals("h3") || paragraph_child.tagName().equals("h4")) returned.add("BOLDDLOB" + '\n' + paragraph_child.text());
+                        if(paragraph_child.tagName().equals("h3") || paragraph_child.tagName().equals("h4")) returned.add('\n' + paragraph_child.text() + '\n');
                     }
                 }
             }
             return returned;
         }
-        returned.add("BOLDDLOB" + text);
+        returned.add(text + '\n');
 
         // article's content
         Elements c = doc.select("[class=css-1fanzo5 StoryBodyCompanionColumn]");
@@ -130,16 +130,16 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
             Elements children = element.select("[class=css-53u6y8]").first().children();
             for(Element child : children) {
                 if(child.tagName().equals("p")) {
-                    text = child.text() + '\n';
+                    text = child.text();
                     returned.add(text);
                 }
                 else if(child.tagName().equals("h2") || child.tagName().equals("h3")) {
-                    text = child.text() + '\n';
-                    returned.add("BOLDDLOB" + text);
+                    text = child.text();
+                    returned.add('\n' + text + '\n');
                 }
                 else if(child.tagName().equals("ul")) {
-                    text = '\n' + child.text() + '\n';
-                    returned.add(text);
+                    text = child.text();
+                    returned.add(text + '\n');
                 }
             }
         }
@@ -165,8 +165,8 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
 
         if(t_article != null) {
             // titolo
-            text = t_article.text() + '\n';
-            returned.add("BOLDDLOB" + text);
+            text = t_article.text();
+            returned.add(text + '\n');
 
             // descrizione + contenuto
             Element dc = doc.getElementsByClass("story-body__inner").first();
@@ -174,11 +174,11 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
 
             for (Element element : dc_children) {
                 if (element.className().equals("story-body__introduction") || element.tagName().equals("h2")) {
-                    text = element.text() + '\n';
-                    returned.add("BOLDDLOB" + text);
+                    text = element.text();
+                    returned.add(text + '\n');
                 }
                 else if (element.tagName().equals("p")) {
-                    text = element.text() + '\n';
+                    text = element.text();
                     returned.add(text);
                 }
             }
@@ -191,12 +191,12 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
                         switch(grandChild.className()) {
                             case "vxp-media__headline":
                                 text = grandChild.text() + '\n';
-                                returned.add("BOLDDLOB" + text);
+                                returned.add(text + '\n');
                                 break;
                             case "vxp-media__summary":
                                 for (Element e : grandChild.children()) {
                                     if(e.tagName().equals("p")) {
-                                        text = e.text() + '\n';
+                                        text = e.text();
                                         returned.add(text);
                                     }
                                 }
@@ -211,12 +211,12 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
         else if(t_live != null) {
             // titolo (di solito "Live reporting")
             Element header = t_live.getElementsByTag("header").first();
-            text = header.getElementById("lx-commentary-title").text() + '\n';
-            returned.add("BOLDDLOB" + text);
+            text = header.getElementById("lx-commentary-title").text();
+            returned.add(text + '\n');
 
             // descrizione (di solito "Edited by" + nomi dei reporter)
-            text = header.getElementsByClass("lx-commentary__meta").first().getElementsByClass("lx-commentary__meta-reporter gel-long-primer").first().text() + '\n';
-            returned.add(text);
+            text = header.getElementsByClass("lx-commentary__meta").first().getElementsByClass("lx-commentary__meta-reporter gel-long-primer").first().text();
+            returned.add(text + '\n');
 
             // lista di tutti gli aggiornamenti live
             Elements updates = t_live.getElementsByClass("lx-commentary__stream").first().getElementsByTag("ol").first().getElementsByTag("li");
@@ -227,21 +227,21 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
                     // titolo dell'aggiornamento
                     Elements spans = article.getElementsByTag("header").first().getElementsByTag("h3").first().getElementsByTag("span");
                     for(Element span : spans) {
-                        text = span.text() + '\n';
-                        returned.add("BOLDDLOB" + text);
+                        text = span.text();
+                        returned.add(text + '\n');
                     }
 
                     // contenuto dell'aggiornamento
                     Element articleContent = article.getElementsByClass("gel-body-copy").first().getElementsByClass("lx-stream-post-body").first();
                     for (Element e : articleContent.children()) {
                         if(e.tagName().equals("p")) {
-                            text = e.text() + '\n';
+                            text = e.text();
                             returned.add(text);
                         } else if(e.tagName().equals("ul") || e.tagName().equals("ol")) {
                             for(Element li : e.children()) {
                                 if(li.tagName().equals("li")) {
-                                    text = li.text() + '\n';
-                                    returned.add(text);
+                                    text = li.text();
+                                    returned.add(text + '\n');
                                 }
                             }
                         }
@@ -265,7 +265,7 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
         Document doc = Jsoup.connect(url).get();
 
         String text = doc.getElementsByClass("pg-headline").tagName("h1").first().text();
-        returned.add("BOLDDLOB" + text);
+        returned.add(text + '\n');
 
         String author = "";
         String date = "";
@@ -280,12 +280,12 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
             author = articleBody.getElementsByClass("metadata__byline__author").tagName("span").first().text();
             date = articleBody.getElementsByClass("update-time").tagName("p").first().text();
         }
-        returned.add("BOLDDLOB" + author + '\n' + date);
+        returned.add(author + '\n' + date + '\n');
 
         Elements paragraphs = doc.getElementById("body-text").getElementsByClass("l-container").first().getElementsByClass("zn-body__paragraph");
         for(Element paragraph : paragraphs) {
             text = paragraph.text();
-            if(paragraph.childrenSize() != 0 && paragraph.child(0).tagName().equals("h3")) text = "BOLDDLOB" + text;
+            if(paragraph.childrenSize() != 0 && paragraph.child(0).tagName().equals("h3")) text = '\n' + text + '\n';
             returned.add(text);
         }
         return returned;
@@ -298,10 +298,10 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
         Document doc = Jsoup.connect(url).get();
 
         Element title = doc.getElementsByClass("Text-sc-1amvtpj-0-h1-h1").tagName("h1").first();
-        returned.add("BOLDDLOB" + title.text());
+        returned.add(title.text() + '\n');
 
         String author = title.parent().select("[data-type=byline-area]").tagName("p").first().text();
-        returned.add(author);
+        returned.add(author + '\n');
 
         // TODO Ho preso solamente l'ultimo aggiornamento pubblicato, ma se si vuole se ne possono prendere anche di più
         Element updates = doc.getElementById("posts");
@@ -317,7 +317,7 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
                 String text = "";
                 for(Element grandChild : child.children()) {
                     text = grandChild.text();
-                    if(grandChild.tagName().equals("h2")) text = "BOLDDLOB" + text;
+                    if(grandChild.tagName().equals("h2")) text = '\n' + text + '\n';
                     returned.add(text);
                 }
             }
@@ -334,10 +334,10 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
         Element videoDescription = doc.selectFirst("[id^=leaf-video-]");
 
         Element headline = videoDescription.selectFirst("[id^=js-leaf-video_headline-]");
-        returned.add("BOLDDLOB" + headline.text());
+        returned.add(headline.text() + '\n');
 
         Element description = videoDescription.selectFirst("[id^=js-video_description-]");
-        returned.add(description.text());
+        returned.add(description.text() + '\n');
 
         return returned;
     }
@@ -350,11 +350,11 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
 
         // titolo
         Element title = doc.getElementsByClass("post-title").tagName("h1").first();
-        returned.add("BOLDDLOB" + title.text());
+        returned.add(title.text() + '\n');
 
         // descrizione
         String description = title.parent().getElementsByClass("article-heading-des").first().text();
-        returned.add("BOLDDLOB" + description);
+        returned.add(description + '\n');
 
         // contenuto
         Elements articleBody = doc.getElementById("main-article-block").getElementsByClass("article-p-wrapper").tagName("div").first().children();
@@ -363,7 +363,7 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
                 returned.add(paragraph.text());
             }
             else if(paragraph.tagName().equals("h2")) {
-                returned.add("BOLDDLOB" + '\n' + paragraph.text());
+                returned.add('\n' + paragraph.text() + '\n');
             }
         }
         return returned;
@@ -379,11 +379,11 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
         if(article != null) {
             // titolo
             String text = article.getElementsByClass("story-headline").tagName("h1").first().text();
-            returned.add("BOLDDLOB" + text);
+            returned.add(text + '\n');
 
             // autore
             text = article.getElementsByClass("gel-long-primer").tagName("p").first().text();
-            returned.add(text);
+            returned.add(text + '\n');
 
             // contenuto
             Elements paragraphs = article.getElementById("story-body").children();
@@ -391,14 +391,14 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
                 if((!paragraph.tagName().equals("p")) || (paragraph.className().equals("sp-media-asset__smp-message"))) continue;
                 text = paragraph.text();
                 if (paragraph.className().equals("sp-story-body__introduction"))
-                    text = "BOLDDLOB" + text;
+                    text = text + '\n';
                 returned.add(text);
             }
         }
         else if (doc.getElementsByClass("qa-story-headline").tagName("h1").first() != null){
             // titolo
             String text = doc.getElementsByClass("qa-story-headline").tagName("h1").first().text();
-            returned.add("BOLDDLOB" + text);
+            returned.add(text + '\n');
 
             // contenuto
             Elements paragraphs = doc.getElementsByClass("qa-story-body").tagName("div").first().children();
@@ -406,11 +406,11 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
                 if(paragraph.tagName().equals("p") || paragraph.tagName().equals("div")) {
                     text = paragraph.text();
                     if (paragraph.className().equals("qa-introduction"))
-                        text = "BOLDDLOB" + text;
+                        text = text + '\n';
                     returned.add(text);
                 }
                 else if(paragraph.tagName().equals("h3")) {
-                    returned.add("BOLDDLOB" + paragraph.text());
+                    returned.add('\n' + paragraph.text() + '\n');
                 }
             }
         }
@@ -419,7 +419,7 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
 
             // titolo
             String text = doc.getElementsByClass("gel-trafalgar-bold").tagName("h1").first().text();
-            returned.add("BOLDDLOB" + text);
+            returned.add(text + '\n');
 
             // contenuto
             Elements paragraphs = doc.getElementsByClass("gel-body-copy").tagName("div").first().child(0).children();
@@ -451,7 +451,7 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
 
         // titolo
         String text = root.getElementsByClass("article__title").tagName("h1").first().text();
-        returned.add("BOLDDLOB" + text);
+        returned.add(text + '\n');
 
         // contenuto
         Elements paragraphs = root.getElementsByClass("article-content").first().children();
@@ -460,7 +460,7 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
                 returned.add(paragraph.text());
             }
             else if(paragraph.tagName().equals("h2")) {
-                returned.add("BOLDDLOB" + paragraph.text());
+                returned.add('\n' + paragraph.text() + '\n');
             }
         }
 

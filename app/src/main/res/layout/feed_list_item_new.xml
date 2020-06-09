@@ -35,25 +35,26 @@
         android:layout_toEndOf="@+id/item_img" />
 
     <TextView
-        android:id="@+id/item_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/item_description"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_toEndOf="@+id/item_source"
-        android:gravity="end" />
-
-    <TextView
         android:id="@+id/item_source"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/blue"
         android:layout_below="@+id/item_description"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="4dp"
         android:layout_toEndOf="@+id/item_img" />
+
+    <TextView
+        android:id="@+id/item_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_source"
+        android:layout_toEndOf="@+id/item_img"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp" />
+
     <!-- linea orizzontale tra un articolo e l'altro -->
     <View
         android:layout_width="match_parent"
