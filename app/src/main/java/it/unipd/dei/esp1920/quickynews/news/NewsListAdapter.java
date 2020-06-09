@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +18,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
-import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,6 +48,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
 
     private final NewsApiResponse mNewsListContainer;
     private LayoutInflater mInflater;
+    private Context mContext;
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
     private MyRepository myRepository = TopNews.getRepository();
     private List<Article> mListArticle;
@@ -81,9 +79,10 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
     }
 
 
-    public NewsListAdapter(/*Context context, */ NewsApiResponse newsListContainer) {
-        // mInflater = LayoutInflater.from(context);
+    public NewsListAdapter(Context context, NewsApiResponse newsListContainer) {
+        mInflater = LayoutInflater.from(context);
         mNewsListContainer = newsListContainer;
+        mContext = context;
     }
 
     @Override
@@ -132,7 +131,8 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
             holder.mSource.setText(mCurrent.getSource().getName());
         holder.mTitle.setText(mCurrent.getTitle());
         holder.mDescription.setText(mCurrent.getDescription());
-        Picasso.get().load(mCurrent.getUrlToImage()).into(holder.mImageView);
+        // Picasso.get().load(mCurrent.getUrlToImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(holder.mImageView);
+        Glide.with(mContext).load(mCurrent.getUrlToImage()).into(holder.mImageView);
         Date date = new Date();
         String now = formatter.format(date);
         try {

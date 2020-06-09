@@ -41,6 +41,13 @@ public class ForYou extends Fragment implements SwipeRefreshLayout.OnRefreshList
     private SwipeRefreshLayout swipeRefreshLayout;
     TextView textCategory ;
 
+    @Override
+    public void onAttach(Context context) {
+        Log.d(TAG, "onAttach()");
+        this.context = context;
+        super.onAttach(context);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -93,7 +100,7 @@ public class ForYou extends Fragment implements SwipeRefreshLayout.OnRefreshList
 
             recyclerView = view.findViewById(R.id.recyclerView);
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(newsList)));
+            recyclerView.setAdapter(new NewsListAdapter(context, new NewsApiResponse(newsList)));
         }
         return view;
     }
@@ -138,16 +145,6 @@ public class ForYou extends Fragment implements SwipeRefreshLayout.OnRefreshList
         swipeRefreshLayout.setRefreshing(false);
 
     }
-
-
-    @Override
-    public void onAttach(Context context){
-        Log.d(TAG,"onAttach()");
-        super.onAttach(context);
-        this.context=context;
-
-    }
-
 
     @Override
     public void onRefresh() {

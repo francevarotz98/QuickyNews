@@ -23,6 +23,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.ListPreloader;
+import com.bumptech.glide.util.FixedPreloadSizeProvider;
+import com.bumptech.glide.util.ViewPreloadSizeProvider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,7 +54,6 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     private final static String TAG = "Top News";
     private int fetchCount = 0;
     private static int onCreateViewCount = 0;
-    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private static MyRepository myRepository;
@@ -74,12 +76,14 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         onCreateViewCount++;
 
         View v = inflater.inflate(R.layout.fragment_home,container,false);
+
+        // ListPreloader.PreloadSizeProvider sizeProvider = new FixedPreloadSizeProvider(imageWidthPixels, imageHeightPixels);
+
         swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
         myRepository = new MyRepository(getActivity().getApplication());
-
 
         /*
         for(Article article : myRepository.getAllArticle()){
@@ -91,8 +95,6 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
             //}
         }
         */
-
-
 
         if(onCreateViewCount == 1) return v;
         else if(NetConnectionReceiver.isConnected(context)) {
@@ -229,7 +231,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                         fetchCount++;
                         if(fetchCount == 4) {
                             insertionSort(newsList);
-                            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(newsList)));
+                            recyclerView.setAdapter(new NewsListAdapter(context, new NewsApiResponse(newsList)));
                             swipeRefreshLayout.setRefreshing(false);
                         }
                     } catch (JSONException e) {
@@ -265,7 +267,12 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                                 if(p.equals("briefing")) continue mainLoop;
                             }
 
-                            JSONArray jsonMultimedias = jsonArticle.getJSONArray("multimedia");
+                            JSONArray jsonMultimedias;
+                            try {
+                                jsonMultimedias = jsonArticle.getJSONArray("multimedia");
+                            } catch (org.json.JSONException e) {
+                                continue;
+                            }
                             JSONObject jsonMultimedia;
                             String urlToImage = null;
                             if(jsonMultimedias.length() != 0) {
@@ -331,7 +338,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                         fetchCount++;
                         if(fetchCount == 4) {
                             insertionSort(newsList);
-                            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(newsList)));
+                            recyclerView.setAdapter(new NewsListAdapter(context, new NewsApiResponse(newsList)));
                             swipeRefreshLayout.setRefreshing(false);
                         }
                     } catch (JSONException e) {
@@ -438,7 +445,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                         fetchCount++;
                         if(fetchCount == 4) {
                             insertionSort(newsList);
-                            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(newsList)));
+                            recyclerView.setAdapter(new NewsListAdapter(context, new NewsApiResponse(newsList)));
                             swipeRefreshLayout.setRefreshing(false);
                         }
                     } catch (JSONException e) {
@@ -555,7 +562,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                         fetchCount++;
                         if(fetchCount == 4) {
                             insertionSort(newsList);
-                            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(newsList)));
+                            recyclerView.setAdapter(new NewsListAdapter(context, new NewsApiResponse(newsList)));
                             swipeRefreshLayout.setRefreshing(false);
                         }
                     } catch (JSONException e) {
@@ -595,7 +602,7 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
             newsList.add(article);
         }
 
-        recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(newsList)));
+        recyclerView.setAdapter(new NewsListAdapter(context, new NewsApiResponse(newsList)));
 
     }
 

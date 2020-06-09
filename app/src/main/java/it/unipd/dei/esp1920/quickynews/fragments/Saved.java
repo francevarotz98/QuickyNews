@@ -9,6 +9,7 @@ package it.unipd.dei.esp1920.quickynews.fragments;
 * */
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +40,14 @@ public class Saved extends Fragment {
     private final static String TAG="Saved";
     private RecyclerView recyclerView;
     private MyRepository myRepository ;
+    private Context context;
+
+    @Override
+    public void onAttach(Context context) {
+        Log.d(TAG, "onAttach()");
+        this.context = context;
+        super.onAttach(context);
+    }
 
     @Override
     public void onCreate(Bundle bundle){
@@ -66,7 +75,7 @@ public class Saved extends Fragment {
         else {
             recyclerView = view.findViewById(R.id.recyclerView_saved);
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-            recyclerView.setAdapter(new NewsListAdapter(new NewsApiResponse(myRepository.getFavoritesArticle())));
+            recyclerView.setAdapter(new NewsListAdapter(context, new NewsApiResponse(myRepository.getFavoritesArticle())));
         }
 
         return view;
