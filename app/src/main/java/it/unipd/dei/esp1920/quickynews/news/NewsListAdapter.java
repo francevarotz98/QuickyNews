@@ -201,7 +201,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                             myRepository.setId(mCurrent.getUrl(),mCurrent.getSource().getId()); //per poter accedere al sito web, quando sono online, anche da Saved
                           //  myRepository.setDate(mCurrent.getUrl(),mCurrent.getPublishedAt()); //per problemi con Coronavirus updates The NYT
                             if(!wasFavorite){
-                                Toast toast= Toast.makeText(v.getContext(),"You have saved your news.\n Now you can find it on Saved.",Toast.LENGTH_LONG);
+                                Toast toast= Toast.makeText(v.getContext(),"You have saved your news on Saved.\n The HTML page is downloading....",Toast.LENGTH_SHORT);
                                 //toast.setGravity(0,0,0);
                                 toast.show();
                                 Log.d(TAG,"source id="+mCurrent.getSource().getId());
@@ -210,14 +210,17 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                                     @Override
                                     public void processFinish(ArrayList<String> output) {
                                         Log.d(TAG,"processFinish() di onClick()");
-                                        if(output==null)
-                                            Log.d(TAG,"+++ATTENZIONE: output="+output);
                                         String page="";
-                                        if(output!=null) {
+                                        if(output==null) {
+                                            Log.d(TAG, "+++ATTENZIONE: output=" + output);
+                                            Toast.makeText(v.getContext(),"The HTML page has not been downloaded.\n Sorry :(",Toast.LENGTH_LONG).show();
+                                        }
+                                        else {
                                             for(String word : output)
                                                 page+=word;
                                             Log.d(TAG,"+++page="+page);
                                             myRepository.setPageHTML(mCurrent.getUrl(), page);
+                                            Toast.makeText(v.getContext(),"YEP! Now you can read offline \n"+mCurrent.getTitle(),Toast.LENGTH_LONG).show();
                                         }
 
                                     }
