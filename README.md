@@ -19,3 +19,9 @@ Project made by three students (Giovanni, Pietro e Francesco) of the University 
   
 ## Getting Started
 
+This app is realized following the Android go guidelines (precisely Build for Billions). 
+The aim of this app is to always have news at your fingerprints, even if you are offline, how? Using <a href="https://developer.android.com/topic/libraries/architecture/room">Room.</a>
+But what would you have to do? Just clicking, let's see how.
+
+## Usage 
+
