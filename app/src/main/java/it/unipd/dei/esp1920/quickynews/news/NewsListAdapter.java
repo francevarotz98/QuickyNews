@@ -123,15 +123,12 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
     public void onBindViewHolder(NewsListAdapter.ArticleViewHolder holder, int position) {
 
         Article mCurrent = mNewsListContainer.getArticles().get(position);
-        //Log.d(TAG,"NAME= "+ mCurrent.getSource());
-        /*if(mCurrent.getSource().getName()=="The New York Times - Business")
-            holder.mSource.setText("TNYT-Business");
-        else*/
-            holder.mSource.setText(mCurrent.getSource().getName());
+        holder.mSource.setText(mCurrent.getSource().getName());
         holder.mTitle.setText(mCurrent.getTitle());
         holder.mDescription.setText(mCurrent.getDescription());
         // Picasso.get().load(mCurrent.getUrlToImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(holder.mImageView);
         Glide.with(mContext).load(mCurrent.getUrlToImage()).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).format(DecodeFormat.PREFER_RGB_565).placeholder(R.drawable.ic_baseline_photo_24).into(holder.mImageView);
+
         Date date = new Date();
         String now = formatter.format(date);
         try {
@@ -220,7 +217,12 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                                                 page+=word;
                                             Log.d(TAG,"+++page="+page);
                                             myRepository.setPageHTML(mCurrent.getUrl(), page);
-                                            Toast.makeText(v.getContext(),"YEP! Now you can read offline \n"+mCurrent.getTitle(),Toast.LENGTH_LONG).show();
+
+                                            Toast t1 = Toast.makeText(v.getContext(),"YEP! Now you can read offline \n"+mCurrent.getTitle(),Toast.LENGTH_LONG) ;
+                                            t1.show();
+
+
+                                            //Toast.makeText(v.getContext(),"YEP! Now you can read offline \n"+mCurrent.getTitle(),Toast.LENGTH_LONG).show();
                                         }
 
                                     }

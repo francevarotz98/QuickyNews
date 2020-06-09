@@ -25,7 +25,6 @@ import java.util.List;
 
 import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
 import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
-import it.unipd.dei.esp1920.quickynews.news.Article;
 import it.unipd.dei.esp1920.quickynews.news.GetNewsTask;
 import it.unipd.dei.esp1920.quickynews.news.MyRepository;
 
@@ -107,7 +106,6 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
                 //String pageHTML = "";
                 setContentView(R.layout.news_detail_offline);
                 TextView t = findViewById(R.id.pageHTML);
-                Log.d(TAG, "------------DEBUG---------");
                 String url = getIntent().getStringExtra("url");
                 try {
                     pageHTML = myRepository.getPageHTML(url);
@@ -124,9 +122,6 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
 
                 }
 
-
-
-                Log.d(TAG, "------------END DEBUG---------");
                 //da finire
             }
 
