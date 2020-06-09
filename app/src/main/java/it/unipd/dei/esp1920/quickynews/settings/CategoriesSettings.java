@@ -57,10 +57,11 @@ public class CategoriesSettings extends Settings {
         bln_cb_busin = preferences.getBoolean("chBoxBus",bln_cb_busin);
         bln_cb_science = preferences.getBoolean("chBoxSc",bln_cb_science);
 
-        CheckBox mSelectedSport=(CheckBox)findViewById(R.id.checkBox_sport);
-        CheckBox mSelectedTech=(CheckBox)findViewById(R.id.checkBox_tech);
-        CheckBox mSelectedFood=(CheckBox)findViewById(R.id.checkBox_business);
-        CheckBox mSelectedMot=(CheckBox)findViewById(R.id.checkBox_science);
+        CheckBox mSelectedSport = findViewById(R.id.checkBox_sport);
+        CheckBox mSelectedTech = findViewById(R.id.checkBox_tech);
+        CheckBox mSelectedFood = findViewById(R.id.checkBox_business);
+        CheckBox mSelectedMot = findViewById(R.id.checkBox_science);
+
         mSelectedSport.setTextSize(mFontSize);
         mSelectedTech.setTextSize(mFontSize);
         mSelectedFood.setTextSize(mFontSize);
@@ -87,14 +88,14 @@ public class CategoriesSettings extends Settings {
         SharedPreferences preferences = getSharedPreferences("cat",MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         //------SALVATAGGIO STATO
-        CheckBox mSelectedSport=(CheckBox)findViewById(R.id.checkBox_sport);
-        CheckBox mSelectedTech=(CheckBox)findViewById(R.id.checkBox_tech);
-        CheckBox mSelectedFood=(CheckBox)findViewById(R.id.checkBox_business);
-        CheckBox mSelectedMot=(CheckBox)findViewById(R.id.checkBox_science);
-        bln_cb_sport=mSelectedSport.isChecked();
-        bln_cb_tech=mSelectedTech.isChecked();
-        bln_cb_busin=mSelectedFood.isChecked();
-        bln_cb_science=mSelectedMot.isChecked();
+        CheckBox mSelectedSport = findViewById(R.id.checkBox_sport);
+        CheckBox mSelectedTech = findViewById(R.id.checkBox_tech);
+        CheckBox mSelectedFood = findViewById(R.id.checkBox_business);
+        CheckBox mSelectedMot = findViewById(R.id.checkBox_science);
+        bln_cb_sport = mSelectedSport.isChecked();
+        bln_cb_tech = mSelectedTech.isChecked();
+        bln_cb_busin = mSelectedFood.isChecked();
+        bln_cb_science = mSelectedMot.isChecked();
 
         editor.putBoolean("chBoxSport", bln_cb_sport);
         editor.putBoolean("chBoxTech", bln_cb_tech);
@@ -106,30 +107,6 @@ public class CategoriesSettings extends Settings {
     }
 
 
-    public static boolean getPreferenceSport(){
-        return bln_cb_sport;
-    }
-
-    /*
-    private boolean testSport(){
-        SharedPreferences pref= getPreferences(MODE_PRIVATE);
-        bln_cb_sport = pref.getBoolean("chBoxSport",false);
-        return bln_cb_sport;
-    }
-    */
-
-
-    public static boolean getPreferenceTech(){
-        return bln_cb_tech;
-    }
-
-    public static boolean getPreferenceBusiness(){
-        return bln_cb_busin;
-    }
-
-    public static boolean getPreferenceScience(){
-        return bln_cb_science;
-    }
 
 
 

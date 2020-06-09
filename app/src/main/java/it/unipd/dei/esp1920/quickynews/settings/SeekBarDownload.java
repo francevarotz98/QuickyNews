@@ -15,15 +15,15 @@ import it.unipd.dei.esp1920.quickynews.storage.AvailableSpace;
 public class SeekBarDownload extends Settings {
 
     private SeekBar  mSeekBar;
-    private long totSpace,minSpace,maxSpace;            //serve per settare il testo agli estremi della seekbar
+    private long totSpace,minSpace,maxSpace;      //serve per settare il testo agli estremi della seekbar
     private double minNumberNews,maxNumberNews;
-    private int newsChosen,int_sb;                               //#news scelti dall'utente
+    private int newsChosen,int_sb;       //#news scelti dall'utente
     private TextView mTextView,mTextViewMin,mTextViewMax,mTextView2;
     private String str_et;
     private Toolbar mToolbar;
     private int mFontSize,fontSize;
     private static final String TAG="SeekBarDownload";
-    private final double SIZE_SAVED_NEWS = 0.87 ; //one saved news weigths 0.87 MB
+    private final static double SIZE_SAVED_NEWS = 0.76 ; //one saved news weigths  0.87 MB ( very rounded up value )
 
 
     @Override
@@ -31,25 +31,27 @@ public class SeekBarDownload extends Settings {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_seekbar_);
 
-
-
         //TOOLBAR
         mToolbar=findViewById(R.id.toolBar);
         setSupportActionBar(mToolbar);              //rende predefinata la toolbar creata
         getSupportActionBar().setTitle("Max number of News to download");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("max_number_news",MODE_PRIVATE);
+
+        //newsChosen = preferences.getInt("max_num_news",newsChosen);
 
         totSpace = AvailableSpace.getTotalDiskSpace();   //spazio totale disponibile nel cell
-
-        minSpace=(totSpace/100*1)/(1000000);    //min =1% del tot
-        maxSpace=(totSpace/100*7)/(1000000);   ///max=7%del tot
+        minSpace=(totSpace/100*2)/(1000000);    //min = 2% del tot
+        maxSpace=(totSpace/100*7)/(1000000);    //max = 7%del tot
 
         minNumberNews = minSpace/SIZE_SAVED_NEWS;
         maxNumberNews = maxSpace/SIZE_SAVED_NEWS;
         int intMinNumberNews = (int) minNumberNews;
         int intMaxNumberNews = (int) maxNumberNews;
+
+
+        newsChosen = preferences.getInt("max_num_news",newsChosen);
 
         mTextViewMin=(TextView)findViewById(R.id.tV_minSpace);
         mTextViewMax=(TextView)findViewById(R.id.tV_maxSpace);
@@ -122,22 +124,20 @@ public class SeekBarDownload extends Settings {
     }
 
 
-
-
     @Override
     protected void onPause() {
         super.onPause();
 
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("max_number_news",MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
-
-        SeekBar mSeekBar = (SeekBar)findViewById(R.id.sk_seekBar);
+        SeekBar mSeekBar = findViewById(R.id.sk_seekBar);
         int_sb = mSeekBar.getProgress();
+
+        editor.putInt("max_num_news",newsChosen);
         editor.putInt("seekBarValue", int_sb);
 
-
-        mTextView= (TextView) findViewById(R.id.tV_progression_percentage);
+        mTextView = findViewById(R.id.tV_progression_percentage);
         str_et = mTextView.getText().toString();
         editor.putString("editTextValue", str_et);
 

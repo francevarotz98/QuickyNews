@@ -100,6 +100,7 @@ public class ForYou extends Fragment implements SwipeRefreshLayout.OnRefreshList
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(new NewsListAdapter(context, new NewsApiResponse(newsList)));
         swipeRefreshLayout.setRefreshing(false);
+
         return newsList;
 
     }
