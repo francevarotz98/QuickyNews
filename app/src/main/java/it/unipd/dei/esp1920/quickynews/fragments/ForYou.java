@@ -39,64 +39,26 @@ public class ForYou extends Fragment implements SwipeRefreshLayout.OnRefreshList
     private List<Article> newsList;
     private Context context;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private View view;
     TextView textCategory ;
 
-    @Override
-    public void onAttach(Context context) {
-        Log.d(TAG, "onAttach()");
-        this.context = context;
-        super.onAttach(context);
-    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG,"onCreateView()");
 
-        View view = inflater.inflate(R.layout.fragment_home,container,false);
-        //View v= inflater.inflate(R.layout.feed_list_item_foryou,container,false);
-        //textCategory = v.findViewById(R.id.item_category);
+        view = inflater.inflate(R.layout.fragment_home,container,false);
+
         myRepository = TopNews.getRepository();
-        newsList = new LinkedList<>();
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout) ;
         swipeRefreshLayout.setOnRefreshListener(this);
 
         if(myRepository==null)
             Toast.makeText(view.getContext(),"Please, click on Top News(bottom left) then come back",Toast.LENGTH_LONG).show();
         else {
-            //getFavoritesArticle();
-
-            SharedPreferences preferences = getActivity().getSharedPreferences("cat",MODE_PRIVATE);
-            Log.d(TAG,"textcategory="+textCategory);
-            bln_cb_sport = preferences.getBoolean("chBoxSport",bln_cb_sport);
-            bln_cb_tech = preferences.getBoolean("chBoxTech",bln_cb_tech);
-            bln_cb_busin = preferences.getBoolean("chBoxBus",bln_cb_busin);
-            bln_cb_science = preferences.getBoolean("chBoxSc",bln_cb_science);
-
-            if (bln_cb_sport)
-                for (Article article : myRepository.getSportArticle())
-                    newsList.add(article);
-
-            if (bln_cb_tech)
-                for (Article article : myRepository.getTechnologyArticle())
-                    newsList.add(article);
-
-
-            if (bln_cb_busin)
-                for (Article article : myRepository.getBusinessArticle())
-                    newsList.add(article);
-
-
-            if (bln_cb_science)
-                for (Article article : myRepository.getScienceArticle())
-                    newsList.add(article);
-
-
+            newsList = getFavoritesArticle();
             Log.d(TAG,"post getFavoritesArticle() newsList size = "+newsList.size());
-
-
-            //---------------------
-
 
             recyclerView = view.findViewById(R.id.recyclerView);
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -106,9 +68,10 @@ public class ForYou extends Fragment implements SwipeRefreshLayout.OnRefreshList
     }
 
 
-    private void getFavoritesArticle(){
+    private List<Article> getFavoritesArticle(){
         Log.d(TAG,"getFavoritesArticle()");
 
+        newsList = new LinkedList<>();
 
         SharedPreferences preferences = getActivity().getSharedPreferences("cat",MODE_PRIVATE);
 
@@ -118,31 +81,26 @@ public class ForYou extends Fragment implements SwipeRefreshLayout.OnRefreshList
         bln_cb_science = preferences.getBoolean("chBoxSc",bln_cb_science);
 
         if (bln_cb_sport)
-            for (Article article : myRepository.getSportArticle()) {
+            for (Article article : myRepository.getSportArticle())
                 newsList.add(article);
-
-            }
 
         if (bln_cb_tech)
-            for (Article article : myRepository.getTechnologyArticle()) {
+            for (Article article : myRepository.getTechnologyArticle())
                 newsList.add(article);
-
-            }
 
         if (bln_cb_busin)
-            for (Article article : myRepository.getBusinessArticle()) {
+            for (Article article : myRepository.getBusinessArticle())
                 newsList.add(article);
-
-            }
 
         if (bln_cb_science)
-            for (Article article : myRepository.getScienceArticle()) {
+            for (Article article : myRepository.getScienceArticle())
                 newsList.add(article);
 
-            }
-
-        Log.d(TAG,"post getFavoritesArticle() newsList size = "+newsList.size());
+        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setAdapter(new NewsListAdapter(context, new NewsApiResponse(newsList)));
         swipeRefreshLayout.setRefreshing(false);
+        return newsList;
 
     }
 
@@ -160,6 +118,13 @@ public class ForYou extends Fragment implements SwipeRefreshLayout.OnRefreshList
         }
     }
 
+
+    @Override
+    public void onAttach(Context context) {
+        Log.d(TAG, "onAttach()");
+        this.context = context;
+        super.onAttach(context);
+    }
 
     @Override
     public void onPause() {
