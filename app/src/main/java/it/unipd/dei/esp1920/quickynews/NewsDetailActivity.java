@@ -85,7 +85,7 @@ public class NewsDetailActivity extends AppCompatActivity /* implements GetNewsT
 
             WebSettings webSettings = webView.getSettings();
 
-            webSettings.setJavaScriptEnabled(true);
+            webSettings.setJavaScriptEnabled(false);
             webSettings.setAppCacheEnabled(false);
             webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
