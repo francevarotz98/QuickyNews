@@ -2,19 +2,15 @@ package it.unipd.dei.esp1920.quickynews.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -25,12 +21,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.ListPreloader;
-import com.bumptech.glide.RequestBuilder;
-import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
-import com.bumptech.glide.util.FixedPreloadSizeProvider;
-import com.bumptech.glide.util.ViewPreloadSizeProvider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +29,6 @@ import org.json.JSONObject;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -103,9 +92,11 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         catch (Exception e) {
             e.printStackTrace();
         }
+        /*
         Log.d(TAG,"+++date now ="+date_now);
         Log.d(TAG,"+++day now ="+day_now);
         Log.d(TAG,"+++hour_now ="+hour_now);
+        */
 
         int day_article = 0 ;
         int hour_article = 0 ;
@@ -126,14 +117,10 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                     Log.d(TAG, "eliminazione dal db dell'articolo " + article.getTitle());
                     myRepository.deleteArticle(myRepository.getArticle(article.getUrl()).getUrl());
                 }
-
-
             }
             catch(Exception e){
                 e.printStackTrace();
             }
-                Log.d(TAG,"data article = "+article.getStringPublishedAt());
-
 
         }
 

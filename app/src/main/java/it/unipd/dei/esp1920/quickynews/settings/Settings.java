@@ -61,7 +61,7 @@ public class Settings extends AppCompatActivity {
 
 
 
-        mCategories=(Button)findViewById(R.id.btn_choose_categories);
+        mCategories=findViewById(R.id.btn_choose_categories);
         mCategories.setTextSize(mFontSizeI);
         mCategories.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +81,7 @@ public class Settings extends AppCompatActivity {
             }
         });
 
-        mFontSize=(Button)findViewById(R.id.btn_choose_font_size);
+        mFontSize=findViewById(R.id.btn_choose_font_size);
         mFontSize.setTextSize(mFontSizeI);
         mFontSize.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,10 +1,8 @@
 package it.unipd.dei.esp1920.quickynews;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,16 +10,13 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.VideoView;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
 import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
@@ -112,8 +107,13 @@ public class NewsDetailActivity extends AppCompatActivity implements GetNewsTask
                     pageHTML = myRepository.getPageHTML(url);
                     Log.d(TAG,"article="+myRepository.getArticle(url).getTitle());
                     Log.d(TAG,"pageHTML="+pageHTML);
-                    textViewTitlePageHTML.setText(myRepository.getArticle(url).getTitle());
-                    textViewPageHTML.setText(pageHTML);
+                    if(pageHTML.length()==0)
+                        textViewTitlePageHTML.setText("Sorry, this news was not downloaded.\nRetry when you will be connected to internet.");
+                    else {
+                        textViewTitlePageHTML.setText(myRepository.getArticle(url).getTitle());
+                        textViewPageHTML.setText(pageHTML);
+                    }
+                    textViewTitlePageHTML.setTextSize((float)(mFontSize+0.2*mFontSize));
                     textViewPageHTML.setTextSize(mFontSize);
                 }
                 catch(NullPointerException e) {

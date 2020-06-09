@@ -34,25 +34,25 @@ public class FontSize extends Settings {
 
 
         SharedPreferences preferences = getSharedPreferences("fontSizeKey",MODE_PRIVATE);
-        int_sb = preferences.getInt("seekBarFontValue", 40);
-        str_et = preferences.getString("editTextFontValue", null);
+        int_sb = preferences.getInt("seekBarFontValue", 35);
+        str_et = preferences.getString("editTextFontValue", "Small");
 
 
 
-        if(int_sb<20) {
+        if(int_sb<20) { //very small
             mFontSize=12;
         }
         else if(int_sb<40) {
-            mFontSize=17;
+            mFontSize=17; //small
         }
         else if(int_sb<60) {
-            mFontSize=22;
+            mFontSize=22; //normal
         }
         else if(int_sb<80) {
-            mFontSize=27;
+            mFontSize=27; //big
         }
         else{
-            mFontSize=32;
+            mFontSize=32; //very big
         }
 
         mTextView = (TextView) findViewById(R.id.tV_progression_font);
