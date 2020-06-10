@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -29,6 +32,7 @@ import java.util.Locale;
 
 import it.unipd.dei.esp1920.quickynews.NewsDetailActivity;
 import it.unipd.dei.esp1920.quickynews.R;
+import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
 import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -155,18 +159,29 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                 Log.d(TAG, "onClick()");
                 // Send an intent to the NewsDetailActivity
                 Context context = v.getContext();
-                Intent intent = new Intent(context, NewsDetailActivity.class);
-                intent.putExtra("url", mCurrent.getUrl());
 
-                if(mCurrent.getSource().getId()!=null)
-                    intent.putExtra("source_id", mCurrent.getSource().getId());
-                else{
-                    intent.putExtra("source_id",myRepository.getId(mCurrent.getUrl())); //provo a vedere se ho la news nel db
+                if(NetConnectionReceiver.isConnected(context)) {
+                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                    builder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
+                    builder.setExitAnimations(context, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    builder.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
+                    CustomTabsIntent customTabsIntent = builder.build();
+                    customTabsIntent.launchUrl(context, Uri.parse(mCurrent.getUrl()));
                 }
-                Log.d(TAG,"mCurrent.getUrl() ="+mCurrent.getUrl());
-                Log.d(TAG,"mCurrent.getSource.getid ="+mCurrent.getSource().getId());
-                Log.d(TAG,"myRep.getId(url) ="+myRepository.getId(mCurrent.getUrl()));
-                context.startActivity(intent);
+                else {
+                    Intent intent = new Intent(context, NewsDetailActivity.class);
+                    intent.putExtra("url", mCurrent.getUrl());
+
+                    if (mCurrent.getSource().getId() != null)
+                        intent.putExtra("source_id", mCurrent.getSource().getId());
+                    else {
+                        intent.putExtra("source_id", myRepository.getId(mCurrent.getUrl())); //provo a vedere se ho la news nel db
+                    }
+                    Log.d(TAG, "mCurrent.getUrl() =" + mCurrent.getUrl());
+                    Log.d(TAG, "mCurrent.getSource.getid =" + mCurrent.getSource().getId());
+                    Log.d(TAG, "myRep.getId(url) =" + myRepository.getId(mCurrent.getUrl()));
+                    context.startActivity(intent);
+                }
             }
         });
 
