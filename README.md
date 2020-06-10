@@ -32,19 +32,51 @@ But what should you have to do to save a news? Just with one click, let's see ho
 
 <img class="shadowed" src="howto_save.png" width="297" >
 
-** If the news was saved a toast will appear saying that you can find the news on Saved; in the meanwhile its HTML page is downloading: if the download will be completed, another toast will apper saying:
+
+    If the news was saved a toast will appear saying that you can find the news on Saved; in the meanwhile its HTML page is downloading:    if the download will be completed, another toast will apper saying:
 
 <img class="shadowed" src="howto_savedHTMLPage.jpg" width="297" >
 
-** ok, now if you remove the connection to internet, you will be able to see something like this :
+    
+    ok, now if you remove the connection to internet, you will be able to see something like this :
 
 <img class="shadowed" src="howto_savedHTMLPageOffline.png" width="297" >
 
-** if something went wrong, and the page was not downloaded, this page will apear: 
+    
+    What? Is it a small font? Of course you can change it on settings.  
+
+
+    if something went wrong, and the page was not downloaded, this page will apear: 
 
 <img class="shadowed" src="howto_HTMLPageOffline.png" width="297" >
 
-  So you should retry to download it.
+    So you should retry to download it.
+  
+  
+    Instead, if you are connected to internet, you will be redirected to the official website, easy right?
+  
+  <img class="shadowed" src="howto_website.png" width="297" >
+  
+  
+  * Now ,let's talk about about our idea: in settings, you can set a parameter, which consists in how many news a user can keep on Saved (that is, the number of HTML pages a user can read offline).
+  
+  <img class="shadowed" src="howto_numberSaved.png" width="297" >
+  
+    In this case, the number is set to 19, and it has a range of [14,53].
+  
+    When the user will reach 9 saved news (which is 19-10), an alert will be prompted :
+  
+   
+   <img class="shadowed" src="howto_numberSaved.png" width="297" >
+   
+    
+    We call this as " First phase: Warning " -> we warn the user BEFORE he loses his saved data, so that he becomes acquinted of the potential danger.
+    
+    When the user will reach the max set number (19) of possible news to save, the app will remove 20% of the max number from saved.
+    
+    
+   
+  
 
 
 
