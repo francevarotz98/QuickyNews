@@ -66,12 +66,12 @@ But what should you do to save a news? Just one click, let's see how.
   
   <img class="shadowed" src="howto_numberSaved.png" width="297" >
   
-    In this case, the number is set to 19, and it has a range of [14,53]. 
+    In this case, the number is set to 26, and it has a range of [14,53]. 
     [These minimum and maximum depend on the available space of the device 
     (in my case I only have 320 MB of free space)].
   
     
-    When the user will reach 9 saved news (which is 19-10), an alert will be prompted
+    When the user will reach 16 saved news (which is equal to 26-10), an alert will be prompted
     ( We call this as " First phase: Warning " -> we warn the user BEFORE he loses his saved data, 
     so that he becomes acquinted of the potential danger):
   
@@ -81,13 +81,13 @@ But what should you do to save a news? Just one click, let's see how.
     
    
     
-    When the user will reach the max set number (19) of possible news to save, the app will remove
+    When the user will reach the max set number (26) of possible news to save, the app will remove
     20% of the max number from saved --> "Second phase: elimination".
     
     
 ## Contributors
 
-- Giovanni Zano - [@giozano](https://github.com/giozano98/)
+- Giovanni Zanocco - [@giozano](https://github.com/giozano98/)
 - Pietro Albertini - [@piero](https://github.com/PietroAlbert/)
 - Francesco Varotto - [@frarotto](https://github.com/francevarotz98/)
     
