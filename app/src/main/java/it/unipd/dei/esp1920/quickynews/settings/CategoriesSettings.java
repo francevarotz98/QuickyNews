@@ -34,21 +34,22 @@ public class CategoriesSettings extends Settings {
 
         SharedPreferences preferences = getSharedPreferences("cat",MODE_PRIVATE);
 
+        //--------------------------------------------  //per settare la dim del font
         SharedPreferences preferences2 = getSharedPreferences("fontSizeKey",MODE_PRIVATE);
-        fontSize = preferences2.getInt("seekBarFontValue", 40);
-        if(fontSize<20) {
+        fontSize = preferences2.getInt("seekBarFontValue", 35);
+        if(fontSize<20) {   //very small
             mFontSize=12;
         }
-        else if(fontSize<40) {
+        else if(fontSize<40) {  //small
             mFontSize=17;
         }
-        else if(fontSize<60) {
+        else if(fontSize<60) {  //normal
             mFontSize=22;
         }
-        else if(fontSize<80) {
+        else if(fontSize<80) {  // big
             mFontSize=27;
         }
-        else{
+        else{                   //very big
             mFontSize=32;
         }
 
@@ -76,10 +77,9 @@ public class CategoriesSettings extends Settings {
         float tmp2 = (float)tmp;
         mTextView2.setTextSize(tmp2);
 
-        //--------------------------------------------  //per settare la dim del font
+
         Log.d("KEY", "fontSize= "+ fontSize);
     }
-    //-------------------------------------------- fino a qua c'è il setting delle dim  del testo
     @Override
     protected void onPause() {
         super.onPause();

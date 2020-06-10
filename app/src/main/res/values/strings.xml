@@ -8,17 +8,12 @@
     <string name="chBox_sport">Sport</string>
     <string name="chBox_science">Science</string>
     <string name="set_categories">Categories</string>
-    <string name="toolBar_settings">Settings</string>
     <string name="textView_download_size">Choose how many news the app can save at most</string>
     <string name="minSpace">Min</string>
     <string name="maxSpace">Max</string>
     <string name="settin_icon_title">Click here to go to the settings menu</string>
-    <string name="back_to_settings">Back to settings</string>
-    <string name="set_categories_dialog">Choose the categories</string>
-    <string name="ok">OK</string>
     <string name="size">News chosen:</string>
     <string name="textView_font_size">Font size:</string>
-    <string name="font_size_very_small">Very Small</string>
     <string name="set_font_size">Font size</string>
     <string name="not_saved">News not saved because of the number of saved news.\nTry to set the parameter of max number of saved news in settings and re-save it. </string>
     <string name="font_size_back_instruction">To save your settings just press \"back\" button</string>

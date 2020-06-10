@@ -39,7 +39,6 @@ public class SeekBarDownload extends Settings {
 
         SharedPreferences preferences = getSharedPreferences("max_number_news",MODE_PRIVATE);
 
-        //newsChosen = preferences.getInt("max_num_news",newsChosen);
 
         totSpace = AvailableSpace.getTotalDiskSpace();   //spazio totale disponibile nel cell
         minSpace=(totSpace/100*2)/(1000000);    //min = 2% del tot
@@ -70,20 +69,20 @@ public class SeekBarDownload extends Settings {
 
         //--------------------------------------------  //per settare la dim del font
         SharedPreferences preferences2 = getSharedPreferences("fontSizeKey",MODE_PRIVATE);
-        fontSize = preferences2.getInt("seekBarFontValue", 40);
-        if(fontSize<20) {
+        fontSize = preferences2.getInt("seekBarFontValue", 35);
+        if(fontSize<20) {       //very small
             mFontSize=10;
         }
-        else if(fontSize<40) {
+        else if(fontSize<40) {      //small
             mFontSize=15;
         }
-        else if(fontSize<60) {
+        else if(fontSize<60) {      //normal
             mFontSize=20;
         }
-        else if(fontSize<80) {
+        else if(fontSize<80) {      //big
             mFontSize=25;
         }
-        else{
+        else{                        //very big
             mFontSize=30;
         }
         mTextView2 = (TextView) findViewById(R.id.textView2);

@@ -85,26 +85,26 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
     public NewsListAdapter.ArticleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_list_item_new, parent, false);
         SharedPreferences preferences2 = (parent.getContext()).getSharedPreferences("fontSizeKey",MODE_PRIVATE);
-        fontSize = preferences2.getInt("seekBarFontValue", 40);
+        fontSize = preferences2.getInt("seekBarFontValue", 35);
 
         mSource1= itemView.findViewById(R.id.item_source);
         mTitle1 = itemView.findViewById(R.id.item_title);
         mDescription1 = itemView.findViewById(R.id.item_description);
         mDate1 = itemView.findViewById(R.id.item_date);
 
-        if(fontSize<20) {
+        if(fontSize<20) {       //very small
             mFontSize=12;
         }
-        else if(fontSize<40) {
+        else if(fontSize<40) {      //small
             mFontSize=17;
         }
-        else if(fontSize<60) {
+        else if(fontSize<60) {      //normal
             mFontSize=22;
         }
-        else if(fontSize<80) {
+        else if(fontSize<80) {      //big
             mFontSize=27;
         }
-        else{
+        else{                       //very big
             mFontSize=32;
         }
         mSource1.setTextSize(mFontSize - 2);

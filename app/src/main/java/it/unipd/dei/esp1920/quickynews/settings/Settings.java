@@ -40,21 +40,21 @@ public class Settings extends AppCompatActivity {
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
 
         SharedPreferences preferences2 = getSharedPreferences("fontSizeKey",MODE_PRIVATE);
-        fontSize = preferences2.getInt("seekBarFontValue", 40);
+        fontSize = preferences2.getInt("seekBarFontValue", 35);
 
-        if(fontSize<20) {
+        if(fontSize<20) {       //very small
             mFontSizeI=12;
         }
-        else if(fontSize<40) {
+        else if(fontSize<40) {      //small
             mFontSizeI=17;
         }
-        else if(fontSize<60) {
+        else if(fontSize<60) {      //normal
             mFontSizeI=22;
         }
-        else if(fontSize<80) {
+        else if(fontSize<80) {      //big
             mFontSizeI=27;
         }
-        else{
+        else{                       //very big
             mFontSizeI=32;
         }
 

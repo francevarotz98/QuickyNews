@@ -110,20 +110,20 @@ public class NewsDetailActivity extends AppCompatActivity /* implements GetNewsT
         }
         else { //mobile phone not connected
             SharedPreferences preferences2 = getSharedPreferences("fontSizeKey",MODE_PRIVATE);
-            fontSize = preferences2.getInt("seekBarFontValue", 40);
-            if(fontSize<20) {
+            fontSize = preferences2.getInt("seekBarFontValue", 35);
+            if(fontSize<20) {       //very small
                 mFontSize=12;
             }
-            else if(fontSize<40) {
+            else if(fontSize<40) {      // small
                 mFontSize=17;
             }
-            else if(fontSize<60) {
+            else if(fontSize<60) {      //normal
                 mFontSize=22;
             }
-            else if(fontSize<80) {
+            else if(fontSize<80) {      //big
                 mFontSize=27;
             }
-            else{
+            else{                       //very big
                 mFontSize=32;
             }
             myRepository = TopNews.getRepository();
