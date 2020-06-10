@@ -16,6 +16,7 @@ Project made by three students (Giovanni, Pietro e Francesco) of the University 
 
   - [Getting Started](#getting-started)
   - [Usage](#usage)
+  - [Contributors](#contributors)
   
 ## Getting Started
 
@@ -82,6 +83,13 @@ But what should you do to save a news? Just one click, let's see how.
     
     When the user will reach the max set number (19) of possible news to save, the app will remove
     20% of the max number from saved --> "Second phase: elimination".
+    
+    
+## Contributors
+
+- Giovanni Zano - [@giozano](https://github.com/giozano98/)
+- Pietro Albertini - [@piero](https://github.com/PietroAlbert/)
+- Francesco Varotto - [@frarotto](https://github.com/francevarotz98/)
     
     
    
