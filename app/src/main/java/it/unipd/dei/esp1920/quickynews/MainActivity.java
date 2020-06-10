@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private TextView mTextViewTitle;
     private int flagFragment; //variabile per il parsing di int
-    private BroadcastReceiver  mNetConnectionReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +47,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         flagFragment=preferences.getInt("flagFragmentVal", 0);
         Log.d(TAG,"flagFragmentVal onCreate(): " + flagFragment);
-
-        mNetConnectionReceiver =new NetConnectionReceiver();
-        this.registerReceiver(mNetConnectionReceiver,new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
         BottomNavigationView.OnNavigationItemSelectedListener navList= new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -100,8 +96,6 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_con, new ForYou()).commit();
             botNav.setSelectedItemId(R.id.nav_for_you);
         }
-
-
     }
 
     @Override
@@ -132,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG,"onDestroy()");
-        this.unregisterReceiver(mNetConnectionReceiver);
     }
 
     @Override

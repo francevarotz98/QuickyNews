@@ -53,6 +53,10 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     private SwipeRefreshLayout swipeRefreshLayout;
     private static MyRepository myRepository;
 
+    private static final SimpleDateFormat FORMATTER1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
+    private static final SimpleDateFormat FORMATTER2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ", Locale.US);
+    private static final SimpleDateFormat FORMATTER3 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ", Locale.US);
+
     private List<Article> newsList;
     private Context context;
 
@@ -60,7 +64,6 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     public void onCreate(Bundle bundle){
         super.onCreate(bundle);
         Log.d(TAG,"onCreate()");
-
     }
 
     @Nullable
@@ -130,8 +133,6 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
 
         }
 
-
-
         if(onCreateViewCount == 1) return v;
         else if(NetConnectionReceiver.isConnected(context)) {
             fetchCount = 0;
@@ -157,9 +158,6 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
 
     private void fetchNews() {
         Log.d(TAG, "fetchNews()");
-        final SimpleDateFormat FORMATTER1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
-        final SimpleDateFormat FORMATTER2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ", Locale.US);
-        final SimpleDateFormat FORMATTER3 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ", Locale.US);
 
         StringRequest stringRequest1 = new StringRequest(Request.Method.GET, "https://newsapi.org/v2/top-headlines?" +
                 "sources=bbc-sport,cnn,bbc-news,al-jazeera-english,techcrunch&pageSize=100&language=en&sortBy=date&apiKey=e8e11922f51241959ab4a38de91061e5",
@@ -583,7 +581,6 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             if(!(urlToImage == null || article.getDescription().contains(article.getTitle()))) {
                                 newsList.add(article);
 
-
                                 if(myRepository.getArticle(article.getUrl())!=null && myRepository.isFavoriteArticle(article.getUrl())) {
                                     myRepository.insertArticle(article);
                                     myRepository.setFavorite(article.getUrl(), true);
@@ -626,7 +623,6 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         newsList.clear();
     }
 
-
     private void fetchNewsWithoutInternet(){
         Log.d(TAG,"fetchNewsWithoutInternet()");
         newsList = new LinkedList<>();
@@ -639,7 +635,6 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         }
 
         recyclerView.setAdapter(new NewsListAdapter(context, new NewsApiResponse(newsList)));
-
     }
 
     private static void insertionSort(List<Article> v) {

@@ -46,7 +46,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
     private final NewsApiResponse mNewsListContainer;
     private LayoutInflater mInflater;
     private Context mContext;
-    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
+    private static final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
     private MyRepository myRepository = TopNews.getRepository();
     private List<Article> mListArticle;
 
@@ -74,7 +74,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
         mNewsListContainer = null;
         //mInflater = LayoutInflater.from(c);
     }
-
 
     public NewsListAdapter(Context context, NewsApiResponse newsListContainer) {
         mInflater = LayoutInflater.from(context);
@@ -118,12 +117,11 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
 
     @Override
     public void onBindViewHolder(NewsListAdapter.ArticleViewHolder holder, int position) {
-
         Article mCurrent = mNewsListContainer.getArticles().get(position);
+
         holder.mSource.setText(mCurrent.getSource().getName());
         holder.mTitle.setText(mCurrent.getTitle());
         holder.mDescription.setText(mCurrent.getDescription());
-        // Picasso.get().load(mCurrent.getUrlToImage()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(holder.mImageView);
         Glide.with(mContext).load(mCurrent.getUrlToImage()).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).format(DecodeFormat.PREFER_RGB_565).placeholder(R.drawable.ic_baseline_photo_24).into(holder.mImageView);
 
         Date date = new Date();
@@ -226,15 +224,11 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                                 }).execute(mCurrent.getUrl(),mCurrent.getSource().getId());
 
                             }
-
                             else{
                                 Toast toast= Toast.makeText(v.getContext(),"Keep calm.\n You still have your news on Saved.",Toast.LENGTH_LONG);
                                 //t.setGravity(Gravity.CENTER_HORIZONTAL,15,10);
                                 toast.show();
                             }
-
-
-
                         }
                         else //no
                             myRepository.setFavorite(mCurrent.getUrl(),false);

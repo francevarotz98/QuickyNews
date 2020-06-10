@@ -94,7 +94,7 @@ public class NewsDetailActivity extends AppCompatActivity /* implements GetNewsT
 
             webView.setWebChromeClient(new WebChromeClient() {
                 public void onProgressChanged(WebView view, int progress) {
-                    if (progress >= 80) progressBar.setVisibility(View.GONE);
+                    if (progress >= 80) progressBar.setVisibility(View.GONE); // se più dell'80% della pagina è già stato caricato
                 }
             });
 
@@ -193,6 +193,13 @@ public class NewsDetailActivity extends AppCompatActivity /* implements GetNewsT
             webView.clearHistory();
             webView.clearCache(true);
             webView.removeAllViews();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(webView != null) {
             webView.destroy();
         }
     }
