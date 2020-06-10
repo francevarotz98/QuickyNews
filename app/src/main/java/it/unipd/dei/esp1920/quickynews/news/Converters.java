@@ -1,6 +1,6 @@
 package it.unipd.dei.esp1920.quickynews.news;
 
-import android.view.View;
+
 
 import androidx.room.TypeConverter;
 
@@ -49,7 +49,7 @@ public class Converters {
         return s == null ? null : s.getName();
     }
 
-
+/*
     @TypeConverter
     public static List<String> fromString(String s){
         List<String> returned = new ArrayList<>();
@@ -70,6 +70,6 @@ public class Converters {
         else
             return "";
     }
-
+*/
 
 }

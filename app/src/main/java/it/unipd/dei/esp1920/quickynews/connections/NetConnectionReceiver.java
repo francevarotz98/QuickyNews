@@ -3,7 +3,6 @@ package it.unipd.dei.esp1920.quickynews.connections;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Network;
 import android.net.NetworkInfo;
 import android.util.Log;
 import android.net.ConnectivityManager;
@@ -15,8 +14,8 @@ import static android.net.NetworkInfo.State.CONNECTED;
 public class NetConnectionReceiver extends BroadcastReceiver {
 
     private static final String TAG = "NetConnectionReceiver";
-    private NetworkInfo wifi;
-    private NetworkInfo mobile;
+    //private NetworkInfo wifi;
+    //private NetworkInfo mobile;
     private static boolean isConnected = false; //default
 
     @Override

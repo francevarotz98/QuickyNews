@@ -69,13 +69,13 @@ public interface ArticleDao {
 
 
     @Query("UPDATE article_table SET id = :id WHERE url = :url")
-    public void setId(String url, String id);
+    void setId(String url, String id);
 
     @Query("SELECT id FROM article_table WHERE url = :url")
-    public String getId(String url);
+    String getId(String url);
 
     @Query("UPDATE article_table SET publishedAt = :publishedAt WHERE url = :url ")
-    public void setDate(String url, Date publishedAt);
+    void setDate(String url, Date publishedAt);
 
 
 

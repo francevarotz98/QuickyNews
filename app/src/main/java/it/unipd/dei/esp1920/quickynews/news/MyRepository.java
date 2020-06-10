@@ -8,7 +8,7 @@ import java.util.List;
 public class MyRepository
 {
     private  ArticleDao mArticleDao;
-    private List<Article>/*LiveData<List<Article>>*/ mAllArticle;
+    private List<Article> mAllArticle;
     private int numArticle;
 
 
@@ -88,16 +88,6 @@ public class MyRepository
     public void deleteArticle(String url) {
         MyRoomDatabase.databaseWriteExecutor.execute( ()-> mArticleDao.deleteArticle(url));
     }
-
-    public void setDate(String url, Date date){
-        MyRoomDatabase.databaseWriteExecutor.execute( ()-> mArticleDao.setDate(url,date));
-    }
-
-
-
-
-
-
 
 
 }

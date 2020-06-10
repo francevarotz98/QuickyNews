@@ -10,14 +10,12 @@ package it.unipd.dei.esp1920.quickynews.fragments;
 
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,13 +24,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import it.unipd.dei.esp1920.quickynews.R;
-import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
+//import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
 import it.unipd.dei.esp1920.quickynews.news.Article;
 import it.unipd.dei.esp1920.quickynews.news.MyRepository;
 import it.unipd.dei.esp1920.quickynews.news.NewsApiResponse;

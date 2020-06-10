@@ -52,8 +52,8 @@ public class SeekBarDownload extends Settings {
 
         newsChosen = preferences.getInt("max_num_news",newsChosen);
 
-        mTextViewMin=(TextView)findViewById(R.id.tV_minSpace);
-        mTextViewMax=(TextView)findViewById(R.id.tV_maxSpace);
+        mTextViewMin=findViewById(R.id.tV_minSpace);
+        mTextViewMax=findViewById(R.id.tV_maxSpace);
         mTextViewMax.setText("Max: " + intMaxNumberNews +"News");
         mTextViewMin.setText("Min: " + intMinNumberNews+ "News");
 

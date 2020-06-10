@@ -71,7 +71,7 @@ public class Settings extends AppCompatActivity {
             }
         });
 
-        mSeekbarBtn=(Button)findViewById(R.id.settings_textV_download_size);
+        mSeekbarBtn=findViewById(R.id.settings_textV_download_size);
         mSeekbarBtn.setTextSize(mFontSizeI);
         mSeekbarBtn.setOnClickListener(new View.OnClickListener() {
             @Override

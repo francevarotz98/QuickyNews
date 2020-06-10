@@ -1,10 +1,8 @@
 package it.unipd.dei.esp1920.quickynews.news;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -27,7 +25,7 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
     private GetNewsTask.AsyncResponse delegate;
     private WeakReference<Context> weakContext;
     private static final ViewGroup.LayoutParams LAYOUT_PARAMS = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    private MyRepository myRepository= TopNews.getRepository();
+    //private MyRepository myRepository= TopNews.getRepository();
     private String url;
 
     public interface AsyncResponse {
