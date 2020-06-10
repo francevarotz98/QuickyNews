@@ -58,7 +58,8 @@ But what should you have to do to save a news? Just with one click, let's see ho
   <img class="shadowed" src="howto_website.png" width="297" >
   
   
-  * Now ,let's talk about about our idea: in settings, you can set a parameter, which consists in how many news a user can keep on Saved (that is, the number of HTML pages a user can read offline).
+ 
+ * Now ,let's talk about about our idea: in settings, you can set a parameter, which consists in how many news a user can keep on Saved (that is, the number of HTML pages a user can read offline).
   
   <img class="shadowed" src="howto_numberSaved.png" width="297" >
   
@@ -70,7 +71,7 @@ But what should you have to do to save a news? Just with one click, let's see ho
     When the user will reach 9 saved news (which is 19-10), an alert will be prompted :
   
    
-   <img class="shadowed" src="howto_numberSaved.png" width="297" >
+   <img class="shadowed" src="howto_alert.png" width="297" >
    
     
     We call this as " First phase: Warning " -> we warn the user BEFORE he loses his saved data, 
