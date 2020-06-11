@@ -1,28 +1,15 @@
 package it.unipd.dei.esp1920.quickynews;
 
 import android.annotation.SuppressLint;
-import android.content.ComponentName;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.browser.customtabs.CustomTabsClient;
-import androidx.browser.customtabs.CustomTabsIntent;
-import androidx.browser.customtabs.CustomTabsServiceConnection;
-import androidx.browser.customtabs.CustomTabsSession;
-import androidx.core.content.ContextCompat;
 
-import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
 import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
 import it.unipd.dei.esp1920.quickynews.news.MyRepository;
 
@@ -65,6 +52,7 @@ public class NewsDetailActivity extends AppCompatActivity /* implements GetNewsT
             TextView textViewPageHTML = findViewById(R.id.pageHTML);
             TextView  textViewTitlePageHTML = findViewById(R.id.title_pageHTML);
             String url = getIntent().getStringExtra("url");
+
             try {
                 pageHTML = myRepository.getPageHTML(url);
                 Log.d(TAG,"article="+myRepository.getArticle(url).getTitle());

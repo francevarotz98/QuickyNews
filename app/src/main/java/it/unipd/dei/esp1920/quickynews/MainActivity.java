@@ -5,26 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-import android.content.BroadcastReceiver;
-//import android.content.Context;
-//import android.content.IntentFilter;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import it.unipd.dei.esp1920.quickynews.fragments.ForYou;
 import it.unipd.dei.esp1920.quickynews.fragments.Saved;
 import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
-import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
 import it.unipd.dei.esp1920.quickynews.settings.Settings;
 
 
@@ -33,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG="MainActivity";
     private Fragment selectFrag;
     private Toolbar mToolbar;
-    private TextView mTextViewTitle;
+    //private TextView mTextViewTitle;
     private int flagFragment; //variabile per il parsing di int
 
     @Override
