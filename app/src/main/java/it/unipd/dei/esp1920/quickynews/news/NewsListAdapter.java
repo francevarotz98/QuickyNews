@@ -41,6 +41,9 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
 
     private static final String TAG = "NewsListAdapter";
 
+    private static CustomTabsIntent customTabsIntent;
+    private static final CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+
     private int fontSize,mFontSize;
     private TextView mSource1;
     private TextView mTitle1;
@@ -83,6 +86,11 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
         mInflater = LayoutInflater.from(context);
         mNewsListContainer = newsListContainer;
         mContext = context;
+
+        builder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
+        builder.setExitAnimations(context, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        builder.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
+        customTabsIntent = builder.build();
     }
 
     @Override
@@ -160,14 +168,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                 // Send an intent to the NewsDetailActivity
                 Context context = v.getContext();
 
-                if(NetConnectionReceiver.isConnected(context)) {
-                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                    builder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
-                    builder.setExitAnimations(context, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                    builder.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
-                    CustomTabsIntent customTabsIntent = builder.build();
-                    customTabsIntent.launchUrl(context, Uri.parse(mCurrent.getUrl()));
-                }
+                if(NetConnectionReceiver.isConnected(context)) customTabsIntent.launchUrl(context, Uri.parse(mCurrent.getUrl()));
                 else {
                     Intent intent = new Intent(context, NewsDetailActivity.class);
                     intent.putExtra("url", mCurrent.getUrl());
