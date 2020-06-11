@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
@@ -34,6 +35,8 @@ import it.unipd.dei.esp1920.quickynews.NewsDetailActivity;
 import it.unipd.dei.esp1920.quickynews.R;
 import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
 import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
+import it.unipd.dei.esp1920.quickynews.storage.GlideApp;
+import it.unipd.dei.esp1920.quickynews.storage.MyAppGlideModule;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -134,7 +137,8 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
         holder.mSource.setText(mCurrent.getSource().getName());
         holder.mTitle.setText(mCurrent.getTitle());
         holder.mDescription.setText(mCurrent.getDescription());
-        Glide.with(mContext).load(mCurrent.getUrlToImage()).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).format(DecodeFormat.PREFER_RGB_565).placeholder(R.drawable.ic_baseline_photo_24).into(holder.mImageView);
+
+        GlideApp.with(mContext).load(mCurrent.getUrlToImage()).into(holder.mImageView);
 
         Date date = new Date();
         String now = formatter.format(date);
@@ -257,12 +261,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
             }
 
         });
-    }
-
-    @Override
-    public void onViewRecycled(@NonNull ArticleViewHolder holder) {
-        super.onViewRecycled(holder);
-        Glide.with(mContext).clear(holder.mImageView);
     }
 
     public void setArticle(List<Article> articles){
