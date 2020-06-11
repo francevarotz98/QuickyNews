@@ -108,7 +108,7 @@ public class Saved extends Fragment {
                 * partire da quando mancano 10 news al numero massimo            *
                 * */
                else if (myRepository.getFavoritesArticle().size() >= max_num_news - 10) {
-                   final CharSequence[] items = {"Ok"};
+                   //final CharSequence[] items = {"Ok"};
                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                    builder.setTitle("                !!! ATTENTION !!!");
                    builder.setMessage("If you don't increase the number of news " +
