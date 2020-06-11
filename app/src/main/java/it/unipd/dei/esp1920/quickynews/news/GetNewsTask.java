@@ -54,6 +54,7 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
                     returned = fetchNewYorkTimes(url);
                     break;
                 case "bbc-news":
+                case "bbc-sport":
                     returned = fetchBbc(url);
                     break;
                 case "cnn":
@@ -61,9 +62,6 @@ public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
                     break;
                 case "al-jazeera-english":
                     returned = fetchAlJazeera(url);
-                    break;
-                case "bbc-sport":
-                    returned = fetchBbcSport(url);
                     break;
                 case "techcrunch":
                     returned = fetchTechcrunch(url);

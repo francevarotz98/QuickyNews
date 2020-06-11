@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Quicky News Lite</string>
+    <string name="app_name">Quicky News</string>
     <string name="nav_top_news">Top News</string>
     <string name="nav_saved_news">Saved</string>
     <string name="nav_for_you">For you</string>

@@ -1,7 +1,6 @@
 package it.unipd.dei.esp1920.quickynews.storage;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.annotation.GlideModule;
@@ -18,7 +17,7 @@ import it.unipd.dei.esp1920.quickynews.R;
 public class MyAppGlideModule extends AppGlideModule {
     @Override
     public void applyOptions(Context context, GlideBuilder builder) {
-        int diskCacheSizeBytes = 1024 * 1024 * 2; // 2 MB
+        int diskCacheSizeBytes = 1024 * 1024 * 5; // 5 MB
         builder.setDiskCache(new InternalCacheDiskCacheFactory(context, diskCacheSizeBytes));
         builder.setDefaultRequestOptions(requestOptions(context));
     }

@@ -3,8 +3,14 @@ package it.unipd.dei.esp1920.quickynews;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.browser.customtabs.CustomTabsClient;
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.browser.customtabs.CustomTabsServiceConnection;
+import androidx.browser.customtabs.CustomTabsSession;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -24,10 +30,35 @@ import it.unipd.dei.esp1920.quickynews.settings.Settings;
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG="MainActivity";
+
     private Fragment selectFrag;
     private Toolbar mToolbar;
     //private TextView mTextViewTitle;
     private int flagFragment; //variabile per il parsing di int
+
+    public static final String CUSTOM_TAB_PACKAGE_NAME = "com.android.chrome";
+    private CustomTabsClient mCustomTabsClient;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart()");
+        CustomTabsServiceConnection connection = new CustomTabsServiceConnection() {
+            @Override
+            public void onCustomTabsServiceConnected(ComponentName name, CustomTabsClient client) {
+                Log.d(TAG, "onCustomTabsServiceConnected");
+                mCustomTabsClient = client;
+                mCustomTabsClient.warmup(0L);
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                mCustomTabsClient = null;
+            }
+        };
+
+        boolean ok = CustomTabsClient.bindCustomTabsService(this, CUSTOM_TAB_PACKAGE_NAME, connection);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
