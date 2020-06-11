@@ -26,7 +26,7 @@ import it.unipd.dei.esp1920.quickynews.news.Article;
 import it.unipd.dei.esp1920.quickynews.news.MyRepository;
 import it.unipd.dei.esp1920.quickynews.news.NewsApiResponse;
 import it.unipd.dei.esp1920.quickynews.news.NewsListAdapter;
-//import it.unipd.dei.esp1920.quickynews.settings.CategoriesSettings;
+
 
 import static android.content.Context.MODE_PRIVATE;
 

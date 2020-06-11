@@ -16,8 +16,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
-import it.unipd.dei.esp1920.quickynews.news.MyRepository;
 
 public class GetNewsTask extends AsyncTask<String, Void, ArrayList<String>> {
     private final static String TAG="GetNewsTask";

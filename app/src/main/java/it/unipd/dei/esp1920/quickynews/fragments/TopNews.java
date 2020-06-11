@@ -114,13 +114,13 @@ public class TopNews extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                         && ((day_now * 24 + hour_now) - (day_article * 24 + hour_article)) > 20) {
                     /*
                     * N.B.: l'ora visualizzata dall'utente è arrotondata
-                    *       per eccesso, perciò ci saranno notizie che
-                    *       avranno ora di pubblicazione "21 hours ago"
-                    *       quando in realtà sono state pubblicate, per
-                    *       esempio, 20 ore e 31 minuti fa. In questo if
-                    *       invece arrotondiamo per difetto perciò 20 ore
-                    *       e 31 minuti fa equivale a 20 ore fa, che NON
-                    *       è minore di 20, perciò non viene eliminata dal db..... DETTAGLI.
+                     *       per eccesso, perciò ci saranno notizie che
+                     *       avranno ora di pubblicazione "21 hours ago"
+                     *       quando in realtà sono state pubblicate, per
+                     *       esempio, 20 ore e 31 minuti fa. In questo if
+                     *       invece arrotondiamo per difetto perciò 20 ore
+                     *       e 31 minuti fa equivale a 20 ore fa, che NON
+                     *       è minore di 20, perciò non viene eliminata dal db..... DETTAGLI.
                     * */
                     Log.d(TAG, "eliminazione dal db dell'articolo " + article.getTitle());
                     myRepository.deleteArticle(myRepository.getArticle(article.getUrl()).getUrl());

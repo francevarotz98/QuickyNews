@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {Article.class},version = 1,exportSchema = false)
-@TypeConverters({Converters.class}) //in order to manage Source, Date and ArrayList types
+@TypeConverters({Converters.class}) //in order to manage Source and ArrayList types
 public abstract class MyRoomDatabase extends RoomDatabase
 {
     abstract ArticleDao articleDao();
@@ -30,7 +30,7 @@ public abstract class MyRoomDatabase extends RoomDatabase
                 if(INSTANCE==null){
                     INSTANCE= Room.databaseBuilder(context.getApplicationContext(),
                             MyRoomDatabase.class,"article_database").allowMainThreadQueries().addCallback(mRoomDataBaseCallBack).build();
-                }                                                         //TODO: togliere allowMainThreadQueries() una volta realizzata l'app ?!
+                }
             }
         }
 

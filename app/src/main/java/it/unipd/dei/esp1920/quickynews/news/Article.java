@@ -20,7 +20,7 @@ public class Article implements Comparable<Article> {
     private String author;
     private String title;
     private String description;
-    @PrimaryKey//(autoGenerate = true) //autogenerate primary keys TODO: capire se sia giusto URL
+    @PrimaryKey //autogenerate primary keys TODO: capire se sia giusto URL
     @NonNull
     private String url;
     private String urlToImage;
