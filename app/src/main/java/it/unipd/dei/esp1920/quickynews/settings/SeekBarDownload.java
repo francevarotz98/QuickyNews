@@ -1,5 +1,12 @@
 package it.unipd.dei.esp1920.quickynews.settings;
 
+
+/*
+* CLASS TO SET THE MAX NUMBER OF NEWS THE
+* USER CAN DOWNLOAD
+*
+* */
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,7 +30,7 @@ public class SeekBarDownload extends Settings {
     private Toolbar mToolbar;
     private int mFontSize,fontSize;
     private static final String TAG="SeekBarDownload";
-    private final static double SIZE_SAVED_NEWS = 0.76 ; //one saved news weigths  0.87 MB ( very rounded up value )
+    private final static double SIZE_SAVED_NEWS = 0.76 ; //one saved news weigths  0.76 MB ( very rounded up value )
 
 
     @Override

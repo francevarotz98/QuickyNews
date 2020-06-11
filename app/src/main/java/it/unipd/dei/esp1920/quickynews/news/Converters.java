@@ -1,17 +1,15 @@
 package it.unipd.dei.esp1920.quickynews.news;
 
 
+/*
+ * We need this class to convert some specific types
+ * which Room can't handle.
+ * */
+
 
 import androidx.room.TypeConverter;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
-/*
-* We need this class to convert some specific types
-* which Room can't handle.
-* */
 
 
 public class Converters {
@@ -49,27 +47,6 @@ public class Converters {
         return s == null ? null : s.getName();
     }
 
-/*
-    @TypeConverter
-    public static List<String> fromString(String s){
-        List<String> returned = new ArrayList<>();
-        //return a == null ? null : new ArrayList<String>().add(s); //TODO: CAPIRE CHE ERRORI POSSA CAUSARE RESTITUENDO UN OGGETTO "VUOTO"...
-        if(s!=null)
-            returned.add(s);
-        return returned;
-    }
 
-    @TypeConverter
-    public static String conversionSource(List<String> s){
-        if(s!=null){
-        StringBuilder toReturn= new StringBuilder();
-        for(String v : s)
-            toReturn.append(v);
-        return toReturn.toString();
-        }
-        else
-            return "";
-    }
-*/
 
 }

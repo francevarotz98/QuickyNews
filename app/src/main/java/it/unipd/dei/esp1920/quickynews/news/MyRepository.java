@@ -1,8 +1,13 @@
 package it.unipd.dei.esp1920.quickynews.news;
 
+/*
+*
+* Classe essenziale se dovessimo
+* avere più database da gestire (NON è il nostro caso)
+* */
+
 import android.app.Application;
 
-import java.util.Date;
 import java.util.List;
 
 public class MyRepository

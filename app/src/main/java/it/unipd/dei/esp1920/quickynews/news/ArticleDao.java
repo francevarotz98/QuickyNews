@@ -74,9 +74,10 @@ public interface ArticleDao {
     @Query("SELECT id FROM article_table WHERE url = :url")
     String getId(String url);
 
+    /*
     @Query("UPDATE article_table SET publishedAt = :publishedAt WHERE url = :url ")
     void setDate(String url, Date publishedAt);
-
+    */
 
 
 }

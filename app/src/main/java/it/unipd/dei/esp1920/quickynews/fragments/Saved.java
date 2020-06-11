@@ -29,7 +29,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import it.unipd.dei.esp1920.quickynews.R;
-//import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
 import it.unipd.dei.esp1920.quickynews.news.Article;
 import it.unipd.dei.esp1920.quickynews.news.MyRepository;
 import it.unipd.dei.esp1920.quickynews.news.NewsApiResponse;
@@ -79,44 +78,85 @@ public class Saved extends Fragment {
             Toast.makeText(view.getContext(),"Please, click on Top News(bottom left) then come back",Toast.LENGTH_LONG).show();
         else {
 
-            /*
-             * eliminazione di notizie saved
-             *
-             * */
-            if (myRepository.getFavoritesArticle().size()>=max_num_news){
+
+           if(max_num_news>10) {
+
+               /*
+                * eliminazione di notizie saved
+                *
+                * */
+               if (myRepository.getFavoritesArticle().size() >= max_num_news) {
                 /*
                  elimino il 20% (rispetto a max_num_news)
                  delle news in saved...quali? Quelle con data MENO recente.
 
 
                  */
-                List<Article> favoriteArticles = new LinkedList<>();
-                favoriteArticles= myRepository.getFavoritesArticle();
-                Log.d(TAG,"number of saved news="+favoriteArticles.size());
-                Log.d(TAG,"max_num_news="+max_num_news);
+                   List<Article> favoriteArticles = new LinkedList<>();
+                   favoriteArticles = myRepository.getFavoritesArticle();
+                   Log.d(TAG, "number of saved news=" + favoriteArticles.size());
+                   Log.d(TAG, "max_num_news=" + max_num_news);
 
 
-                for(int i=0;i<0.2*max_num_news;i++)
-                    myRepository.deleteArticle(favoriteArticles.get(favoriteArticles.size()-i-1).getUrl());
+                   for (int i = 0; i < 0.2 * max_num_news; i++)
+                       myRepository.deleteArticle(favoriteArticles.get(favoriteArticles.size() - i - 1).getUrl());
 
-            }
+               }
 
-            /*
-            * Allerta eliminazione notize da saved a
-            * partire da quando mancano 10 news al numero massimo            *
-            * */
-            else if(myRepository.getFavoritesArticle().size()>max_num_news-10) {
-                final CharSequence[] items = {"Ok"};
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                builder.setTitle("                !!! ATTENTION !!!");
-                builder.setMessage("If you don't increase the number of news " +
-                        "the app can save on Saved, you will lose them." +
-                        "\nGo in Settings, click the first voice and then set the parameter.\nThank you.");
+               /*
+                * Allerta eliminazione notize da saved a
+                * partire da quando mancano 10 news al numero massimo            *
+                * */
+               else if (myRepository.getFavoritesArticle().size() >= max_num_news - 10) {
+                   final CharSequence[] items = {"Ok"};
+                   AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                   builder.setTitle("                !!! ATTENTION !!!");
+                   builder.setMessage("If you don't increase the number of news " +
+                           "the app can save on Saved, you will lose them." +
+                           "\nGo in Settings, click the first voice and then set the parameter.\nThank you.");
 
-                builder.show();
-            }
+                   builder.show();
+               }
+
+           }
+
+           else{ //max_num_news < 10 ----> caso ESTREMO ....
+
+               if (myRepository.getFavoritesArticle().size() >= max_num_news) {
+                /*
+                 elimino il 20% (rispetto a max_num_news)
+                 delle news in saved...quali? Quelle con data MENO recente.
 
 
+                 */
+                   List<Article> favoriteArticles = new LinkedList<>();
+                   favoriteArticles = myRepository.getFavoritesArticle();
+                   Log.d(TAG, "number of saved news=" + favoriteArticles.size());
+                   Log.d(TAG, "max_num_news=" + max_num_news);
+
+
+                   for (int i = 0; i < 0.2 * max_num_news; i++)
+                       myRepository.deleteArticle(favoriteArticles.get(favoriteArticles.size() - i - 1).getUrl());
+
+               }
+
+
+               /*
+                * Allerta eliminazione notize da saved a
+                * partire da quando mancano 10 news al numero massimo            *
+                * */
+               else if (myRepository.getFavoritesArticle().size() >= max_num_news - 1) {
+                   final CharSequence[] items = {"Ok"};
+                   AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                   builder.setTitle("                !!! ATTENTION !!!");
+                   builder.setMessage("If you don't increase the number of news " +
+                           "the app can save on Saved, you will lose them." +
+                           "\nGo in Settings, click the first voice and then set the parameter.\nThank you.");
+
+                   builder.show();
+               }
+
+           }
 
             recyclerView = view.findViewById(R.id.recyclerView_saved);
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
