@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
@@ -34,15 +35,14 @@ import it.unipd.dei.esp1920.quickynews.NewsDetailActivity;
 import it.unipd.dei.esp1920.quickynews.R;
 import it.unipd.dei.esp1920.quickynews.connections.NetConnectionReceiver;
 import it.unipd.dei.esp1920.quickynews.fragments.TopNews;
+import it.unipd.dei.esp1920.quickynews.storage.GlideApp;
+import it.unipd.dei.esp1920.quickynews.storage.MyAppGlideModule;
 
 import static android.content.Context.MODE_PRIVATE;
 
 public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ArticleViewHolder> {
 
     private static final String TAG = "NewsListAdapter";
-
-    private static CustomTabsIntent customTabsIntent;
-    private static final CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
 
     private int fontSize,mFontSize;
     private TextView mSource1;
@@ -86,11 +86,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
         mInflater = LayoutInflater.from(context);
         mNewsListContainer = newsListContainer;
         mContext = context;
-
-        builder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
-        builder.setExitAnimations(context, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-        builder.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
-        customTabsIntent = builder.build();
     }
 
     @Override
@@ -134,7 +129,8 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
         holder.mSource.setText(mCurrent.getSource().getName());
         holder.mTitle.setText(mCurrent.getTitle());
         holder.mDescription.setText(mCurrent.getDescription());
-        Glide.with(mContext).load(mCurrent.getUrlToImage()).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).format(DecodeFormat.PREFER_RGB_565).placeholder(R.drawable.ic_baseline_photo_24).into(holder.mImageView);
+
+        GlideApp.with(mContext).load(mCurrent.getUrlToImage()).into(holder.mImageView);
 
         Date date = new Date();
         String now = formatter.format(date);
@@ -168,7 +164,16 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
                 // Send an intent to the NewsDetailActivity
                 Context context = v.getContext();
 
-                if(NetConnectionReceiver.isConnected(context)) customTabsIntent.launchUrl(context, Uri.parse(mCurrent.getUrl()));
+                if(NetConnectionReceiver.isConnected(context)) {
+                    CustomTabsIntent mCustomTabsIntent = new CustomTabsIntent.Builder()
+                            .setStartAnimations(mContext, R.anim.slide_in_right, R.anim.slide_out_left)
+                            .setExitAnimations(mContext, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                            .setToolbarColor(ContextCompat.getColor(mContext, R.color.colorPrimary))
+                            .build();
+
+                    // Shows the Custom Tab
+                    mCustomTabsIntent.launchUrl(mContext, Uri.parse(mCurrent.getUrl()));
+                }
                 else {
                     Intent intent = new Intent(context, NewsDetailActivity.class);
                     intent.putExtra("url", mCurrent.getUrl());
@@ -259,15 +264,15 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.Articl
         });
     }
 
-    @Override
-    public void onViewRecycled(@NonNull ArticleViewHolder holder) {
-        super.onViewRecycled(holder);
-        Glide.with(mContext).clear(holder.mImageView);
-    }
-
     public void setArticle(List<Article> articles){
         mListArticle = articles;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void onViewRecycled(@NonNull ArticleViewHolder holder) {
+        super.onViewRecycled(holder);
+        GlideApp.with(mContext).clear(holder.mImageView);
     }
 
     @Override
